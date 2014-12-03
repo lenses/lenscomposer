@@ -1,0 +1,19 @@
+{
+  "name": "th-geocoder",
+  "version": "0.0.0",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "th-geocoder.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "core-selector": "polymer/core-selector#~0.5.1",
+    "core-collapse": "polymer/core-collapse#~0.5.1",
+    "core-icon-button": "polymer/core-icon-button#~0.5.1",
+    "google-apis": "GoogleWebComponents/google-apis#~0.4.2",
+    "th-csv": "https://github.com/thelmanews/th-csv.git",
+    "th-google-map": "https://github.com/thelmanews/th-google-map.git"
+  }
+}

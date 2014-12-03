@@ -1,0 +1,274 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+<link rel="import" href="../google-map/google-map.html">
+
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <th-google-map></th-google-map>
+
+@element th-google-map
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://sepans.github.io/th-google-map
+-->
+<polymer-element name="th-google-map" extends="th-animated" attributes="input latitude longitude zoom showCenterMarker mapType markers fitToMarkers zoomable width height useTheme">
+
+  <template>
+    <link rel="stylesheet" href="th-google-map.css" />
+    <core-style ref="theme"></core-style>
+    <style>
+      ::shadow .marker {
+        color: black;
+        font-size: 0.8em;
+        font-weight: 400;
+      }
+    </style>
+    <google-map id="map" styles="{{styles}}" latitude="{{latitude}}" longitude="{{longitude}}" zoom="{{zoom}}" showCenterMarker="{{showCenterMarker}}" mapType="{{mapType}}" 
+    fitToMarkers="{{fitToMarkers}}" zoomable="{{zoomable}}" style="width: {{computedWidth}}px; height: {{computedHeight}}px">
+
+      <template repeat="{{marker in markers}}">
+        <google-map-marker latitude="{{marker.latitude}}" longitude="{{marker.longitude}}"
+        title="{{marker.label}}" icon="{{marker.icon}}">
+          <div class="marker">{{marker.label}}</div>
+        </google-map-marker>
+      </template>
+
+
+    </google-map>
+
+
+    
+
+  </template>
+
+  <script>
+
+    Polymer('th-google-map', {
+
+    /**
+     * A latitude to center the map on.
+     *
+     * @attribute latitude
+     * @type number
+     * @default 37.77493
+     */
+    latitude: 40.7127,
+
+    /**
+     * A longitude to center the map on.
+     *
+     * @attribute longitude
+     * @type number
+     * @default -122.41942
+     */
+    longitude: -74.0059,
+    
+    /**
+     * Width of map
+     * @type {Number}
+     */
+    width: '200',
+    
+    /**
+     * Height of map
+     * @type {Number}
+     */
+    height: '200',
+
+    /**
+     * Map defualt zoom
+     * @type {Number}
+     */
+    zoom : 10,
+
+    /**
+     * enables doeble click  (tap?) zoom
+     * @type {Boolean}
+     */
+    zoomable: false,
+    
+    /**
+     * Markers on the map. each marker item has latitude, longitude and label (optional)
+     * @type {Array}
+     */
+    markers: [],
+
+    /**
+     * show center marker
+     * @type {Boolean}
+     */
+    showCenterMarker: false,   
+
+    /** 
+     * fit map to markers
+     * @type {Boolean}
+     */
+    fitToMarkers: false,           
+
+    /**
+     * Use core style themes, otherwise google default theme.
+     * @type {Boolean}
+     */
+    useTheme: true,
+
+    /**
+     * Custom map theme. Default uses Core-Style theme colors (it doens't need to be initialized here
+     * since useThemeChanged handles that but composer cannot handle it that way)
+     * @type {Array}
+     */
+    styles: [
+            {
+              featureType: "all",
+              stylers: [
+                { saturation: -50 }
+              ]
+            },{
+              featureType: 'landscape',
+              elementType: 'all',
+              stylers: [
+                { hue: CoreStyle.g.theme.background1 },
+                { lightness: 30 },
+                { visibility: 'simplified' },
+                { saturation: 20 }
+              ]
+                  },{
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [
+                { hue: CoreStyle.g.theme.accent1 },
+                { visibility: 'simplified' },
+                { gamma: 0.9 },
+                { saturation: 0 },
+                { lightness: 40 }
+              ]
+            },{
+              featureType: 'road.arterial',
+              elementType: 'all',
+              stylers: [
+                { hue: CoreStyle.g.theme.accent1 },
+                { lightness: -20 },
+                { visibility: 'simplified' },
+                { saturation: 20 }
+              ]
+            },{
+              featureType: 'road.local',
+              elementType: 'all',
+              stylers: [
+                { hue: CoreStyle.g.theme.accent1 },
+                { saturation: 30 },
+                { gamma: 0.7 },
+                { visibility: 'simplified' }
+              ]
+            },
+            {
+              featureType: "poi.business",
+              elementType: "labels",
+              stylers: [
+                { visibility: "off" }
+              ]
+            }
+          ],
+
+      domReady: function() {
+        var self = this;
+        self.computedHeight = self.computeHeight(self.height);
+        self.computedWidth = self.computeWidth(self.width);
+
+        self.useThemeChanged();
+        self.$.map.addEventListener('google-map-ready', function() {
+            self.mapReady = true;
+            self.fire('th-ready', {msg: 'element ready', element: self});
+        });
+      },
+   
+      /**
+       * Observer method for useTheme. Google map api doesn't support style changes but works in composer since it
+       * reinitializes the component
+       * @return {[type]} null
+       */
+      useThemeChanged: function() {
+        if(this.useTheme) {
+          this.styles = [
+            {
+              featureType: "all",
+              stylers: [
+                { saturation: -50 }
+              ]
+            },{
+              featureType: 'landscape',
+              elementType: 'all',
+              stylers: [
+                { hue: CoreStyle.g.theme.background1 },
+                { lightness: 30 },
+                { visibility: 'simplified' },
+                { saturation: 20 }
+              ]
+                  },{
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [
+                { hue: CoreStyle.g.theme.accent1 },
+                { visibility: 'simplified' },
+                { gamma: 0.9 },
+                { saturation: 0 },
+                { lightness: 40 }
+              ]
+            },{
+              featureType: 'road.arterial',
+              elementType: 'all',
+              stylers: [
+                { hue: CoreStyle.g.theme.accent1 },
+                { lightness: -20 },
+                { visibility: 'simplified' },
+                { saturation: 20 }
+              ]
+            },{
+              featureType: 'road.local',
+              elementType: 'all',
+              stylers: [
+                { hue: CoreStyle.g.theme.accent1 },
+                { saturation: 30 },
+                { gamma: 0.7 },
+                { visibility: 'simplified' }
+              ]
+            },
+            {
+              featureType: "poi.business",
+              elementType: "labels",
+              stylers: [
+                { visibility: "off" }
+              ]
+            }
+          ]
+        }
+        else {
+          this.styles = null;
+        }
+      },
+      markersChanged: function(){
+        var self = this;
+        if(self.mapReady){
+          self.$.map.mapApiLoaded(); // Update markers to only reflect current set, removing old markers
+        }
+      },
+      inputChanged: function(){
+        var self = this;
+        self.markers = self.input;
+        self.$.map.mapApiLoaded();
+        console.log('th-google-map input changed');
+        self.fire('th-input-changed', self);
+      }
+
+
+
+      
+
+    });
+
+  </script>
+
+</polymer-element>

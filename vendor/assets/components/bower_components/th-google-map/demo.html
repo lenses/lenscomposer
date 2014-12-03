@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>th-google-map Demo</title>
+
+  <script src="../webcomponentsjs/webcomponents.js"></script>
+  <script>
+        var map;
+
+        var time = 4000;
+
+  		// setTimeout(function() {
+
+    //     map =   document.querySelector('th-google-map');
+
+	  	// 	console.log(map);
+  		// 	var markers = map.markers;
+    //     map.showCenterMarker = true;
+    //     map.useTheme = false;
+    //     map.zoomable = false;
+  		// 	markers.push({"latitude": 40.82, "longitude": -74.0039, "label": "more"  });
+  		// },time);
+
+
+    //   setTimeout(function() {
+
+    //     console.log(map);
+    //     map.fitToMarkers = true;
+    //   },time+ 4000);
+
+  </script>
+  <link rel="import" href="th-google-map.html">
+
+</head>
+<body unresolved>
+
+  <p>An `th-google-map` looks like this:</p>
+
+  <th-google-map markers="[{'latitude': 40.6928, 'longitude': -73.9903, 'label': 'Brooklyn'  },
+              {'latitude': 40.75, 'longitude': -74.0049, 'label': 'another'  }]" width="300" height="300"></th-google-map>
+
+</body>
+</html>

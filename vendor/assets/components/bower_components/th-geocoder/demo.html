@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>th-geocoder Demo</title>
+
+  <script src="../webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="th-geocoder.html">
+  <link rel="import" href="../th-google-map/th-google-map.html">
+  <link rel="import" href="../th-csv/th-csv.html">
+
+</head>
+<body unresolved>
+
+  <p>An `th-geocoder` looks like this:</p>
+  
+  <template is="auto-binding">
+    <th-csv id="data" url="/th-geocoder/berlin.csv"></th-csv>
+    <th-google-map markers="{{$.geocoder.output}}" fitToMarkers="true" width="400" height="400"></th-google-map>
+    <th-geocoder id="geocoder"></th-geocoder>
+  </template>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-selector/core-selector.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <th-array-function></th-array-function>
+
+@element th-array-function
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://sepans.github.io/th-array-function
+-->
+<polymer-element name="th-array-function" attributes="input output">
+
+  <template>
+
+    <style>
+        :host{
+          font-size: 12px;
+          font-family: open-sans, sans-serif;
+
+        } 
+        core-input, textarea {
+          border: 1px solid #eee;
+          height: 50px;
+          vertical-align: top;
+          outline: none;
+        }
+        .error {
+          color: #F00;
+          height: 1em;
+        }
+        core-selector {
+          width: 150px;
+          display: inline-block;
+          vertical-align: top;
+        }
+        .core-selected {
+          background-color: #ccc;
+          border: 1px solid #888;
+        }
+        .func-signature {
+          display: inline-block;
+          width: 295px;
+          text-align: right;
+        }
+        .code {
+
+          font-family: monaco monospace 'courier' 'courier new'  ;
+          font-size: 11px;
+
+        }
+        .data {
+          max-width: 500px;
+          max-height: 50px;
+          overflow: scroll;
+        }
+        .elTitle {
+          color: #2fa3af;
+          padding: 2px;
+        }
+        label {
+          color: #2fa3af;
+        }
+
+
+    </style>
+    <!-- <span class="elTitle">th-array-function</span> -->
+
+    <core-icon-button icon="perm-data-setting" on-click="{{showControls}}"></core-icon-button>
+    <core-icon-button icon="view-list" on-click="{{showResults}}" class="{{ {disabled: !hasData} | tokenList}}"></core-icon-button>
+
+
+    <core-collapse id="ctrl_collapse">
+
+        <label>function: </label>
+        <core-selector id="selectedFunc" selectedIndex="{{_selectedFunc}}">
+          <template repeat="{{func in _functions}}">
+            <div class="item">{{func.name}}</div>
+          </template>
+
+        </core-selector>
+
+
+        <div class="error">{{displayError}}</div>
+        <span class="func-signature code">
+        {{_functions[_selectedFunc].signature}}
+        </span>
+    <!--     <textarea id="map_function" value="{{funcContent}}"></textarea>
+     -->
+        <textarea value="{{funcContent}}" class="code" placeholder="enter map function" rows="4">></textarea>
+        <span class="func-temppate"> } </span>
+
+
+    </core-collapse>
+    <core-collapse id="results_collapse">
+        <div><label>Input:</label> <pre class="data"> {{_stringInput}} </pre></div>
+        <div><label>Output:</label> <pre class="data">{{_stringOutput}} </pre></div>
+
+    </core-collapse>
+
+  </template>
+
+  <script>
+
+    Polymer('th-array-function', {
+
+      input: [{a: 2, b: 5},{a: 10, b: 40, c: {ca: 10} }],
+      observe: {
+        funcContent: 'functionChanged',
+        input: 'evaluateOutput',
+        _selectedFunc: 'evaluateOutput'
+        //output: 'evaluateOutput'
+      },
+      _functions: [
+        { name: 'map', signature: 'function(current, index, array ) {', func: [].map , params: ['current', 'index', 'array'] },
+        { name: 'reduce', signature: 'function(previous, current, index, array ) {', func: [].map , params: ['previous','current', 'index', 'array'] },
+        { name: 'reduceRight', signature: 'function(previous, current, index, array ) {', func: [].map , params: ['previous','current', 'index', 'array'] },
+        { name: 'filter', signature: 'function(current) {', func: [].filter , params: ['current'] }
+      ],
+      _function: undefined,
+      error: '',
+      displayError: '',
+      _stringInput: '',
+      _stringOutput: '',
+      _selectedFunc: 0,
+      domReady: function() {
+        var self = this;
+        self._stringInput = JSON.stringify(self.input);
+      },
+
+      functionChanged: function() {
+          var self = this;
+          try {
+            self._function = new Function(self._functions[self._selectedFunc].params, self.funcContent); //newFunction; //created by eval 
+          }
+          catch(e) {
+            self.error = e.message;
+            //console.log(e.stack); // stack doesn't provide line number for annonymos function
+            return;
+          }
+          self.error = '';
+          if(self.input) {
+            self.evaluateOutput();
+          }
+
+      },
+      errorChanged: function() {
+        var self = this;
+        if(self.error.length==0) {
+          self.displayError = '';
+          return;
+
+        }
+        clearTimeout(self._timeOut);
+        self._timeOut = setTimeout(function() {
+          if(self.error.length>0) {
+            self.displayError = self.error;
+          }
+
+        }, 1000);
+      },
+
+      evaluateOutput: function() {
+        var self = this;
+        var temp = self.input;
+        self._stringInput = JSON.stringify(self.input);
+        if(self._function==undefined) {
+          return;
+        }
+        try {
+          self.output = self._functions[self._selectedFunc].func.call(temp, self._function); //temp.map(self._function);
+        }
+        catch(e) {
+          self.error = e.message;
+          return;
+        }
+        self.error = '';
+        //self._stringInput = JSON.stringify(self.input); //, null, ' ');
+        self._stringOutput = JSON.stringify(self.output); //, null, ' ');
+      },
+      
+      showControls: function(e) {
+          this.$.ctrl_collapse.toggle();
+      } ,
+
+      showResults: function(e) {
+          this.$.results_collapse.toggle();
+      }, 
+      outputChanged: function(){
+        this.fire('th-output-changed', this);
+      }
+
+
+
+    });
+
+  </script>
+
+</polymer-element>

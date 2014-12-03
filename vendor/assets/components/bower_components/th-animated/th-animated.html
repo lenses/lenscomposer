@@ -1,0 +1,138 @@
+<!--
+    @license
+    Copyright (c) 2014 Thelma Project Authors. All rights reserved.
+    This code may only be used under the MIT license found at http://thelmanews.github.io/LICENSE.txt
+    The complete set of authors may be found at http://thelmanews.github.io//AUTHORS.txt
+    The complete set of contributors may be found at http://thelmanews.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-theme/th-theme.html">
+
+<!--
+A Core element which all thelma animated elements extend. No use as a stand alone component 
+
+@element th-animated
+@blurb A Core element which all thelma animated elements extend. No use as a stand alone component
+-->
+
+<polymer-element name="th-animated" attributes="animateOnInit animateAfter completed animate getState reset color" resetable="true" animatable="true">
+  
+  <script>
+      Polymer('th-animated', { 
+        /**
+         * Milliseconds to wait before animating the element (calling animate method)
+         * It has higher priority than animateOnInit
+         * @type {Number}
+         */
+        animateAfter: 0,
+        /**
+         * Animate the component as soon as the component is ready
+         * Setting animateAfter disables animateOnInit
+         * @type {Boolean}
+         */
+        animateOnInit: false,
+        /**
+         * Default animation duration used by the components
+         * @type {Number}
+         */
+        animationDelay: 1000,
+        /**
+         * Flag indicates if the element is initialized
+         * @type {Boolean}
+         */
+        initialized: false,
+        domReady: function() {
+            this.init();
+
+            if(this.animateOnInit || this.animateAfter>0) {
+                if(this.animateAfter>0) {
+                  var self = this;
+                  setTimeout(function() {
+                    self.animate();
+                  },self.animateAfter);
+                }
+                else {
+                  this.animate();
+                }
+            }
+
+            this.initialized = true;
+
+            //TODO should it be triggered by a callback in the end of init() ?
+            this.fire('th-ready', {msg: 'element ready', element: this});
+
+
+        },
+        /**
+         * This method is called by automatically. All the components extending th-animated need to implement it.
+         * @return {Null} 
+         */
+        init: function() {
+        },
+        /**
+         * Reset the animation. All the components extending th-animated need to implement it.
+         * @return {null} 
+         */
+        reset: function() {
+        },
+        /**
+         * Starts the animation. All the components extending th-animated need to implement it.
+         * @return {null} 
+         */
+        animate: function() {
+        },
+        /**
+         * Save can be called to retrieve the current state of all published attributes of a component.
+         * @return {JSON string} serialized object of all attributes and values.
+         */
+        getState: function(){
+          var currentState = {};
+          for(var attribute in this.publish){
+            currentState[attribute] = this[attribute];
+          }
+          return JSON.stringify(currentState);
+        },
+        computeWidth: function(width){
+          var self = this;
+
+          if(/.*\%/.test(width)){
+            var parentWidth = self.parentNode.offsetWidth,
+                percentWidth = parseFloat(width)/100,
+                computedWidth = parentWidth * percentWidth;
+            return computedWidth;
+          } else if(width) {
+            return width;
+          } else {
+            return self.parentNode.offsetWidth;
+          }
+
+        },
+        computeHeight: function(height){
+          var self = this;
+          // TODO: combine with utility.js function
+          if(/.*\%/.test(height)){
+            var parentHeight = self.parentNode.offsetHeight,
+                percentHeight = parseFloat(height)/100,
+                computedHeight = parentHeight * percentHeight;
+            return computedHeight;
+          } else if(height){
+            return height;
+          } else {
+            return self.parentNode.offsetHeight;
+          }
+        },
+        widthFilter: function(value){
+          if(/.*\%/.test(value)){
+            return value;
+          } else {
+            return value + "px";
+          }
+        }
+
+
+      });
+  </script>
+
+</polymer-element>
+
