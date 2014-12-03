@@ -1,0 +1,81 @@
+<!--
+    @license
+    Copyright (c) 2014 Thelma Project Authors. All rights reserved.
+    This code may only be used under the MIT license found at http://thelmanews.github.io/LICENSE.txt
+    The complete set of authors may be found at http://thelmanews.github.io//AUTHORS.txt
+    The complete set of contributors may be found at http://thelmanews.github.io/CONTRIBUTORS.txt
+-->
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>th-connector Demo</title>
+
+  <script src="../webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="th-connector.html">
+  <link rel="import" href="../th-mapbox/th-mapbox.html">
+  <link rel="import" href="../th-geocoder-firebase/th-geocoder-firebase.html">
+  <link rel="import" href="../th-csv/th-csv.html">
+  <link rel="import" href="../th-enigma/th-enigma.html">
+  <link rel="import" href="../th-google-map/th-google-map.html">
+  <link rel="import" href="../th-map-us/th-map-us.html">
+  <link rel="import" href="../th-table-data/th-table-data.html">
+  <link rel="import" href="../th-array-function/th-array-function.html">
+  <link rel="import" href="../th-n-bar-chart/th-n-bar-chart.html">
+  <link rel="import" href="../th-chart-data-filter/th-chart-data-filter.html">
+
+</head>
+<style type="text/css">
+  h1 {
+    margin: 10px;
+    text-align: center;
+    color: #5E5E5E;
+    font-family: 'proxima-nova', sans-serif;
+  }
+  p {
+    margin-left: 30px;
+  }
+
+  a, a:visited {
+    color: #2fa3af;
+    text-decoration: none;
+  }
+  div {
+    background-color:#FAFAFA;
+    padding: 5px;
+  }
+
+  body {
+    font-family: 'proxima-nova', sans-serif;
+    color: #5E5E5E;
+    margin: 0;
+  }
+
+</style>
+
+<h1>Lenses Demo</h1>
+
+<div>
+  <p>
+    <strong>Data sets:</strong>
+    <br>
+    <a href="http://en.wikipedia.org/wiki/List_of_Berlin_Wall_segments" get="_blank"> Data on Berlin Wall segments</a>
+    <br>
+    <a href="http://graphics.wsj.com/homeprice/" target="_blank"> WSJ Data on Home Prices</a>
+  </p>
+</div>
+
+<div>
+  <th-connector animateOnInit="true">
+      <th-table-data></th-table-data>
+      <th-array-function style="min-width: 150px"></th-array-function>
+      <th-geocoder-firebase firebaseLocation="https://sweltering-fire-3844.firebaseio.com/" style="min-width: 150px"></th-geocoder-firebase>
+      <th-chart-data-filter style="min-width: 150px"></th-chart-data-filter>
+      <th-google-map fitToMarkers width="375" height="400">  </th-google-map>
+      <th-mapbox width="375" height="400" accessToken="pk.eyJ1IjoidGhlbG1hIiwiYSI6Ikd3RUlsTTQifQ.i6bojdSBKd6JHENLKsRjTA" mapId="examples.map-i87786ca" geolocation="false" showSwipeBar="false" animateOnInit="true" startingLat="38.8922" startingLng="-77.0348"></th-mapbox>
+      <th-n-bar-chart chartHeight="400" chartWidth="375" animateOnInit="true"></th-n-bar-chart>  
+  </th-connector>
+</div>
+
+</body>
+</html>

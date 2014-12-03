@@ -1,0 +1,44 @@
+<!--
+    @license
+    Copyright (c) 2014 Thelma Project Authors. All rights reserved.
+    This code may only be used under the MIT license found at http://thelmanews.github.io/LICENSE.txt
+    The complete set of authors may be found at http://thelmanews.github.io//AUTHORS.txt
+    The complete set of contributors may be found at http://thelmanews.github.io/CONTRIBUTORS.txt
+-->
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>th-connector Demo</title>
+
+  <script src="../webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="../th-theme/th-theme.html">
+  <link rel="import" href="../th-mapbox/th-mapbox.html">
+  <link rel="import" href="th-connector.html">
+  <link rel="import" href="../th-geocoder-firebase/th-geocoder-firebase.html">
+  <link rel="import" href="../th-csv/th-csv.html">
+  <link rel="import" href="../th-google-map/th-google-map.html">
+  <link rel="import" href="../th-table-data/th-table-data.html">
+  <link rel="import" href="../th-array-function/th-array-function.html">
+  <link rel="import" href="../th-n-bar-chart/th-n-bar-chart.html">
+  <link rel="import" href="../th-chart-data-filter/th-chart-data-filter.html">
+</head>
+<body unresolved>
+
+  <p>An example of using <code>&lt;th-connector></code>:</p>
+
+  <th-connector animateOnInit="true">
+      
+      <th-csv url="../th-csv/assets/berlin.csv"></th-csv>
+      <th-table-data></th-table-data>
+      <th-geocoder-firebase firebaseLocation="https://sweltering-fire-3844.firebaseio.com/" style="min-width: 150px"></th-geocoder-firebase>  
+      <th-chart-data-filter></th-chart-data-filter>
+      
+      <th-array-function></th-array-function>
+      <th-google-map fitToMarkers width="400" height="400">  </th-google-map>
+      <th-mapbox width="400" height="400" accessToken="pk.eyJ1IjoidGhlbG1hIiwiYSI6Ikd3RUlsTTQifQ.i6bojdSBKd6JHENLKsRjTA" mapId="examples.map-i87786ca" geolocation="false" showSwipeBar="false" ></th-mapbox>
+      <th-n-bar-chart chartHeight="400" chartWidth="400" animateOnInit="true"></th-n-bar-chart>  
+  </th-connector>
+
+</body>
+</html>
