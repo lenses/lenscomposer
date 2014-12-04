@@ -16,5 +16,4 @@
 /tmp
 
 # Ignore web component files.
-/vendor/assets/components
-/public/assets/bower_components
+/public/assets/*
