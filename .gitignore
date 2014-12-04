@@ -17,3 +17,5 @@
 
 # Ignore web component files.
 /vendor/assets/components
+/public/assets/bower_components
+
