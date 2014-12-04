@@ -9,7 +9,7 @@ $(document).ready(function(){
       type: "POST",
       url: "/lenses",
       data: {
-        taginfo: {
+        lensinfo: {
           tag: tag,
           tagname: tagName,
           currentstate: currentState  
