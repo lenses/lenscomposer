@@ -17,7 +17,7 @@ class LensesController < ApplicationController
   private
 
   def tag_params
-    params.require(:taginfo).permit(:tag, :tagname, :currentstate)
+    params.require(:lensinfo).permit(:tag, :tagname, :currentstate)
   end
 
 end
