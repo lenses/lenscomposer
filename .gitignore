@@ -14,3 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore web component files.
+/vendor/assets/components
+/public/assets/bower_components

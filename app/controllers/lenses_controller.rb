@@ -11,6 +11,7 @@ class LensesController < ApplicationController
   def show
     @id = params[:id]
     @lens = Lens.find(@id)
+    @lens_html = @lens.generate_html_tag
   end
 
   private
