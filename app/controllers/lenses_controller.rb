@@ -4,7 +4,14 @@ class LensesController < ApplicationController
   end
 
   def create
-    # Save the passed params into mongo with a unique monotonically increasing id
-    #
+    tag = params[:tag]
+    @lens = Lens.create(tag: tag)
+    render inline: "<%= @lens.id %>"
   end
+
+  def show
+    @id = params[:id]
+    @lens = Lens.find(@id)
+  end
+
 end
