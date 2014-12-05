@@ -1,11 +1,14 @@
 class LensesController < ApplicationController
   def new
     # Serve a page with elements that can be connected
+    @components = Lens.components.to_json
+
   end
 
   def create
     @lens = Lens.create(tag_params)
     render inline: "<%= @lens.id %>"
+   
   end
 
   def show

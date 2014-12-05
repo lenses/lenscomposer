@@ -1,9 +1,9 @@
 $(document).ready(function(){
   $('#create_lens').bind('click', function(){
     
-    var tag = $('#final_result').prop('outerHTML'),
-        tagName = $('#final_result')[0].tagName.toLowerCase(),
-        currentState = $('#final_result')[0].getState();
+    var tag = $('.final-result').prop('outerHTML'),
+        tagName = $('.final-result')[0].tagName.toLowerCase(),
+        currentState = $('.final-result')[0].getState();
 
     $.ajax({
       type: "POST",
@@ -16,7 +16,7 @@ $(document).ready(function(){
         }
       },
       success: function(e){
-        $('#status').html("You've created a new element with ID:" + e);
+        $('#status').html("You've created a new lens with ID:" + e);
       },
     });
   });
