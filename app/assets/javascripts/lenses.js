@@ -1,9 +1,11 @@
 $(document).ready(function(){
   $('#create_lens').bind('click', function(){
-    
+    var el= $('.final-result')[0];
     var tag = $('.final-result').prop('outerHTML'),
-        tagName = $('.final-result')[0].tagName.toLowerCase(),
-        currentState = $('.final-result')[0].getState();
+        tagName = el.tagName.toLowerCase(),
+        currentState = el.getState(),
+        classList = el.className;
+        // console.log(el.className);
 
     $.ajax({
       type: "POST",
@@ -12,7 +14,8 @@ $(document).ready(function(){
         lensinfo: {
           tag: tag,
           tagname: tagName,
-          currentstate: currentState  
+          currentstate: currentState,
+          classlist: classList
         }
       },
       success: function(e){
