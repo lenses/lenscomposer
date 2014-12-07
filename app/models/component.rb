@@ -28,7 +28,7 @@ class Component < ActiveRecord::Base
 
   def generate_html_tag
     attrs = generate_html_attrs
-    html_tag = "<#{tagname} #{attrs}></#{tagname}>"
+    html_tag = "<#{tagname} #{attrs} class='#{classlist}'></#{tagname}>"
     return html_tag
   end
 

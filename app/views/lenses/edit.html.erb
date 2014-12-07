@@ -1,1 +1,9 @@
 Edit page
+<th-connector id="connector" componentList='<%= @component_list %>'>
+  <% @components.each do |component| %>
+    <%== component %>
+  <% end %>
+</th-connector>
+
+<div id='update_lens'>Update Lens</div>
+<div id='status'></div>

@@ -9,7 +9,7 @@ html, body { /* Needed for th-connector absolute position of elements */
   font-family: open-sans, sans-serif;
 }
 
-#create_lens {
+#create_lens, #update_lens {
   position: absolute;
   top: 10px;
   right: 5px;
