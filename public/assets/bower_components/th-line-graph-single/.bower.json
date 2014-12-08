@@ -1,0 +1,19 @@
+{
+  "name": "th-line-graph-single",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-line-graph-single.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-line-graph-single",
+  "_release": "23044bfef8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "23044bfef8b34a1322913f8ff6770c29c3a75428"
+  },
+  "_source": "https://github.com/thelmanews/th-line-graph-single.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-line-graph-single.git"
+}

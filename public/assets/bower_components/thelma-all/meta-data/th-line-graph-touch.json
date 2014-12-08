@@ -1,0 +1,36 @@
+{
+  "name": "th-line-graph-touch",
+  "description": "Thelma interactive line graph",
+  "category":"chart",
+  "version": "0.0.1",
+  "thumbnail":"interactive-line.jpg", 
+  "tags":["chart", "line", "animated"],
+  "helpLink":"",
+  "width":280,
+  "height":300,
+  "inputAttr": {
+    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
+    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},
+    "animateMarker":{"friendly":"Animate Marker?", "type":"boolean", "default": true},
+    "fillArea":{"friendly":"Fill Area", "type":"boolean", "default": false},
+    "yAxisMin":{"friendly":"Y-axis Min Value", "type":"int", "default":""},
+    "yAxisMax":{"friendly":"Y-axis Max Value", "type":"int", "default":""},
+    "valueSize":{"friendly":"Value Font Size", "type":"int", "default":""},
+    "valuePosition":{"friendly":"Value Position","type":"dropdown","default":"left", "values":["left","right"]},
+    "color":{"friendly":"Line Color", "type":"colorPicker", "colorDefault":"accent", "default":""}, 
+    "textColor":{"friendly":"Text Color", "type":"colorPicker", "colorDefault":"foreground1", "default":""}, 
+    "chartData":{"friendly":"Data", "type":"table-repeating","rows":5, 
+      "fields":{
+        "label":{"friendly":"Label", "type":"string", "default":"2010"},
+        "value":{"friendly":"Value", "type":"int", "default":100},
+        "display_value":{"friendly":"Display Value", "type":"string", "default":"$100"}
+      },
+      "default":[
+        {"label": "Q1 2014", "value": 104, "display_value": "$104"},
+        {"label": "Q2 2014", "value": 106, "display_value": "$106"},
+        {"label": "Q3 2014", "value": 110, "display_value": "$107"},
+        {"label": "Q4 2014", "value": 108, "display_value": "$110"}
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "th-carousel",
+  "description": "Thelma Carousel",
+  "category":"textual",
+  "version": "0.0.1",
+  "thumbnail":"carousel.jpg", 
+  "tags":["textual", "image", "carousel"],
+  "helpLink":"",
+  "width":200,
+  "height":200,
+  "inputAttr": {
+    "isHorizontal":{"friendly":"Horizontal Rotation?", "type":"boolean", "default": true},
+    "animateOn":{"friendly":"Animate On","type":"dropdown","default":"tap", "values":["tap","interval"]},
+    "interval":{"friendly":"Interval", "type":"int", "default": 3000},
+    "width":{"friendly":"Width", "type":"string", "default":"100%"},
+    "height":{"friendly":"Height", "type":"string", "default":"100%"},
+    "fontSize":{"friendly":"Font Size", "type":"int", "default":60},
+    "items":{"friendly":"Items", "type":"table-repeating","rows":4, 
+      "fields":{
+        "text":{"friendly":"Text", "type":"string", "default":""},
+        "image": {"friendly":"Image", "type":"image", "default":""}
+      },
+      "default":[  
+        {"text": "1", "image": ""},
+        {"text": "2", "image": ""},
+        {"text": "3", "image": ""},
+        {"text": "4", "image": ""}  
+      ]
+    }
+  }
+}

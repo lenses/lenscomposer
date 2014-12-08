@@ -1,0 +1,25 @@
+{
+  "name": "th-geocoder-firebase",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "th-geocoder-firebase.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "aha-table": "liuwenchao/aha-table#master",
+    "th-firebase": "thelmanews/th-firebase",
+    "th-geocoder": "thelmanews/th-geocoder"
+  },
+  "homepage": "https://github.com/thelmanews/th-geocoder-firebase",
+  "_release": "62f203ada0",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "62f203ada0a039f95187f33378dc790f8774fad1"
+  },
+  "_source": "git://github.com/thelmanews/th-geocoder-firebase.git",
+  "_target": "*",
+  "_originalSource": "thelmanews/th-geocoder-firebase"
+}

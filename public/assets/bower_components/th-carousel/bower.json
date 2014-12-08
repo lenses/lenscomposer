@@ -1,0 +1,12 @@
+{
+  "name": "th-carousel",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-carousel.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "web-animations-js-legacy": "web-animations/web-animations-js-legacy#master",
+    "th-text": "https://github.com/thelmanews/th-text.git"
+  }
+}

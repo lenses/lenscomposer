@@ -1,0 +1,212 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-d3-chart/th-d3-chart.html">
+
+<polymer-element name="th-split-donut-chart" extends="th-d3-chart" attributes="chartSize">
+
+  <template>
+      <core-style ref="theme"></core-style>
+      <style>
+
+        :host {
+          display: inline-block;
+          position: relative;
+        }
+        #chart {
+
+        }
+        #chart text.label {
+          /*font-size: 13px;*/
+          /*font-weight: 300;*/
+        }
+
+        #data_errors {  
+          display: none;
+          font-size: 14px;
+          color: red;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+
+      </style>
+
+      <svg id="chart"></svg>
+
+      <ul id="data_errors">
+      </ul>  
+
+      <!-- to allow embeded th-editor component -->
+      <content select="th-editor"></content> 
+      
+  </template>
+
+  <script>
+
+      Polymer('th-split-donut-chart', {
+        chartData: [{label: 'U.S.', value: 76, color:''}, {label: 'China', value: 43, color:''}], 
+        chartSize: "200",
+        init: function() {
+          var self = this;
+          self.getComputedDims(self);
+
+          var margin = {
+                top : self.computedSize*0.14,
+                bottom : self.computedSize*0.14,
+                label: 3
+              }, 
+              width = self.computedSize*0.95, 
+              height = width + margin.top + margin.bottom,
+              pi = Math.PI,
+              progress = 0,
+              total = 100,
+              formatPercent = d3.format(".0%"),
+              outerRadius = width*0.49,
+              innerRadius = width*0.32;
+              self._prevProgress = 0;
+
+
+            self.labelSize = width/12;
+            self.height = height;
+
+            // sort the chartData so smaller value comes first to avoid bug in the tween function
+            function compare(a,b) {
+              if (a.value < b.value)
+                 return -1;
+              if (a.value > b.value)
+                return 1;
+              return 0;
+            }
+            
+            self.data = self.chartData.sort(compare);
+
+            self.arc = d3.svg.arc()
+              .startAngle(0*(Math.PI/180))
+              .endAngle(180*(Math.PI/180))
+              .innerRadius(innerRadius)
+              .outerRadius(outerRadius);
+
+            var chart_svg = self.$.chart;
+            var svg = d3.select(chart_svg);
+            var container = svg.attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" +(width / 2 ) + "," + (height / 2) + ")");
+            
+            self.meter = container.append("g")
+                .attr("class", "progress-meter");
+            
+            self.meter.selectAll("path.background")
+                .data(self.data)
+                .enter()
+                  .append("path")
+                  .attr("class", "background fill-foreground2")
+                  .attr("transform", function(d,i){
+                    return i > 0 ? "translate(0, 5) rotate(90) scale(1,-1)" : "rotate(90) scale(-1,-1)";
+                  })
+                  .attr("d", self.arc);
+            
+            self.foreground = self.meter.selectAll("path.foreground")
+                .data(self.data)
+                .enter()
+                  .append("path")
+                  .attr("class", function(d,i){ return ("foreground data"+i); })
+                  .attr("transform", function(d,i){
+                    return i > 0 ? "translate(0, 5) rotate(90) scale(1,-1)" : "rotate(90) scale(-1,-1)";
+                  })
+                  .style("fill", function(d){return d.color;})
+                  .style("stroke", function(d){return d.color;});
+            
+            self.text = self.meter.selectAll("text.label")
+                .data(self.data)
+                .enter()
+                  .append("text")
+                  .attr("class", function(d,i){ return ("label data"+i); })
+                  .style('font-size', self.labelSize)
+                  .attr("text-anchor", "middle")
+                  .attr("dy", function(d,i){
+                    return i > 0 ? self.labelSize*2 : -self.labelSize;
+                  })
+                  .style("fill", function(d){return d.color;})
+                  .style("stroke", function(d){return d.color;});
+
+            self.label = self.meter.selectAll("text.chart")
+                .data(self.data)
+                .enter()
+                  .append("text")
+                  .attr("class", "fill-foreground chart caps")
+                  .attr("text-anchor", "middle")
+                  .style('font-size', self.labelSize)
+                  .attr("dy", function(d,i){
+                    return i > 0 ? height/2 - 1  : -(height/2) + self.labelSize + 1; // 1px adjustment otherwise it cuts off
+                  })
+                  .text(function(d) {return d.label});
+
+            this.formatPercent = formatPercent;
+
+
+        },
+        reset: function() {
+          var self = this;
+          
+          self.meter.selectAll("path.foreground")
+              .attr('d', function(){return self.arc.endAngle(0)();});
+
+          self.meter.selectAll("text.label")
+            .text('');
+                    
+        },
+        
+        animate: function() {
+            var self = this,
+                total = 100,
+                pi = Math.PI;
+            
+
+            self.meter.selectAll("path.foreground").transition().delay(1000).duration(1000)
+              .attrTween('d', function(d){
+                var i = d3.interpolate(self._prevProgress/total, d.value/total);
+             
+                return function(t) {
+                  var progress = i(t);
+                  
+                  self.meter.selectAll("text.label").text(function(d,i){
+                    return progress > d.value/total ? self.formatPercent(d.value/total) : self.formatPercent(progress);
+                  })
+
+                  return self.arc.endAngle(pi * progress)();
+                  
+                };
+                self._prevProgress = progress; 
+              })
+                    
+
+        },
+        chartSpecificDataValidate: function() {
+
+          var errors = [],
+              self = this,
+              numOfSets = self.chartData.length;
+              
+              // There should be two values.    
+              if(numOfSets != 2) {
+                errors.push({input: numOfSets, msg: 'Please provide exactly two values for this chart.'});
+              } else {
+
+                // Each value should be between 1 and 100.
+                for (var i=0; i < numOfSets; i++){
+                  if (self.chartData[i].value > 100 || self.chartData[i].value < 1) {
+                    errors.push({ input: self.chartData[i].value, msg: 'Values must be between 1 and 100' });
+                  }
+                }
+              }
+
+          return errors;
+
+        }
+        
+      });
+
+
+
+  </script>
+</polymer-element>

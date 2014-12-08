@@ -1,0 +1,205 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-geocoder/th-geocoder.html">
+<link rel="import" href="../th-firebase/th-firebase.html">
+<link rel="import" href="../aha-table/src/aha-table.html">
+<!--
+Element providing solution to no problem in particular.
+
+##### Example
+
+    <th-geocoder-firebase></th-geocoder-firebase>
+
+@element th-geocoder-firebase
+@blurb Element providing solution to no problem in particular.
+@status alpha
+@homepage http://polymerlabs.github.io/th-geocoder-firebase
+-->
+<polymer-element name="th-geocoder-firebase" extends="th-geocoder" attributes="input reverseGeocode output firebaseLocation">
+<template>  
+  <style>
+      :host {
+        width: 150px;
+      }
+      
+      core-selector {
+        min-height: 10px;
+        display: inline-block;
+      }
+
+      core-selector .col {
+        padding: 3px;
+        border: 1px solid #ccc;
+      }
+      core-selector .core-selected {
+        background-color: #ccc;
+        border: 1px solid #888;
+      }
+
+      label {
+        display: block;
+        color: #2fa3af;
+        border-top: 1px solid #AAA;
+      }
+
+      .elTitle {
+        color: #2fa3af;
+        padding: 2px;
+      }
+
+      .disabled {
+        color: #EEE;
+      }
+
+      .table-container {
+        width: 500px;
+        height: 400px;
+        overflow: scroll;
+        resize: both;
+      }
+  </style>
+  
+    <th-firebase id="firebase" directory="geocodes/" locationRequestRoute="{{firebaseLocationRequestRoute}}" location="{{firebaseLocation}}" ></th-firebase>
+    
+    <!-- Menu for selecting input --> 
+    <core-icon-button icon="perm-data-setting" on-click="{{showControls}}"></core-icon-button>
+    <core-collapse id="ctrl_collapse">      
+      <label for="label_selector">Select label column: </label> 
+      <core-selector id="label_selector" selected="{{_selectedLabel}}" valueattr="label">
+        <template repeat="{{attr in _dataAttributes}}">
+          <div label="{{attr}}">{{attr}}</div>
+        </template>
+      </core-selector>
+    </core-collapse>
+    
+    <core-icon-button icon="view-list" on-click="{{showResults}}" class="{{ output.length < 1 ? 'disabled': ''}}"></core-icon-button>
+
+    <core-collapse id="results_collapse">
+
+      <div class="table-container">
+        <template if="{{errorData}}">
+          <p>{{errors.length}} location(s) NOT found:</p>
+          <aha-table id="errorsTable"  pagesize="10" editable="false"  class="bootstrap" showFooter="true"></aha-table>
+        </template>
+        
+        <p>{{output.length}} location(s) found:</p>
+        <aha-table id="outputTable"  pagesize="20" editable="false"  class="bootstrap" showFooter="true"></aha-table>
+        
+      </div>
+    </core-collapse>
+  </template>
+
+  <script>
+
+    Polymer({
+      ready: function(){
+        var self = this;
+
+        self.firebase = self.$.firebase;
+        console.log(self.firebase);
+        self.setupFirebase();
+    
+
+      },
+      // input: 'New York, NY', // string
+      // input: ['1501 Lexington Avenue, New York, NY 10029', '54 West 40th Street, New York, NY 10018'], // array
+      // input: '40.7863301, -73.95027060000001', // coordinates for reverseGeocode => set reverseGeocode = true;
+      // input: [{'address1':'1501 Lexington Avenue, New York, NY 10029', 'address2':'Columbus Circle, New York, NY'}, {'address1':'54 West 40th Street, New York, NY 10018', 'address2':'Brooklyn Bridge Park, New York, NY'}], // array of objects
+      // input: {'address': '1501 Lexington Avenue, New York, NY 10029' }, // object
+      inputChanged:function(){
+        var self = this;
+        console.log('geocoder-firebase input changed');
+        self.fire('th-input-changed', self);
+        console.log('clear output');
+        self.output = [];
+        self.errors = [];
+        self.parseInput();
+        self.hash = self.createHash(self.inputArray);
+        self.checkFirebase();
+      },
+      _selectedLabelChanged: function(){
+        console.log('geocoder-firebase selection changed');
+        var self = this;
+        console.log('clear output');
+        self.output = [];
+        self.errors = [];
+        if(self.input.length > 0){
+          self.inputArray = self.input.map(function(obj){return obj[self._selectedLabel]});
+        } else {
+          self.inputArray = [self.input[self._selectedLabel]];
+        }
+        self.hash = self.createHash(self.inputArray);
+        self.checkFirebase();
+
+      },
+      setupFirebase: function(){
+        console.log('setup firebase');
+        var self = this;
+        
+        // Listen for firebase responses
+        self.firebase.addEventListener('th-data-ready', function(response) {
+            // Data found in firebase, so output is ready
+            console.log("data received from firebase");
+            self.output = response.detail;
+          });
+
+        self.firebase.addEventListener('th-data-error', function(response) {
+          // No data in firebase for that URL, so pass it to th-geocoder
+          console.log("not found in firebase, request from geocode API");
+          self.getLocations();
+        });
+      },
+      createHash: function(input){
+        console.log('create hash');
+        var input = input.toString(),
+            inputLength = input.length;
+        
+        var hash = 0;
+          var i, chr, len;
+            if (inputLength == 0) return hash;
+            for (i = 0; i < inputLength; i++) {
+              chr   = input.charCodeAt(i);
+              hash  = ((hash << 5) - hash) + chr;
+              hash |= 0; // Convert to 32bit integer
+            }
+            
+        return hash;
+      },
+      checkFirebase: function(){
+        console.log('check firebase');
+        var self = this;
+        self.firebase.load(self.hash);
+      },
+      saveToFirebase: function(){
+        var self = this;
+        console.log("save geocodes to firebase");
+        self.firebase.save(self.output, self.hash);
+      },
+      outputChanged: function(){
+        var self = this;
+        self.fire('th-output-changed', self);
+        // When output is ready, fire event for other components to use
+        if ((self.output.length + self.errors.length) >= self.inputLength){
+          self.fire('th-output-ready', self.output)
+          console.log("save geocodes to firebase");
+          self.saveToFirebase();
+        }
+        self.displayErrors();
+        self.showTableData();
+      },
+      showTableData: function(){
+        var self = this;
+        self.$.outputTable.data = self.output.map(function(item){ return {'Location': item.input, 'Latitude': item.latitude, 'Longitude': item.longitude} });
+        self.$.errorsTable.data = self.errors;
+        console.log("**");
+        console.log(self.$.errorsTable.data);
+      },
+      showResults: function(e) {
+        if(this.output.length > 0) {
+          this.$.results_collapse.toggle();
+        }
+      }, 
+    });
+
+  </script>
+
+</polymer-element>

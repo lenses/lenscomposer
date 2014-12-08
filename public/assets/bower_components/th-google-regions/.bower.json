@@ -1,0 +1,24 @@
+{
+  "name": "th-google-regions",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "th-google-regions.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "google-chart": "GoogleWebComponents/google-chart#master"
+  },
+  "homepage": "https://github.com/thelmanews/th-google-regions",
+  "_release": "9a423660b1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "9a423660b18e30a3dc849874434dd434bd725f07"
+  },
+  "_source": "https://github.com/thelmanews/th-google-regions.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-google-regions.git"
+}

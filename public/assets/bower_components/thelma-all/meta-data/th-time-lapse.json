@@ -1,0 +1,22 @@
+{
+  "name": "th-time-lapse",
+  "description": "Thelma Time Lapse",
+  "category":"numberic",
+  "version": "0.0.1",
+  "thumbnail":"timelapse.jpg",
+  "helpLink":"http://composer.thelma.co/admin/composer/demos/time-lapse",
+  "width":280,
+  "height":200,
+  "inputAttr": {
+    "width":{"friendly":"Width", "type":"string", "default":"100%"},
+    "height":{"friendly":"Height", "type":"string", "default":"100%"},
+    "rate":{"friendly":"Rate", "type":"int", "default":40}, 
+    "frequency": {"friendly":"Frequency", "type": "dropdown", "default": "minute", "values":["second", "minute", "hour", "day", "week", "month", "year"]},
+    "units":{"friendly":"Units", "type":"string", "default":""},
+    "timePeriod": {"friendly":"Time Period", "type": "dropdown", "default": "hour", "values":["minute", "hour", "day", "month", "year"]},
+    "altText":{"friendly":"Alternate Text", "type":"string", "default":""},
+    "numberSize":{"friendly":"Number Size", "type":"int", "default":40}, 
+    "displayWholeNum":{"friendly":"Display Whole Number?", "type":"boolean", "default":"false"},
+    "textType":{ "friendly":"Text Type", "type":"dropdown", "default": "mainpoint", "values": ["large-headline","headline","mainpoint", "submainpoint", "subpoint", "chart", "label"]}
+  }
+} 

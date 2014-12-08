@@ -1,0 +1,10 @@
+{
+  "name": "th-line-graph-single",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-line-graph-single.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "th-mult-choice",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-mult-choice.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "th-flipbox": "https://github.com/thelmanews/th-flipbox.git",
+    "web-animations-js-legacy": "web-animations/web-animations-js-legacy#master"
+  }
+}

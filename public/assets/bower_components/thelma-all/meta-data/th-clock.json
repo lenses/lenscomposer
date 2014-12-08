@@ -1,0 +1,14 @@
+{
+  "name": "th-clock",
+  "description": "Thelma Clock",
+  "category":"numberic",
+  "version": "0.0.1",
+  "thumbnail":"clock.jpg",
+  "helpLink":"",
+  "width":280,
+  "height":50,
+  "inputAttr": {
+    "width":{"friendly":"Width", "type":"string", "default":"100%"},
+    "color":{"friendly":"Color", "type":"colorPicker", "colorDefault":"accent", "default":""}
+  }
+} 

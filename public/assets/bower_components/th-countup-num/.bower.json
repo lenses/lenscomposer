@@ -1,0 +1,21 @@
+{
+  "name": "th-countup-num",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-countup-num.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "countUp.js": "latest",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "web-animations-js": "https://github.com/web-animations/web-animations-js.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-countup-num",
+  "_release": "03d727e322",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "03d727e322811b98f35f1108ccc7c3a844666a99"
+  },
+  "_source": "https://github.com/thelmanews/th-countup-num.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-countup-num.git"
+}

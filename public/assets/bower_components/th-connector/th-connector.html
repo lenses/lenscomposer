@@ -1,0 +1,1028 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-icons/image-icons.html">
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../core-item/core-item.html">
+<link rel="import" href="../th-theme/th-theme.html">
+
+<polymer-element name="th-connector" extend="d3-chart" attributes="componentList">
+  <core-style ref="theme"></theme>
+  <template>
+    <style>
+      :host{
+        font-size: 12px;
+        font-family: open-sans, sans-serif;
+        display: block;
+            width: 100%;
+      height: 100%;
+
+
+      } 
+      #chartData_anchor1 {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+      }
+      #chartData_anchor2 {
+        position: absolute;
+        top: 25px;
+        left: 5px;
+      }
+      .anchor {
+        width: 5px;
+        height: 5px;
+        background-color: #555;
+        cursor: pointer;
+      }
+      .item {
+        width: 100%;
+        border-bottom: 1px solid #555;
+        line-height: 1.4em;
+
+      }
+      .panel {
+        border: 1px solid #AAA;
+        background-color: rgba(255,255,255,0.9);
+        padding: 5px;
+        margin: 10px;
+        position: relative;
+        width: 900px;
+        z-index: 110;
+
+      }
+      .panel .selector {
+        display: inline;
+        margin-right: 10px; 
+
+      }
+      .panel core-selector {
+        width: 150px;
+        display: inline-block;
+        vertical-align: top;
+      }
+      .panel .core-selected {
+        background-color: #ccc;
+        border: 1px solid #888;
+      }
+      .panel label {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .connections {
+        margin-top: 10px;
+        opacity: 0; /* TEMPORARILY HIDE */
+      }
+
+      .connections ul {
+        list-style: none;
+        width: 80%;
+        padding: 0;
+        margin: 0;
+      }
+      .connections ul li {
+        margin: 3px 0;
+      }
+      .connections .del {
+        float: right;
+        color: #2fa3af;
+      }
+
+      .panel #connect {
+
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #2fa3af;
+        color: #EEE;
+        border: 1px solid #AAA;
+
+      }
+
+      a, a:visited {
+        color: #555;
+        text-decoration: none;
+      }
+
+      .panel h3 {
+        font-family: arial;
+        margin: 5px 0px;
+        font-weight: normal;
+      }
+
+      label {
+        color: #2fa3af;
+      }
+
+      ::content  .selected-src-element {
+        border-left-color: #66CCFF;
+        margin: 0;
+
+        box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+      }
+      ::content  .selected-target-element {
+        border-left-color: #00FF99  ;
+        margin: 0;
+
+        box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+      }
+      
+      ::content > *:not(ul) { /* selects the elements */
+        min-width: 20px;
+        min-height: 20px;
+        /*border: 1px solid #DDD;*/
+        margin: 2px;
+        display: inline-block;
+        position: relative;
+        /* border inside */
+        vertical-align: top;
+      }
+
+      /* Style above can be removed? */
+
+      .connections {
+        margin: 0px 0px 30px 30px;
+      }
+
+      .connections core-icon, .connections core-icon-button::shadow core-icon {
+        height: 20px;
+      }
+
+      .connections ul {
+        list-style: none;
+      }
+
+      .connections li {
+        padding-left: 5px;
+        /*padding: 0;*/
+      }
+      .connection-list {
+        border: 2px solid #ddd;
+        
+        width: 500px;
+        /*padding: 10px;*/
+
+      }
+
+      .wrapper {
+        border: 3px solid #eee;
+        display: inline-block;
+        position: absolute;
+        margin: 30px 20px;
+        margin-left: 60px;
+        min-height: 80px;
+        background-color: white;
+      }
+      /*
+      .wrapper [draggable] {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        
+        -khtml-user-drag: element;
+        -webkit-user-drag: element;
+      }
+      */
+
+      .connectors-in {
+        position: absolute;
+        left: -15px;
+        top: 0px;
+      }
+
+      .connectors-out {
+        position: absolute;
+        right: -15px;
+        top: 0px;
+      }
+
+      .wrapper li {
+        list-style: none;
+        position: relative;
+        font-size: 9px;
+        margin: 2px auto;
+      }
+
+
+      .inputMarker {
+          width: 0; 
+          height: 0; 
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent;
+  
+          border-left: 10px solid #555;
+          box-sizing: border-box;
+      }
+
+      .outputMarker {
+          width: 0; 
+          height: 0; 
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent;
+          border-left: 10px solid #555;
+      }
+
+      .final-result-buttons {
+        position: absolute;
+        right: -45px;
+        top: -10px;
+      }
+
+      .final-result-selected core-icon-button {
+        color: #52CC6A;
+      }
+
+      .wrapper label{
+        position: absolute;
+        top: -20px;
+        left: 0;
+        padding: 0;
+        font-size: 10pt;
+        overflow: visible;
+        cursor: move;
+      }
+
+      #container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        z-index: 100;
+        pointer-events: none;
+      }
+
+      #component-list {
+        position: absolute;
+        right: 0;
+        top: 50px;
+        height: auto;
+        width: 200px;
+        border: 3px solid #eee;
+        box-sizing: border-box;
+      }
+
+      #component-list core-item {
+        font-size: 12px;
+        padding: 0px 10px;
+        cursor: pointer;
+      }
+
+      #component-list core-item:hover {
+        background-color: #eee;
+      }
+
+      .core-selected {
+       font-weight: normal;
+      }
+      .deleteEl {
+        width: 20px;
+        height: 20px;
+        float: right;
+        display: inline-block;
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        cursor: pointer;
+
+
+      }
+
+    </style>
+    <div class="connectors">
+    </div>
+
+    <div id="container" on-dragover="{{dragOver}}" on-drop="{{droppedInContainer}}">
+      <svg id="svg"></svg>
+      <template if="{{componentList.length>0}}">
+        <core-menu id="component-list">
+          <template repeat="{{component in componentList}}">
+            <core-item class="{{component.name}}" on-dragStart="{{dragStartList}}" on-click="{{listClicked}}" draggable="true" label="{{component.friendly || component.name}}"></core-item>
+          </template>
+        </core-menu>
+      </template>
+
+      <!-- Components and connector dots --> 
+      <template repeat="{{el, index in elements}}">
+        <div class="wrapper {{el.name}}" id="wrapper-{{el.element.id}}" on-dragStart="{{dragStartWrapper}}" on-th-output-changed="{{showOutputAvailable}}" on-th-input-changed="{{showInputAvailable}}" draggable="true">
+          <label>{{el.name}}</label>
+          <!--<core-icon-button icon="clear" class="deleteEl {{el.element.id}}" on-click="{{_deleteElement}}"></core-icon-button> -->
+          <div  class="deleteEl {{el.element.id}}" on-click="{{_deleteElement}}">X</div>
+           
+          <div class="connectors-in" >
+            <!-- Input -->
+            <template if="{{el.element.publish | checkForInputAttr}}">
+              <li class="{{el.element.id}} inputMarker" on-dragover="{{dragOver}}" on-dragStart="{{dragStart}}" on-dragleave="{{dragLeave}}" on-drop="{{_connectBubble}}" on-dragEnd="{{droppedInContainer}}" style="border-left-color:{{el.inputConnectedTo ? el.inputConnectedTo.color : defaultColor}};}}" draggable="true"></li>
+              
+            </template>
+
+            <!-- Output -->
+          </div>
+          <content select="#{{el.element.id}}"></content>
+          <div class="connectors-out" >
+            <template if="{{el.element.publish | checkForOutputAttr}}">
+              <li id="{{index}}"  class="{{el.element.id}} outputMarker" on-dragStart="{{dragStartOutput}}" on-drag="{{drag}}" on-dragEnd="{{dragEnd}}"  draggable="true" style="border-left-color: {{el.outputReady ? el.color : defaultColor}}; "></li>
+            </template>
+            
+          </div>
+          <div class="final-result-buttons">
+            <template if="{{el.element.publish | checkForNoOutputAttr}}">
+              <li id="{{index}}"  class="{{el.element.id}} checkmark"  draggable="true" on-click="{{setAsFinalResult}}" title="Set as final result">
+                <core-icon-button icon="check"></core-icon-button>
+              </li>
+            </template>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <!-- Connections -->
+      <div class="connections">
+        <span class="elTitle">{{connections.length}} Connections</span>
+        <core-icon-button icon="view-list" on-click="{{showControls}}"></core-icon-button>
+        <core-collapse id="ctrl_collapse">
+            <div class="connection-list">
+              <ul>
+                <template if="{{!connections || connections.length < 1}}"> 
+                  <li>No connections. To make a connection, drag the bubble of one component over another.</li> 
+                </template>
+
+                <template repeat="{{connection, index in connections}}">  
+                  <li class="connection">
+                    <core-icon icon="image:lens" style="color:{{connection.source.color}};"></core-icon>
+                    {{connection.source.name}} ({{connection.sourceAttr}}) 
+                    <core-icon icon="arrow-forward"></core-icon> 
+                    {{connection.target.name}} ({{connection.targetAttr}})
+                    <core-icon-button icon="clear" class="{{connection.target.element.id}}" on-click="{{_deleteConnectionFromList}}"></core-icon-button>
+                  </li>
+                </template>
+              </ul>
+            </div>
+        </core-collapse>
+      </div>
+  </template>
+
+  <script>
+
+      Polymer('th-connector', {
+        elements: [],
+        _srcAttrs: [],
+        _targetAttrs: [],
+        _srcElementSelection: null,
+        _srcPropertySelection: null,
+        _targetElementSelection: null,
+        _targetPropertySelection: null,
+        _connections: [], // retire?
+        connections: [],
+        /**
+         * 'componentList' is an array of objects that is used to create a menu of components which can be added to th-connector
+         * @type {Array} 
+         * @example [{"name":"th-mapbox", "friendly":"Mapbox", "category":"Maps"}]
+         */
+        componentList: [],
+        domReady: function() {
+          var self = this;
+          self.showControls();
+          // Set colors
+          self.defaultColor = '#555';
+          self.colors = self.getThemeColors();
+
+          self._updateFields();
+
+          self._arrangeComponents();
+
+          self.watchMutation();
+
+
+          self.addEventListener('core-resize', function() {
+            self._drawConnections();
+          });
+
+
+          // self.$.src_component.addEventListener('core-select', function() {
+          //   if(!this.selection) {
+          //     return;
+          //   }
+          //   var prev = self.querySelector('.selected-src-element')
+          //   if(prev) {
+          //     prev.classList.remove('selected-src-element');
+          //   }
+          //   self.querySelector(this.selection.textContent).classList.add('selected-src-element');
+          //   self._srcElementSelection = this.selection.textContent;
+          //   self._srcAttrs = self._displayFields(this);
+          //   self._srcPropertySelection = null;
+
+          // });
+
+          // self.$.src_attrs.addEventListener('core-select', function() {
+          //   if(!this.selection) {
+          //     return;
+          //   }
+          //   self._srcPropertySelection = this.selection.textContent;
+
+          // });
+
+          // self.$.target_component.addEventListener('core-select', function() {
+          //   if(!this.selection) {
+          //     return;
+          //   }
+          //   self._targetElementSelection = this.selection.textContent;
+          //   var prev = self.querySelector('.selected-target-element')
+          //   if(prev) {
+          //     prev.classList.remove('selected-target-element');
+          //   }
+          //   self.querySelector(this.selection.textContent).classList.add('selected-target-element');
+          //   self._targetAttrs = self._displayFields(this);
+          //   self._targetPropertySelection = null;
+
+          // });
+
+          // self.$.target_attrs.addEventListener('core-select', function() {
+          //   if(!this.selection) {
+          //     return;
+          //   }
+          //   self._targetPropertySelection = this.selection.textContent;
+
+          // });
+
+          // self.$.connect.addEventListener('click', function() {
+          //   self._connectAttributes(self._srcElementSelection, self._srcPropertySelection,
+          //                        self._targetElementSelection, self._targetPropertySelection);
+          // });
+
+
+        },
+        _updateFields: function() {
+          var self = this;
+          var boringTags = ['div','ul','li','span','th-editor','br'];
+
+          //TODO don't recreate wrappers!!!!!
+
+          //self.elements = [];
+
+          var components = self.querySelectorAll('*'); 
+          [].forEach.call(components, function(el, i) {
+
+              // el.setAttribute('draggable',true); // Does this do anything?
+              // el.addEventListener('dragstart',function(e) {
+              //   self.draggedEl = e.toElement;
+              // });
+              
+              // if element already processed, ignore...
+              var alreadyInElements = self.elements.filter(function(item) {
+                return el.id && el.id===item.id;
+              });
+              if(alreadyInElements.length>0) {
+                return;
+              }
+
+
+              var elName = el.tagName.toLowerCase();
+
+              // Set unique ID to each element
+              el.id = el.id || self.generateUniqueId(elName);
+
+              var index=boringTags.indexOf(elName);
+              if(index<0) {
+                self.elements.push({  element: el, 
+                                      id: el.id,
+                                      name: elName, 
+                                      outputReady: false,
+                                      inputReady: false
+                                  });
+              }
+
+              var droppedTop = el.getAttribute('_top'),
+                  droppedLeft = el.getAttribute('_left')
+
+
+              if(droppedTop && droppedLeft) {
+                  //wait until the wrapper is created...
+                  setTimeout(function() { 
+
+                  var wrapper = self.shadowRoot.querySelector('#wrapper-'+el.id);
+                  wrapper.style.top = droppedTop+'px';
+                  wrapper.style.left = droppedLeft+'px';
+                },10 );
+
+              }
+
+
+          
+          });
+
+          for (var i=0; i<self.elements.length; i++){
+            self.elements[i].color = self.colors.accents[i];
+          }
+
+
+
+
+        },
+
+        _arrangeComponents: function() {
+
+          var self = this;
+
+          setTimeout(function() {
+
+            var currentY = 0;
+            prevRowHeight = 0;
+            prevWidth = 0;
+
+            var wrappers = self.shadowRoot.querySelectorAll('.wrapper');
+            [].forEach.call(wrappers, function(el, i) {
+
+
+                if(!el.style.top || !el.style.left) {
+
+                  prevWidth = parseInt(window.getComputedStyle(el).width.replace('px',''));
+                  if(i%2 == 0) {
+                    currentY += prevRowHeight + 40;
+                    prevRowHeight = 0;
+                    prevWidth = 0;
+
+                  }
+                  var height = parseInt(window.getComputedStyle(el).height.replace('px',''));
+
+                  prevRowHeight = Math.max(prevRowHeight, height);
+                  el.style.top = currentY+'px';
+                  el.style.left = (prevWidth+ (prevWidth!==0 ? 150 : 0))+'px';
+                  el.style.zIndex = wrappers.length-i;
+
+
+                  
+
+                }
+
+            
+            });
+          }, 100);
+
+        },
+
+        _displayFields: function(selector) {
+          var self = this;
+          var elSelector = selector.selection.textContent;
+          var el = self.querySelector(elSelector);
+          if(!el) {
+            return;
+          }
+          var metadata = (typeof el.getMetaData === 'function') ? el.getMetaData : null; 
+
+                   
+          var attrs = el.publish;
+          var attrsObj = [];
+          for(key in attrs) {
+            attrsObj.push(key);
+
+          }
+          return attrsObj;
+          
+        },
+        updateConnections: function(){
+          var self = this;
+          self.connections = self.elements.filter(function(el){ return el.inputConnectedTo}).map(function(el){
+              return { 
+                target: el,
+                targetAttr: 'input',
+                source: el.inputConnectedTo,
+                sourceAttr: 'output'
+              }
+          })
+        },
+        _connectBubble: function(e, detail, selection){ 
+          var self = this;
+          //selection.style.border = "3px solid "+this.colors.accents[this.draggedEl.id];
+          
+          selection.style.borderLeftColor = this.colors.accents[this.draggedEl.id];
+
+          var sourceEl = self.findElById(self.draggedEl.classList[0])
+          var targetEl = self.findElById(selection.classList[0])
+
+          this._connectAttributes(sourceEl,'output',targetEl,'input');
+          
+        },
+        _connectAttributes: function(source, sourceField, target, targetField) {
+          var self = this;
+
+          if (source === target){ //if a bubble was dropped on itself
+            alert('You cannot make a connection within the same element');
+          } else { 
+
+            // make the connection in the elements array
+            target.inputConnectedTo = source;
+              
+            var observer = new PathObserver(source.element, sourceField);     
+               observer.open(function(newValue, oldValue) {
+               target.element[targetField] = newValue;
+            });
+
+            // to set the value when elements are connected
+            target.element[targetField] = source.element[sourceField];  
+
+            self.updateConnections();
+          }
+          self._drawConnections();
+
+        },
+
+        _drawConnections: function() {
+
+          var self = this;
+
+
+          var arrowOffsetY = 12;
+          var arrowOffsetX = 5;
+          var bezierCurveX = 70;  // the larger the value the smoother the curve
+
+
+          //clear all paths. since it is not done offten it is fine to do it in a not optimized way
+          self.$.svg.innerHTML = '';
+          
+          for (var i = 0; i < self.connections.length; i++) {
+
+            var conn = self.connections[i];
+            var srcEl = conn.source.element;
+            var targetEl = conn.target.element;
+
+            var srcWrapper = self.shadowRoot.querySelector('#wrapper-'+srcEl.id);
+            var targetWrapper = self.shadowRoot.querySelector('#wrapper-'+targetEl.id);
+
+            // var srcRect = srcEl.getBoundingClientRect();
+            // var targetRect = targetEl.getBoundingClientRect();
+
+            var srcRect = srcWrapper.getBoundingClientRect();
+            var targetRect = targetWrapper.getBoundingClientRect();
+
+            var svgRect = self.$.svg.getBoundingClientRect();
+
+
+            var startX = srcRect.right - svgRect.left + arrowOffsetX; //srcRect.left + srcRect.width + 30 - containerOffsetX;
+            var startY = srcRect.top - svgRect.top + arrowOffsetY;
+            var endX = targetRect.left  - svgRect.left - arrowOffsetX;
+            var endY = targetRect.top  - svgRect.top + arrowOffsetY;
+            self._addBezierPath(startX, startY, endX, endY , bezierCurveX);
+            
+          }        
+
+        },
+
+        _addBezierPath: function(startX, startY, endX, endY, handleOffsetX, id) {
+
+            var aLine = document.createElementNS('http://www.w3.org/2000/svg', 'path'); 
+            var path = this._createBezierPath(startX, startY, endX, endY, handleOffsetX);
+
+            aLine.setAttribute('d',path);
+            aLine.setAttribute('stroke', '#555');// conn.source.color);
+            aLine.setAttribute('fill', 'none');
+            if(id) {
+              aLine.setAttribute('id', id);
+            }
+            
+
+            this.$.svg.appendChild(aLine);
+
+        },
+
+        _createBezierPath: function(startX, startY, endX, endY, handleOffsetX) {
+
+            
+            var path = "M"+parseInt(startX)+","+parseInt(startY)+
+                       " C"+parseInt(startX + handleOffsetX)+","+parseInt(startY)+
+                       " "+parseInt(endX - handleOffsetX)+","+parseInt(endY)+
+                       " "+parseInt(endX)+","+parseInt(endY);
+            return path;
+        },
+
+        _deleteConnectionFromList: function(e, detail, selection){
+          var self = this,
+              targetEl = self.findElById(selection.classList[0]);
+
+          self._deleteConnection(targetEl);
+
+        },
+        _deleteConnectionFromBubble: function(e, detail, selection){
+          var self = this;
+          
+          // Select the element being dragged from elements array          
+          var targetEl = self.findElById(self.draggedEl.classList[0]);
+
+          // Check if it has a connection
+          if (targetEl.inputConnectedTo ){
+            self._deleteConnection(targetEl);
+          }
+        },
+        _deleteConnection: function(targetEl){
+          var self = this;
+          if (confirm('Do you want to remove this connection?')) {
+              targetEl.element.input = null; // TODO: switch to called clearData on the element
+              targetEl.inputConnectedTo = false;
+          } 
+          self.updateConnections();
+          self._drawConnections();
+        },
+        showControls: function(e) {
+          this.$.ctrl_collapse.toggle();
+        } ,
+
+        watchMutation: function() {
+            var change = function() {
+
+              this._updateFields();
+
+              this.onMutation(this, change);
+            }.bind(this);
+
+
+            this.onMutation(this, change);
+
+
+          },
+
+          _deleteElement: function() {
+
+          },
+        checkForInputAttr: function(value){
+          return Object.keys(value).indexOf("input") > -1 ? true : false;
+        },
+        checkForOutputAttr: function(value){
+          return Object.keys(value).indexOf("output") > -1 ? true : false;
+        },
+        checkForNoOutputAttr: function(value){
+          return Object.keys(value).indexOf("output") > -1 ? false : true;
+        },
+        dragStart: function(e, detail, selection){
+
+
+
+          this.draggedEl = selection;
+          //to stop wrapper drag to be called
+          e.stopPropagation();
+        },
+        dragStartOutput: function(e, detail, selection){
+
+
+
+          this.draggedEl = selection;
+          //to stop wrapper drag to be called
+          e.stopPropagation();
+
+          // create temp bezier
+          var svgRect = this.$.svg.getBoundingClientRect();
+
+          this.startPointX = e.x - svgRect.left;
+          this.startPointY = e.y - svgRect.top;
+          this.svgTop = svgRect.top;
+          this.svgLeft = svgRect.left;
+
+          this._addBezierPath( this.startPointX , this.startPointY , this.startPointX , this.startPointY , 70, 'temp_path');
+
+          
+          // selection.style.border = "3px solid "+this.colors.accents[selection.id];
+        },
+        drag: function(e, detail, selection){
+
+          //update temp bezier path
+
+          var tempPath = this.shadowRoot.querySelector('#temp_path');
+          var newPath = this._createBezierPath( this.startPointX, this.startPointY , e.x - this.svgLeft  , e.y - this.svgTop  , 70);
+          tempPath.setAttribute('d',newPath);
+          
+        },
+        dragEnd: function(e, detail, selection){
+          
+          //remove temp bezier path from dom 
+          var tempPath = this.shadowRoot.querySelector('#temp_path');
+          if(tempPath) {
+            tempPath.parentNode.removeChild(tempPath);
+          }
+
+        },
+        dragStartList: function(e, detail, selection) {
+           e.dataTransfer.setData("text/plain",selection.classList[0]);
+
+        },
+
+        listClicked: function(e, detail, selection) {
+          console.log(selection, e);
+          // better way to position them?
+          var x = e.offsetX + 200 + Math.round(Math.random()*400),
+              y = e.offsetY + 200 + Math.round(Math.random()*400);
+          this.addNewElToConnector(selection.classList[0], x, y);
+        },
+        dragOver: function(e, detail, selection){
+          //selection.style.border = "3px solid "+this.colors.accents[this.draggedEl.id]; 
+        if(this.draggedEl) {	
+ 	   selection.style.borderLeftColor = this.colors.accents[this.draggedEl.id];
+         }
+          e.preventDefault(); // allows drop event on this element
+
+        },
+        /*
+        allowDrop: function(e,detail,selection){
+         
+          e.preventDefault(); // allows drop event on this element
+        },
+        */
+        dragLeave: function(e, detail, selection){
+          //selection.style.border = "3px solid "+this.defaultColor;
+          selection.style.borderLeftColor = this.defaultColor;
+
+        },
+        droppedInContainer: function(e, detail, selection){
+          var self = this;
+
+          console.log('dropeed in container');
+          // for wrapper move. is it better to use dataTransfer instead of self.draggedEl for anchor as well? (below)
+          var dataTransfer = e.dataTransfer.getData('text/plain');
+
+
+          if(dataTransfer && dataTransfer.length>0) {
+            var dataSeg = dataTransfer.split(',');
+
+            
+            //element from list dragged
+            if(dataSeg.length==1) {
+              self.addNewElToConnector(dataSeg[0], e.offsetX, e.offsetY);
+
+              return;
+            }
+
+            // wrapped dragged
+            var wrapper = self.shadowRoot.querySelector('#'+dataSeg[2]);
+            
+            
+            wrapper.style.left = (e.clientX + parseInt(dataSeg[0],10)) + 'px';
+            wrapper.style.top = (e.clientY + parseInt(dataSeg[1],10)) + 'px';
+
+            self._drawConnections();
+
+            e.preventDefault(); 
+            return false; 
+
+
+          }
+          
+          //input marker dragged (disconnect)
+          if(self.draggedEl && self.draggedEl.classList.contains("inputMarker")){
+            self._deleteConnectionFromBubble(e, detail, selection);
+          }else if (self.draggedEl && self.draggedEl.tagName != 'LI'){
+            // It's probably a component that got drag/dropped. Do something here.
+          }
+        },
+
+        dragStartWrapper: function(e, details, selection) {
+
+          var style = window.getComputedStyle(e.target, null),
+              left = parseInt(style.getPropertyValue("left"),10),
+              top = parseInt(style.getPropertyValue("top"),10);
+
+          //if position left/top doens't exist 0 instead of NaN
+          var offset_data = ((isNaN(left) ? 0 : left) - e.clientX) +
+                        ',' + ((isNaN(top) ? 0 : top) - e.clientY) +
+                        ',' + selection.id;
+          e.dataTransfer.setData("text/plain",offset_data);
+        },
+
+        getThemeColors: function(){
+          var colors = {};
+          colors.theme = window.CoreStyle.g.theme;
+          colors.accents = [];
+
+          for (var color in colors.theme){
+            if(/^accent/.test(color)){
+              colors.accents.push(colors.theme[color]);
+            }
+          }
+          var newAccents = colors.accents.map(function(color){
+        
+            var color = color,
+                lum = 0.3, // represents % lighter or darker (negative values are darker)
+                hex = "#", c, i;
+            
+            // validate color and make it always 6 chars 
+            color = String(color).replace(/[^0-9a-f]/gi, '');
+            if (color.length < 6) {
+              color = color[0]+color[0]+color[1]+color[1]+color[2]+color[2];
+            }
+
+            // convert color to decimal, adjust lumosity, and convert back to hex;
+            for (i = 0; i < 3; i++) {
+              c = parseInt(color.substr(i*2,2), 16);
+              c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+              hex += ("00"+c).substr(c.length);
+            }
+
+            return hex;
+            
+          });
+
+          colors.accents = colors.accents.concat(newAccents);
+          
+          return colors;
+        },
+        showOutputAvailable: function(e){
+          var elId = e.detail.id,
+              output = e.detail.output,
+              outputMarker = this.$.container.querySelector('li.'+elId+ '.outputMarker');
+
+          var element = this.findElById(elId);
+
+          element.outputReady = output && output.length>0 ? true : false; 
+        },
+        showInputAvailable: function(e){
+          var elId = e.detail.id,
+              input = e.detail.input,
+              inputMarker = this.$.container.querySelector('li.'+elId+ '.inputMarker');
+          
+          var element = this.findElById(elId);
+
+          element.inputReady = input && input.length>0 ? true : false; 
+
+        },
+        findElByName: function(name){
+          var self = this;
+          element = self.elements.filter(function(el){
+            return el.name === name;
+          })[0];
+
+          return element;
+        },        
+        findElById: function(id){
+          var self = this;
+          element = self.elements.filter(function(el){
+            return el.element.id === id;
+          })[0];
+
+          return element;
+        },
+        generateUniqueId: function(elName){
+          var self = this;
+          var num = 0;
+          var tagsWithSameName = self.elements.filter(function(elem){return elem.name == elName});
+          
+          if(tagsWithSameName){
+            num+= tagsWithSameName.length;
+          } 
+          
+          var uniqueId = elName + '-' + num;
+          
+          return uniqueId;
+        },
+        setAsFinalResult: function(e, detail, selection){
+          var self = this,
+              targetEl = self.findElById(selection.classList[0]).element,
+              checkmarks = self.shadowRoot.querySelectorAll('.checkmark');
+          
+          // Remove final result class on all elements
+          for(i=0;i<checkmarks.length;i++){
+            checkmarks[i].classList.remove('final-result-selected');
+          }
+          for(i=0;i<self.elements.length;i++){
+            self.elements[i].element.classList.remove('final-result');
+          }
+
+          // Add final result class only to selected element and button
+          selection.classList.add('final-result-selected'); 
+          targetEl.classList.add('final-result');
+        },
+        addNewElToConnector: function(newElName, left, top){
+
+              console.log(left, top);
+
+          var self = this,
+              
+
+               newEl = document.createElement(newElName);
+
+               newEl.setAttribute('_top', top);
+               newEl.setAttribute('_left', left);
+
+              
+              self.appendChild(newEl);
+             //self.innerHTML = innerHTML;
+
+
+
+        }
+      });
+
+  </script>
+</polymer-element>

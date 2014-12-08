@@ -1,0 +1,13 @@
+<x-meta id="th-google-regions" label="Thelma World Regions Map" group="Thelma chart">			<template>			<th-google-regions animateOnInit="true"/></template>
+			<template id="imports">			<link rel="import" href="th-google-regions.html"/></template>
+			<property name="chartWidth" kind="number"/>
+			<property name="chartHeight" kind="number"/>
+			<property name="resolution" kind="select" options="countries,provinces,metros"/>
+			<property name="regionCode" kind="string"/>
+			<property name="dataLabel" kind="string"/>
+			<property name="chartData" kind="json"/>
+			<property name="displayMode" kind="select" options="fill,markers,text"/>
+			<property name="color" kind="color"/>
+			<property name="backgroundColor" kind="color"/>
+			<property name="legend" kind="boolean"/>
+</x-meta>

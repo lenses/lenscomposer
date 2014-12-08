@@ -1,0 +1,28 @@
+{
+  "name": "th-geocoder",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "th-geocoder.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "core-selector": "polymer/core-selector#~0.5.1",
+    "core-collapse": "polymer/core-collapse#~0.5.1",
+    "core-icon-button": "polymer/core-icon-button#~0.5.1",
+    "google-apis": "GoogleWebComponents/google-apis#~0.4.2",
+    "th-csv": "https://github.com/thelmanews/th-csv.git",
+    "th-google-map": "https://github.com/thelmanews/th-google-map.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-geocoder",
+  "_release": "0732ebb22f",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "0732ebb22fc6cd8a4b2d71c8aeb3e9e7ed912098"
+  },
+  "_source": "git://github.com/thelmanews/th-geocoder.git",
+  "_target": "*",
+  "_originalSource": "thelmanews/th-geocoder"
+}

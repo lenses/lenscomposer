@@ -1,0 +1,26 @@
+{
+  "name": "th-chart-data-filter",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "th-chart-data-filter.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "core-selector": "polymer/core-selector#~0.5.1",
+    "core-collapse": "polymer/core-collapse#~0.5.1",
+    "core-icon-button": "polymer/core-icon-button#~0.5.1",
+    "core-input": "polymer/core-input#~0.5.1"
+  },
+  "homepage": "https://github.com/thelmanews/th-chart-data-filter",
+  "_release": "06d993988d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "06d993988d0f267e4f9177843fb44f1d08a42c55"
+  },
+  "_source": "git://github.com/thelmanews/th-chart-data-filter.git",
+  "_target": "*",
+  "_originalSource": "thelmanews/th-chart-data-filter"
+}

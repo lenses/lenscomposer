@@ -1,0 +1,23 @@
+{
+  "name": "th-iframe-wrapper",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "th-iframe-wrapper.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-iframe-wrapper",
+  "_release": "6d41e0c696",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "6d41e0c6963817d14112f3d4500851e37449f575"
+  },
+  "_source": "https://github.com/thelmanews/th-iframe-wrapper.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-iframe-wrapper.git"
+}

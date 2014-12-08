@@ -1,0 +1,164 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+
+<polymer-element name="th-text" extends="th-animated" attributes="align type markdown text width highlighting background opacity">
+  <template>
+    <core-style ref="theme"></core-style>
+    <style>
+      :host {
+        display: block;
+        color:{{color}};
+      }
+
+      :host:unresolved {
+        opacity: 0;
+      }
+
+      #container > * {
+        margin: 0;
+        -webkit-margin-before: 0;
+        -webkit-margin-after: 0;
+        text-align: {{align}};
+      }
+
+      #container.background {
+        background-color: {{background}}; /* Not supported in mobile */
+      }
+
+      #container.highlighting > * {
+        line-height: 1.2;
+        display: inline;
+        background-color: {{highlighting}}; /* Not supported in mobile */
+        box-shadow: 0.2em 0 0 0 {{highlighting}}, -0.2em 0 0 0 {{highlighting}}; /* Not supported in mobile */
+      }
+
+      strong {
+        font-weight: bold;
+      }
+
+      em {
+        font-style: italic;
+      }
+
+      ul li {
+        list-style-type: disc;
+      }
+
+      ol li {
+        list-style-type: decimal;
+      }
+
+      ul, ol {
+        -webkit-padding-start: 40px;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: bold;
+      }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      h2 {
+        font-size: 1.5em;
+      }
+
+      h3 {
+       font-size: 1.17em; 
+      }
+
+      h4 {
+        font-size: 1em;
+      }
+
+      h5 {
+        font-size: 0.83em;
+      }
+
+      h6 {
+        font-size: 0.67em;
+      }
+    </style>
+
+    <!-- Add inline styles for mobile --> 
+    <div id="container" class="{{type}}" style="color:{{color}}; width:{{width | widthFilter}}; text-align: {{align}};">
+        <content></content>
+    </div>
+  </template>
+  <script src="../marked/lib/marked.js"></script>
+
+  <script>
+
+      Polymer('th-text', {
+        type: "mainpoint",  // options: headline, mainpoint, submainpoint, subpoint, chart, label, caps
+        align: "left",  // options: left, right, center, justify
+        markdown: true, // set false if other components are embedded (i.e. countup)
+        highlighting: '', // enter a color for text highlights
+        background: '', // enter a color for background
+        opacity: 1, // enter a number between 0 and 1 for background/highlight opacity
+        ready: function() {
+          if (this.markdown) {
+            this.text = this.trim(this.textContent);
+          } else {
+            this.text = this.textContent;
+          }
+        },
+        textChanged: function() {
+          var container = this.$.container;
+          
+          container.innerHTML = this.markdown ? marked(this.text.toString()) : ("<span >"+this.text+"</span>");
+
+          // Apply text highlight color and opacity for mobile / safari
+          if(this.highlighting){
+            if (this.opacity < 1){
+              this.highlighting = this.hexToRgba(this.highlighting);
+            }
+
+            // Styles inherited from class work well for Chrome desktop
+            container.classList.add("highlighting");
+
+            // Inline styles for mobile version while Polymer does not support use of 
+            // variables in style tags on mobile devices
+            var contentNodes = container.children;
+
+            for (var i=0; i<contentNodes.length; i++){
+              contentNodes[i].style.backgroundColor = this.highlighting;
+              contentNodes[i].style.boxShadow = ".2em 0 0 0 0 "+this.highlighting+", -.2em 0 0 0 0 "+this.highlighting;
+            }
+            
+          }
+
+          // Apply background color and opacity for mobile / safari
+          if(this.background){
+            if (this.opacity < 1){
+              this.background = this.hexToRgba(this.background);
+            }
+            // Styles inherited from class work well for Chrome desktop
+            this.$.container.classList.add("background");
+
+            // Inline styles for mobile version while Polymer does not support use of 
+            // variables in style tags on mobile devices
+            this.$.container.style.backgroundColor = this.background;
+          }
+
+        },
+        trim: function(str) { 
+          // Remove white space and convert straight quotes into smart quotes
+          return str.replace(/^[^\S\n]+/gm,'').replace(/"(?=\w|$)/g, "&#8220;").replace(/"/g, "&#8221;");
+        },
+        hexToRgba: function(hex){
+          var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          var rgba = result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16),
+                a: this.opacity
+            } : null;  
+
+          return rgba ? "rgba("+rgba.r+","+rgba.g+","+rgba.b+","+rgba.a+")" : null;
+        }
+      });
+
+  </script>
+</polymer-element>

@@ -1,0 +1,11 @@
+{
+  "name": "th-time-lapse",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-time-lapse.html",
+  "dependencies": {
+    "core-ajax": "polymer/core-ajax#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "th-text": "https://github.com/thelmanews/th-text.git"
+  }
+}

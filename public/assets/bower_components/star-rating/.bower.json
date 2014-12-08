@@ -1,0 +1,27 @@
+{
+  "name": "star-rating",
+  "private": false,
+  "keywords": [
+    "web_components",
+    "star",
+    "rating"
+  ],
+  "authors": [
+    "Carlos Martinez"
+  ],
+  "description": "Polymer Web Component to deal with star rating",
+  "license": "MIT",
+  "dependencies": {
+    "polymer": "Polymer/polymer#master"
+  },
+  "homepage": "https://github.com/sepans/star-rating",
+  "_release": "497f501fe8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "497f501fe816a0575dd844d129d2d0b4022ebd81"
+  },
+  "_source": "https://github.com/sepans/star-rating.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/sepans/star-rating.git"
+}

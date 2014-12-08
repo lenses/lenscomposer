@@ -1,0 +1,12 @@
+{
+  "name": "th-countup-num",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-countup-num.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "countUp.js": "latest",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "web-animations-js": "https://github.com/web-animations/web-animations-js.git"
+  }
+}

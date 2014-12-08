@@ -1,0 +1,29 @@
+{
+  "name": "th-n-bar-chart-horizontal",
+  "description": "Thelma n bar chart horizontal",
+  "category":"chart",
+  "version": "0.0.1",
+  "thumbnail":"n-bar-chart-horizontal.jpg", 
+  "tags":["chart", "bar"],
+  "helpLink":"",
+  "width":280,
+  "height":200,
+  "inputAttr": {
+    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
+    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},
+    "chartData":{"friendly":"Data", "type":"table-repeating","rows":2, 
+      "fields":{
+        "label":{"friendly":"Label", "type":"string", "default":"Player"},
+        "value":{"friendly":"Value", "type":"int", "default":15},
+        "display_value":{"friendly":"Display Value", "type":"string", "default":"$15"},
+        "color":{"friendly":"Color", "type":"colorPicker", "colorDefault":"accent", "default":""}
+      },
+      "default":[
+        {"label": "Player", "value": 15, "display_value": "$15", "color":""},
+        {"label": "Vendor", "value": 20, "display_value": "$20", "color":""},
+        {"label": "Cheerleader", "value": 40, "display_value": "$40", "color":""},
+        {"label": "Designer", "value": 70, "display_value": "$70", "color":""}
+      ]
+    }
+  }
+}

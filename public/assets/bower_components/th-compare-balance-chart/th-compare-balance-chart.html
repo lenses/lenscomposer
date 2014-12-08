@@ -1,0 +1,264 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-d3-chart/th-d3-chart.html">
+
+<polymer-element name="th-compare-balance-chart" extends="th-d3-chart">
+  <template>
+    <core-style ref="theme"></core-style>
+    <style>
+
+      :host {
+        display: inline-block;
+        position: relative;
+      }
+      #chart {
+
+      }
+      #chart text {
+        font-size: 14px;
+      }
+
+    </style>
+
+      <svg id="chart">
+      </svg>
+
+	    <ul id="data_errors">
+	    </ul>  
+	    
+	    <!-- to allow embeded th-editor component -->
+	    <content select="th-editor"></content> 
+
+    
+  </template>
+
+	<script>
+
+
+		Polymer('th-compare-balance-chart', {
+		  chartData: [
+		    {label: 'Smoker', count: 3, image: '../thelma-all/images/kid.png', weight: 1, size: 23},
+		    {label: 'Non-Smoker', count: 20, image: '../thelma-all/images/kid-smoker.png', weight: 1, size: 23}
+		  ],
+		  init: function() {
+
+		    var self = this;
+				
+				self.getComputedDims(self);
+
+		    var margin = {
+		          top : 5,
+		          right : self.computedWidth*0.08,
+		          bottom : self.computedHeight* 0.05,
+		          left : self.computedWidth*0.08,
+		          label: 3
+		      }, width = self.computedWidth*0.95 - margin.left - margin.right, height = self.computedHeight*1.0 - margin.top - margin.bottom
+		         , barWidth = 5 , textLabelMargin = height*0.05;
+
+		      self.height = height;
+		      self.width = width;
+
+		      self.extractElementDataPoints();
+
+		      var chartEl = self.$.chart;
+		      var container = d3.select(chartEl).attr('width', width + margin.left + margin.right)
+		          .attr('height', height + margin.top + margin.bottom)
+		          .append('g')
+		          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+		      self.container = container;
+
+		      self.holderTranslateLeft = 'translate(' + width / 2 + ',' + (height  - (self.chartData[0].size+11)) + ')';
+		      self.holderTranslateRight = 'translate(' + width / 2 + ',' + (height  - (self.chartData[1].size+11)) + ')';
+		      self.bargTranslate = 'translate(' + width / 2 + ',' + (height  - 20) + ')';
+
+
+		      var totalCount = self.chartData.reduce(function(prev, cur) {
+		          return prev+= parseInt(cur.value);
+		      }, 0);
+
+
+		      self.chartData[0].weight = self.chartData[0].weight || 1;
+		      self.chartData[1].weight = self.chartData[1].weight || 1;
+
+		      self.chartData[0].size = self.chartData[0].size || 25;
+		      self.chartData[0].size = self.chartData[0].size || 20;
+
+		      self.chartData[1].size = self.chartData[1].size || 20;
+		      self.chartData[1].size = self.chartData[1].size || 20;
+
+
+		      self.chartData[0].elementsPerRow =  Math.floor((width/2 - 10)/ self.chartData[0].size);
+
+		      self.chartData[1].elementsPerRow =  Math.floor((width/2 - 10)/ self.chartData[1].size);
+		      
+
+	        container.append('path')
+	            .attr('transform', 'translate(' + (width * 0.40) + ',' + (height -18 ) + ')')
+	            .attr('d', 'M 15 3 L 30 25 L 0 25 L 15 3').attr('class', 'triangle fill-foreground');
+
+	        self.barg = container.append('g')
+	            .attr('transform', self.bargTranslate);
+
+	        var bar = self.barg.append('rect')
+	            .attr('x', -width / 2)
+	            .attr('y', 0)
+	            .attr('class', 'scale-bar fill-foreground')
+	            .attr('width', width)
+	            .attr('height', barWidth);
+
+	        self.left_holder = container.append('g')
+	            .attr('class', 'left_holder')
+	            .attr('transform', self.holderTranslateLeft);
+
+	        self.lefts = self.left_holder.selectAll('.lefts').data(d3.range(0,self.chartData[0].count)).enter().append('image')
+	            .attr('xlink:href', self.chartData[0].image)
+	            .attr('class', 'lefts')
+	            .attr('x', function(d, i) {
+	                 return -width / 2 + (i % self.chartData[0].elementsPerRow) * (self.chartData[0].size);
+	            })
+	            .attr('y', function(d, i) {
+	                 return -height* 1.2;
+	            })
+	            .attr('width', self.chartData[0].size)
+	            .attr('height', self.chartData[0].size);
+
+	        self.right_holder = container.append('g')
+	            .attr('class', 'right_holder')
+	            .attr('transform', self.holderTranslateRight);
+
+	        self.rights = self.right_holder.selectAll('.rights').data(d3.range(0,self.chartData[1].count)).enter().append('image')
+	            .attr('xlink:href', self.chartData[1].image)
+	            .attr('class', 'rights')
+	            .attr('x', function(d, i) {
+	                return width/2 - margin.right - ((i % self.chartData[1].elementsPerRow) * (self.chartData[1].size)) - 3;
+	            })
+	            .attr('y', function(d, i) {
+	                return -height* 1.2;
+	            })
+	            .attr('rx', 3)
+	            .attr('ry', 3)
+	            .attr('width', self.chartData[1].size)
+	            .attr('height', self.chartData[1].size);
+
+
+		  },
+		  reset: function() {
+		      
+		        var self = this;
+		        self.lefts.transition().duration(10).attr('y', function(d, i) {
+	                 return -self.height* 1.2;
+	            });   
+		        self.rights.transition().duration(10).attr('y', function(d, i) {
+	                 return -self.height* 1.2;
+	            });   
+		  },
+		  
+		animate: function() {
+					      
+	        var self = this;
+	        var totalSideTransition = 2000
+		        
+ 			var delay = {left: totalSideTransition/self.chartData[0].count,
+ 						right: totalSideTransition/self.chartData[1].count}
+ 					, pauseBeforeRight = 1000;
+
+	        // for bar
+	        var maxAngle = -10;
+
+	        var dropSpeed = 200;
+
+
+	        var prevAngle = 0;
+
+	        //drop left side objects
+
+	        self.lefts.transition().ease('linear').duration(dropSpeed).delay(function(d, i) {
+	            return i * delay.left;
+	        }).attr('y', function(d, i) {
+	            return -Math.floor(i / self.chartData[0].elementsPerRow) * (self.chartData[0].size) - 10;
+	        }).each('end', function(d, i) {
+
+	        	// after the drop of each object rotate elements
+	            var angle = ((i+1) / self.chartData[0].count) * maxAngle * self.chartData[0].weight;
+
+	            self._animateBar(prevAngle, angle, Math.min(delay.left, dropSpeed*1.5));
+	            prevAngle = angle;
+	            if(i+1 == self.chartData[0].count) {
+
+	            	var rightSideFinalAngle = prevAngle;
+
+			        setTimeout(function() {
+		            	//var prevAngle = self.chartData[0].count * self.chartData[0].weight * maxAngle;
+			            self.rights.transition().ease('linear').duration(dropSpeed).delay(function(d, i) {
+			                return i * delay.right;
+			            }).attr('y', function(d, i) {
+			                return -Math.floor(i / self.chartData[1].elementsPerRow) * (self.chartData[1].size) - 10;
+			            }).each('end', function(d, i) {
+			            	
+
+				            var angle = /*(self.chartData[0].count * self.chartData[0].weight * maxAngle)*/rightSideFinalAngle - ((i+1) / self.chartData[1].count) * self.chartData[1].weight * maxAngle  ;
+				            self._animateBar(prevAngle, angle, Math.min(delay.right, dropSpeed*1.5));
+				            prevAngle = angle;
+
+				        });
+			        }, pauseBeforeRight);
+
+	            }
+	        });
+
+		},
+
+		_animateBar: function(fromAngle, toAngle, delay) {
+
+			var self = this;
+	        
+	        self.barg.transition().ease('linear').duration(delay).attrTween("transform", tween);
+
+	        self.left_holder.transition().ease('linear').duration(delay).attrTween("transform", tween2);
+
+	        self.right_holder.transition().ease('linear').duration(delay).attrTween("transform", tween3);
+
+	        // for bar
+	        function tween(d, i, a) {
+	            return d3.interpolateString(self.bargTranslate +' rotate(' + fromAngle + ') ', self.bargTranslate+ ' rotate(' + toAngle + ')');
+	        }
+	        // for lefts
+	        function tween2(d, i, a) {
+	            return d3.interpolateString(self.holderTranslateLeft + '  rotate(' + (fromAngle) + ')', self.holderTranslateLeft + ' rotate(' + toAngle + ')');
+	        }
+	        // for rights
+	        function tween3(d, i, a) {
+	            return d3.interpolateString(self.holderTranslateRight + ' rotate(' + fromAngle + ')', self.holderTranslateRight + '  rotate(' + toAngle + ')');
+	        }
+
+	    },
+  		chartSpecificDataValidate: function() {
+     
+      var errors = [],
+          numOfSets = this.chartData.length;
+          
+      // There should be two sets of data					
+      if(numOfSets != 2) {
+        errors.push({input: numOfSets, msg: 'Please provide two comparison sets for this chart.'});
+      } else {
+        for (var i=0; i < numOfSets; i++){  
+          // Each set should have a count
+      		if (!this.chartData[i].count){ 
+        		errors.push({ input: this.chartData, msg: 'You must include a value for each set.'});
+      		}
+          // Each set should have an image
+      		if (!this.chartData[i].image){ 
+      			errors.push({ input: this.chartData, msg: 'You must include an image for each set.'});	
+      		}
+        }
+    	}
+      return errors;
+    }
+		  
+	});
+
+
+
+	</script>
+
+</polymer-element>

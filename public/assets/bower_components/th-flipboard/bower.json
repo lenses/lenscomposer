@@ -1,0 +1,11 @@
+{
+  "name": "th-flipboard",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-flipboard.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "th-flipbox": "https://github.com/thelmanews/th-flipbox.git"
+  }
+}

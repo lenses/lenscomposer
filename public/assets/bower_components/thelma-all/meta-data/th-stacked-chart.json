@@ -1,0 +1,28 @@
+{
+  "name": "th-stacked-chart",
+  "description": "Thelma stacked chart",
+  "category":"chart",
+  "version": "0.0.1",
+  "thumbnail":"stacked.jpg", 
+  "tags":["chart", "column", "animated"],
+  "helpLink":"http://composer.thelma.co/admin/composer/demos/chartlabels",
+  "width":200,
+  "height":250,
+  "inputAttr": {
+    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
+    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},
+    "chartData":{"friendly":"Data", "type":"table-repeating","rows":2, 
+      "fields":{
+        "label":{"friendly":"Label", "type":"string", "default":"Player"},
+        "value":{"friendly":"Value", "type":"int", "default":15},
+        "display_value":{"friendly":"Display Value", "type":"string", "default":"$15"},
+        "color":{"friendly":"Color", "type":"colorPicker", "colorDefault":"accent", "default":""},
+        "offset":{"friendly":"Offset", "type":"int", "default":0}
+      },
+      "default":[
+      {"label": "medicaid", "value": 20, "display_value": "$20", "color":"", "offset": 0},
+      {"label": "gap", "value": 40, "display_value": "$40", "color":"", "offset": 0},
+      {"label": "sub", "value": 10, "display_value": "$10", "color":"", "offset": 0}]
+    }
+  }
+}

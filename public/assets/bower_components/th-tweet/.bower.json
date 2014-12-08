@@ -1,0 +1,19 @@
+{
+  "name": "th-tweet",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-tweet.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-tweet",
+  "_release": "8a50fd951b",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "8a50fd951bfc95451e8bb5a65db330ea3518ae62"
+  },
+  "_source": "https://github.com/thelmanews/th-tweet.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-tweet.git"
+}

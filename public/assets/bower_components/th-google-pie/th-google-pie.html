@@ -1,0 +1,210 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+<link rel="import" href="../google-chart/google-chart.html">
+
+<!--
+Element providing a Thelma wrapper for the Google geochart.
+
+##### Example
+
+    <th-google-regions chartWidth="200" chartHeight="200" regionCode="155" resolution="countries" color="blue"></th-google-regions>
+
+@element th-google-regions
+@blurb Element providing a Thelma wrapper for the Google geochart.
+@status alpha
+@homepage http://nishacodes.github.io/th-google-regions
+-->
+<polymer-element name="th-google-pie"  extends="th-animated" attributes="tooltipText chartWidth type chartHeight chartData dataLabel color backgroundColor legend">
+  <core-style ref="theme"></core-style>
+  <style>
+
+  </style>
+  <template> 
+    <google-chart id="googleChart" on-google-chart-render="{{chartReady}}"
+          type='pie'
+          height="{{computedHeight}}"
+          width="{{computedWidth}}"
+          options= "{{options}}"
+          data="{{_data}}">
+    </google-chart>
+  </template>
+
+  <script>
+
+    Polymer('th-google-pie', {
+
+      /**
+       ** 'chartData' is the data represented by the map. 
+       * @type {Array}
+       *
+       ** 'region' can be a country, state, or metro 
+       * @type {String}
+       *
+       ** 'value' determines the color of the marker or fill
+       * @type {Number}
+       */
+      chartData: [
+        {"label": "Germany", "value": 100},
+        {"label": "Switzerland", "value": 50},
+        {"label": "France", "value": 300, "split": 0.2},
+        {"label": "Austria", "value": 200},
+        {"label": "Netherlands", "value": 500}
+      ],
+      /**
+       * Data label for values assigned to states
+       * @type {String}
+       */
+      dataLabel: "Medicaid Coverage",
+
+      /**
+       * Type of chart. Either 'pie' or 'donut'
+       * @type {String}
+       */
+      type: 'pie',
+      /**
+       * 'chartWidth' refers to the width of the element container
+       * @type {Number}
+       */
+      chartWidth: '280',
+      /**
+       * 'chartHeight' refers to the height of the element container
+       * @type {Number}
+       */
+      chartHeight: '400',
+      /**
+       * 'backgroundColor' refers to the background color of the container
+       * @type {String}
+       */
+      backgroundColor: "",
+      /**
+       * 'color' determines the range of the fill color of the regions
+       * @type {String}
+       */
+      color: "",
+      /**
+       * 'legend' determines whether or not to display a legend
+       * @type {Boolean}
+       */
+      legend: false,
+      /**
+       * 'numberFormat' refers to the number format of the legend min and max
+       * @type {String}
+       * @example: '.##'
+       */
+      numberFormat: "",
+      /**
+       * tooltipText' reders to which values get shown in the tooltip
+       * @type {String}
+       * @options: 'both' - value & percent
+       *           'value' - only value
+       *           'percentage' - only percent
+       */
+      tooltipText: 'both',     
+      ready: function() {
+        var self = this;
+        self.computedHeight = self.computeHeight(self.chartHeight);
+        self.computedWidth = self.computeWidth(self.chartWidth);
+       
+        //NOT WORKING?!?! remove
+        self.$.googleChart.addEventListener('google-chart-render',function() {
+          console.log('render');
+          console.log(self.$.googleChart.chartObject);
+
+          //if works, is it possible to attach select event handler and fire touch-end event?
+          // https://developers.google.com/chart/interactive/docs/events#The_Select_Event
+
+        });
+
+        self.reformatData();
+        self.configureOptions();
+      },
+      /**
+       * 'reformatData' converts chartData into the correct data structure for the map
+       */
+      reformatData: function(){
+        var self = this;        
+        self._data = self.chartData.map(function(item){
+          return [item.label, item.value];
+        });
+
+        self._data.unshift(["Data Point", self.dataLabel]);
+
+
+
+       
+      },
+      /**
+       * 'configureOptions' sets the appropriate options properties for the map, given the attribute values
+       */
+      configureOptions: function(){
+        var self = this,
+            colors =  self.getColors();
+        // Determine intermediate variables
+        self.color = self.color || colors.accents[0];
+        self.backgroundColor = self.backgroundColor || "none";
+        self.minValue = self.minValue || 0;
+
+        self._slices = self.chartData.map(function(item, index) {
+          item.color = colors.accents[index];
+          item.offset = item.split;
+          delete item.label;
+          delete item.value;
+          delete item.split;
+          return item;
+        });
+
+
+        // Define chart options 
+        self.options = {
+          height: self.computedHeight,
+          width: self.computedWidth,
+          tooltip: { trigger: 'selection', text: self.tooltipText, textStyle: { color: "black", fontName: colors.theme.font, fontSize: '0.85em'}},
+          colorAxis: { colors: [self.color] },
+          backgroundColor: {fill: self.backgroundColor},
+          chartArea:{width:'80%',height:'80%'},
+          legend: { 
+            numberFormat: self.numberFormat,
+            textStyle: { 
+              color: colors.theme.foreground1, 
+              fontName: colors.theme.font, 
+              fontSize: '0.85em',
+              stroke: 'none',
+              strokeWidth: '0'            
+            } 
+          },
+          slices : self._slices,
+          pieHole: self.type == 'donut' ? 0.4 : 0
+        };
+
+
+        if (!self.legend) { self.options.legend = 'none';}
+        
+         // var google = self.$.googleChart.$.chartdiv.querySelectorAll('div');
+        // var chart = google.$.chartdiv;
+      },
+      /**
+       * 'getColors' gets the color theme from the global scope
+       * @return {Object}
+       */
+      getColors: function(){
+        colors = {};
+        colors.theme = window.CoreStyle.g.theme;
+        colors.accents = [];
+
+        for (var color in colors.theme){
+          if(/^accent/.test(color)){
+            colors.accents.push(colors.theme[color]);
+          }
+        }
+
+        colors.count = colors.accents.length;
+
+        return colors;
+      }
+
+    });
+
+  
+  </script>
+
+</polymer-element>

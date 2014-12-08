@@ -1,0 +1,289 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+<link rel="import" href="../core-selector/core-selector.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../google-apis/google-maps-api.html">
+<!--
+The th-geocoder retrieves the latitude and longitude coordinates of a location or set of locations. It also can retrieve the location name, given a set or multple sets of coordinates.
+
+##### Example
+
+    <th-geocoder></th-geocoder>
+
+@element th-geocoder
+@blurb The th-geocoder retrieves the latitude and longitude coordinates of a location or set of locations. It also can retrieve the location name, given a set or multple sets of coordinates.
+@status alpha
+@homepage http://thelmanews.github.io/th-geocoder
+-->
+<polymer-element name="th-geocoder" extends="th-animated" attributes="input reverseGeocode output">
+
+  <template>
+    <style>
+      core-selector {
+        min-height: 10px;
+        display: inline-block;
+      }
+
+      core-selector .col {
+        padding: 3px;
+        border: 1px solid #ccc;
+      }
+      core-selector .core-selected {
+        background-color: #ccc;
+        border: 1px solid #888;
+      }
+
+      label {
+        display: block;
+        color: #2fa3af;
+        border-top: 1px solid #AAA;
+      }
+
+      .elTitle {
+        color: #2fa3af;
+        padding: 2px;
+      }
+    </style>
+    <!-- Load Google Maps API -->
+    <google-maps-api on-api-load="{{apiReady}}"></google-maps-api>
+    
+    <!-- Menu for selecting input --> 
+    <core-icon-button icon="perm-data-setting" on-click="{{showControls}}"></core-icon-button>
+    <core-collapse id="ctrl_collapse">      
+      <label for="label_selector">Select label column: </label> 
+      <core-selector id="label_selector" selected="{{_selectedLabel}}" valueattr="label">
+        <template repeat="{{attr in _dataAttributes}}">
+          <div label="{{attr}}" on-click="{{selectionChanged}}">{{attr}}</div>
+        </template>
+      </core-selector>
+    </core-collapse>
+    
+    <p>{{errors.length}} location(s) NOT found:</p>
+    <template repeat="{{error in errors}}">
+      <li>Location: {{error.location}}, reason: {{error.reason}}</li>
+    </template>
+
+    <p>{{output.length}} location(s) found:</p>
+    <template repeat="{{place in output}}">
+      <li>{{place.label}}: ({{place.latitude}}, {{place.longitude}})</li>
+    </template>
+  </template>
+
+  <script>
+
+    Polymer({
+      // input: 'New York, NY', // string
+      // input: ['1501 Lexington Avenue, New York, NY 10029', '54 West 40th Street, New York, NY 10018'], // array
+      // input: '40.7863301, -73.95027060000001', // coordinates for reverseGeocode => set reverseGeocode = true;
+      // input: [{'address1':'1501 Lexington Avenue, New York, NY 10029', 'address2':'Columbus Circle, New York, NY'}, {'address1':'54 West 40th Street, New York, NY 10018', 'address2':'Brooklyn Bridge Park, New York, NY'}], // array of objects
+      // input: {'address': '1501 Lexington Avenue, New York, NY 10029' }, // object
+      /**
+       * The 'output' attribute begins as an empty array and receives objects containing the geocode/location info
+       * @type {Array}
+       */
+      output: [],
+      /**
+       * 'reverseGeocode' is set to true when input is a set of lat/lng coordinates that need to be converted to a location
+       * @type {Boolean}
+       */
+      reverseGeocode: false,
+      errors: [],
+      apiReady: function(){
+        var self = this;
+        self.geocoder = new google.maps.Geocoder(); 
+        self.geocodeFunc = self.reverseGeocode ? self._addLocationToOutput : self._addGeocodeToOutput;
+
+        if(self.input){
+          self.parseInput();
+          self.getLocations();
+        }
+      },
+      inputChanged:function(){
+        var self = this;
+        console.log('geocoder input changed');
+        self.fire('th-input-changed', self);
+        console.log('clear output');
+        self.output = [];
+        self.errors=[];
+        self.parseInput();
+        self.getLocations();
+        // console.log("inputChanged");
+      },
+      /**
+       * _selectedLabelChanged calls the inputChanged method when the selection changes
+       * @return {[type]} [description]
+       */
+      selectionChanged: function(){
+        console.log('geocoder selection changed');
+        var self = this;
+        self.output = [];
+        self.errors=[];
+        if(self.input.length > 0){
+          self.inputArray = self.input.map(function(obj){return obj[self._selectedLabel]});
+        } else {
+          self.inputArray = [self.input[self._selectedLabel]];
+        }
+        self.getLocations();
+        
+      },
+      parseInput: function(){
+        var self = this;
+        console.log("parsing input");
+        if (self.geocoder){
+          
+          // Determine data structure of input and convert input to an array of strings
+          switch (typeof(self.input)){
+            // Input is a string
+            case "string":
+              self.inputLength=1;
+              self.inputArray = [self.input];
+              break;
+            
+            // Input is an array or object
+            case "object": 
+              var length = self.input.length;
+              if (length > 0){
+                self.inputLength = length;
+
+                // Array of strings
+                if (typeof(self.input[0]) === 'string'){ 
+                  self.inputArray = self.input;
+                }
+                // Array of objects
+                else if (typeof(self.input[0]) === 'object'){ 
+                  self._dataAttributes = Object.keys(self.input[0]);
+                  self._selectedLabel = self._selectedLabel || self._dataAttributes[0];
+                  self.inputArray = self.input.map(function(obj){return obj[self._selectedLabel]});
+                }
+
+                // Array of anything else
+                else {
+                  console.log("Invalid input data");      
+                }
+
+              // Single object              
+              } else { 
+                self.inputLength=1;
+                self._dataAttributes = Object.keys(self.input);
+                self._selectedLabel = self._selectedLabel || self._dataAttributes[0];
+                self.inputArray = [self.input[self._selectedLabel]];
+              }
+              break;  
+
+            // Input is something else
+            default: 
+              console.log("Invalid input data");      
+          }
+        }
+
+      },
+      getLocations: function(){
+        console.log('get locations');
+        var self = this,
+            inputLength = self.inputArray.length,
+            i = 0;
+        if(!self.gettingLocations){
+          self.gettingLocations = true;
+          var interval = setInterval(function(){
+              self.geocodeFunc(self.inputArray[i], self.output);
+              i++;
+              if(i === inputLength) {
+                clearInterval(interval);
+                self.gettingLocations = false;
+              }
+          }, 300); 
+        } else {
+          console.log("already getting locations"); // In case getLocations() is called twice with the observers
+        }
+      },
+      /**
+       * '_addGeocodeToOutput' adds an object containing the location and coordinates to the output array
+       * @param {string} input - representing a valid location or address
+       * @param {array} outputArr - the array to which geolocation object should be added to
+       */
+      _addGeocodeToOutput: function(location, outputArr){
+        var self = this;
+        self.geocoder.geocode({'address': location}, function(results, status){
+           if (status == google.maps.GeocoderStatus.OK) {
+
+              var lat = results[0].geometry.location.k,
+                  lng = results[0].geometry.location.B;
+                  console.log(lat);
+              outputArr.push({'input': location, 'label': location, 'latitude': lat, 'longitude':lng});
+              console.log(self.output);
+           } else {
+             console.log("Geocode for "+ location +" was not successful for the following reason: " + status);
+             
+             if(status == "OVER_QUERY_LIMIT"){
+              setTimeout(function(){
+                self._addGeocodeToOutput(location, outputArr);
+              },1000)
+             } else {
+               self.errors.push({location: location, reason: status});
+             }
+             
+           }
+
+        });
+      },
+      /**
+       * '_addLocationToOutput' adds an object containing the location and coordinates to the output array
+       * @param {string} latlng - lat and long coordinates separated by comma
+       * @param {[type]} outputArr - the array to which geolocation object should be added to
+       */
+      // TODO: allow for latlng to be given in different ways, or separately
+      _addLocationToOutput: function(latlng, outputArr){
+        var self = this;
+        
+        var latlngStr = latlng.split(',',2),
+            lat = parseFloat(latlngStr[0]),
+            lng = parseFloat(latlngStr[1]),
+            coordinates = new google.maps.LatLng( lat, lng );
+        
+        self.geocoder.geocode({'latLng': coordinates}, function(results, status){
+           if (status == google.maps.GeocoderStatus.OK) {
+              // TODO: what should the output look like?? can also get city, state, zip, etc separately 
+              var location = results[0].formatted_address;
+              outputArr.push({'input': latlng, 'label': location, 'latitude':lat, 'longitude': lng });
+              console.log(outputArr);
+           } else {
+             console.log("Geocode for "+ latlng +" was not successful for the following reason: " + status);
+             
+             if(status == "OVER_QUERY_LIMIT"){
+              setTimeout(function(){
+                self._addLocationToOutput(latlng, outputArr);
+              },1000)
+             } else {
+                self.errors.push({location: latlng, reason: status}); 
+             }
+           }
+        });
+      },
+
+      /**
+       * showControls toggles the menu for choosing the correct field
+       */
+      showControls: function(e) {
+        this.$.ctrl_collapse.toggle();
+      },
+      outputChanged: function(){
+        var self = this;
+        // When output is ready, fire event for other components to use
+        if (self.output.length + self.errors.length === self.inputLength){
+          self.fire('th-output-ready', self.output)
+        }
+        self.displayErrors();
+      },
+      displayErrors: function(){
+        var self = this;
+        console.log(self.errors);
+
+      }
+     
+
+    });
+
+  </script>
+
+</polymer-element>

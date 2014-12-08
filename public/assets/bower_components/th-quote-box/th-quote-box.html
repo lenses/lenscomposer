@@ -1,0 +1,87 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+
+<polymer-element name="th-quote-box" extends="th-animated" attributes="width qtitle details image textColor imgOffsetLeft">
+  <template>
+      <core-style ref="theme"></core-style>
+      <style>
+          :host{
+            width: 100%;
+          }
+          .quotebox {   
+            margin: 0 auto;
+            position: relative;
+          } 
+
+          .content {
+            padding: 10px;
+            box-sizing: border-box;
+          }
+
+          .personinfo {
+            text-align: center;
+            margin: 0px auto;
+            margin-top: 15px;
+          }
+
+          .img-container {
+            height: 0px;
+            position: relative;
+            margin-top: 55px;
+          }
+
+          .border-bottom {
+            height: 0px;
+            position: relative;
+            margin-top: 10px;
+          }
+
+          .img {
+            height: 90px;
+            width: 90px;
+            position: relative;
+            margin-top: -45px;
+            display: inline-block;
+            border-radius: 50px;
+            background-size: cover;
+            padding: 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+          }
+          
+      </style>
+      <div class="quote" style="color: {{textColor}}">
+          <div class="quotebox subpoint" style="border: 3px solid {{textColor}}; border-bottom: none;  width:{{width | widthFilter}};">
+            <div class="content" ><content></content></div>
+            <div class="personinfo">
+                <div>
+                    <template if="{{qtitle}}">
+                      <div class="name subpoint">{{qtitle}}</div>
+                    </template>
+                    <template if="{{details}}">
+                      <div class="label">{{details}}</div>
+                    </template>
+                </div>
+                
+                <template if="{{image}}">
+                  <div class="img-container" style="border-top: 3px solid {{textColor}}; ">
+                    <div class="img img-shadow" style="background: url('{{image}}') no-repeat center center; background-size: cover;"></div>
+                  </div>
+                </template>
+                
+                <template if="{{!image}}">
+                  <div class="border-bottom" style="border-top: 3px solid {{textColor}}; width:{{width | widthFilter}};"></div>
+                </template>
+            </div>
+          </div>
+      </div>
+    
+  </template>
+  <script>
+      Polymer('th-quote-box', {
+        qtitle:''
+      });
+  </script>
+
+</polymer-element>

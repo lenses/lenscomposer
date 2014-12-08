@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>th-map-function Demo</title>
+
+  <script src="../webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="th-array-function.html">
+
+</head>
+<body unresolved>
+
+  <p>An `th-array-function` looks like this:</p>
+
+  <th-array-function></th-array-function>
+
+  <script>
+  	document.addEventListener('polymer-ready', function() {
+  		console.log('ready');
+  		var map = document.querySelector('th-array-function');
+  		map.input = [{a: 2, b: 5},{a: 10, b: 40, c: {ca: 10} }];
+  	})
+
+
+  </script>
+
+</body>
+</html>

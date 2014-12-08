@@ -1,0 +1,112 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+
+<polymer-element name="th-table-bullets" extends="th-animated" attributes="tableData width">
+  <template>
+     <core-style ref="theme"></core-style>
+      <style>
+        :host {
+          display: block;
+          position: relative;
+        }
+
+        #container img {
+          max-height: 35px; /* We can adjust this if need be */
+          max-width: 35px;
+        }
+
+        .th-slide {
+           transform: translateX(500%);
+           -moz-transform: translateX(500%);
+           -webkit-transform: translateX(500%);
+        }
+
+        .th-slide-show {
+           transform: translateX(0%);
+           -moz-transform: translateX(0%);
+           -webkit-transform: translateX(0%);
+        }
+
+        tr {
+          transition: all 1s ease;
+          -webkit-transition: all 1s ease;
+          -moz-transition: all 1s ease;
+          -o-transition: all 1s ease;
+        }
+
+        td {
+          padding: 3px;
+        }
+
+      </style>
+      <table id="container" style="width: {{width | widthFilter}}"> </table>
+  </template>
+  <script>
+
+      Polymer('th-table-bullets', { 
+        tableData: [ // image and bullet(any unicode symbol) are optional
+        // User should be given a dropdown of unicode symbols to choose from to avoid typos.
+          { bullet: '\u25CF', text: 'This is the first bullet.', color:''},
+          { bullet: '\u25CF', text: 'This is the second bullet.', color:''},
+          { bullet: '\u25CF', text: 'This is the second bullet.', color:''},
+          { bullet: '\u25CF', text: 'This is the second bullet.', color:''},
+          { bullet: '\u25CF', text: 'This is the second bullet.', color:''},
+          { bullet: '\u25CF', text: 'This is the second bullet.', color:''},
+          { bullet: '\u25CF', text: 'This is the second bullet.', color:''},
+          { bullet: '\u25CF', text: 'This is the second bullet.', color:''},
+
+          { bullet: '\u25CF', text: 'This is the third bullet.', color:''}
+         ],
+        init: function() {
+          var self = this;
+          var data = self.tableData;
+          var table = this.$.container;
+          var row, image, bullet;
+
+          for (var i=0; i<data.length; i++){
+            row = table.appendChild(document.createElement('tr'));
+            row.className = 'th-slide';       
+            row.style.color = data[i].color;
+            image = data[i].image;
+            bullet = data[i].bullet;
+            
+            if (image) {
+              row.innerHTML = "<td><img src='"+ data[i].image +"'></td><td>"+ data[i].text +"</td>";
+            } else if (bullet) {
+              row.innerHTML = "<td>"+ data[i].bullet +"</td><td>"+ data[i].text +"</td>";
+            } else { 
+              row.innerHTML = "<td></td><td>"+ data[i].text +"</td>";
+            }
+          }
+        },
+        reset: function() {
+          var self = this,
+              rows = self.$.container.children;
+          
+          self.bulletsReset = true;          
+          setTimeout(function(){
+            [].forEach.call(rows, function(row) {
+              row.classList.remove('th-slide-show');
+            });
+          },500)
+        },
+        animate: function(){
+          var self = this,
+              rows = self.$.container.children
+              i=0;
+          
+          self.bulletsReset = false;
+
+          var interval = setInterval(function(){
+              rows[i].classList.add('th-slide-show');
+              i++;
+              if(i === rows.length || self.bulletsReset) {
+                clearInterval(interval);
+              }
+          }, 500); 
+
+        }
+      });
+
+  </script>
+</polymer-element>

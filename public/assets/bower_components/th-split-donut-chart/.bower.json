@@ -1,0 +1,19 @@
+{
+  "name": "th-split-donut-chart",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-split-donut-chart.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-split-donut-chart",
+  "_release": "ecfcbe1623",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ecfcbe162376dc24cb837c15e5502675f7451d0c"
+  },
+  "_source": "https://github.com/thelmanews/th-split-donut-chart.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-split-donut-chart.git"
+}

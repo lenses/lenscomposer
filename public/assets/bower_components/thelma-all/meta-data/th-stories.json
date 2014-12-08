@@ -1,0 +1,28 @@
+{
+  "name": "th-stories",
+  "description": "Suggested Stories",
+  "category":"textual",
+  "version": "0.0.1",
+  "thumbnail":"stories.jpg",
+  "helpLink":"http://composer.thelma.co/admin/composer/demos/stories",
+  "width":280,
+  "height":280,
+  "inputAttr": {
+    "width":{"friendly":"Width", "type":"string", "default":"100%"},
+    "bgColor":{"friendly":"Background Color", "type":"colorPicker", "colorDefault":"background", "default":""},
+    "links":{"friendly":"Data", "type":"table-repeating","rows":3, 
+      "fields":{
+        "leadIn":{"friendly":"Lead-in", "type":"string", "default":""},
+        "url":{"friendly":"Url", "type":"string", "default":""},
+        "title":{"friendly":"Title", "type":"string", "default":""},
+        "image":{"friendly":"Image", "type":"image", "default":""}
+      },
+      "default":[ 
+          { "leadIn": "", "url": "http://online.wsj.com/articles/americas-smokers-still-40-million-strong-1405468491?mod=WSJ_hp_RightTopStories", "title":"America still has more than 40 million smokers", "image":"http://si.wsj.net/public/resources/images/MK-CN892_SMOKER_D_20140715185901.jpg" },
+          { "leadIn": "", "url": "http://online.wsj.com/articles/apple-ibm-in-deal-to-create-apps-sell-phones-1405456933?mod=WSJ_hpp_MIDDLENexttoWhatsNewsThird", "title":"Apple, IBM in deal to create  business apps and sell iPhones and iPads to Big Blue's corporate customers", "image":"http://si.wsj.net/public/resources/images/BN-DS061_0715ap_D_20140715165042.jpg" },
+          { "leadIn": "", "url": "http://www.buzzfeed.com/richardhjames/stunning-images-that-show-how-the-tide-transforms-the-bri", "title":"14 Stunning Images That Show How The Tide Transforms The British Coast", "image":"http://s3-ak.buzzfeed.com/static/2014-07/17/12/campaign_images/webdr11/14-stunning-images-that-show-how-the-tide-transfo-2-7448-1405614197-1_big.jpg" },
+          { "leadIn": "", "url": "", "title":"" }
+      ]
+    }
+  }
+}

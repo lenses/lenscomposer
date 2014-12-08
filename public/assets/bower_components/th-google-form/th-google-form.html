@@ -1,0 +1,46 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+<!-- <link rel="import" href="../core-ajax/core-ajax.html"> -->
+
+<polymer-element extends="th-animated" name="th-google-form" attributes="width height src">
+  <core-style ref="theme"></core-style>
+  <style>
+
+  </style>
+  <template>
+ <!--      <core-ajax id="formRequest"
+        url="http://www.corsproxy.com/docs.google.com/forms/d/18KBVx88jEDb8KP4NjsK4e5g2ieggQ6XlPH5WoJMf_u4/viewform"
+        handleAs="text"  
+        on-core-response="{{parseResponse}}">
+      </core-ajax> -->
+
+      <!-- Container div allows scrolling of iframe in Mobile Safari --> 
+      <div style="overflow-y:scroll;-webkit-overflow-scrolling:touch; width:{{width | widthFilter}}; height: {{height | widthFilter}};">
+        <iframe touch-action="pan-y" src="{{src}}?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+      </div>
+
+  </template>
+
+  <script>
+
+    Polymer('th-google-form', {
+
+      domReady: function() {
+        var self = this;
+
+        self.requestUrl = self.src.replace(/(ftp|http|https):\/\//,'http://www.corsproxy.com/');
+        // self.$.formRequest.go();
+        // console.log(self.requestUrl);
+        
+        
+
+      },
+      parseResponse: function(event, r){
+        // console.log(event);
+        // console.log(r);
+      }
+    });
+
+  </script>
+
+</polymer-element>

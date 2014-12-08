@@ -1,0 +1,93 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+
+<!--
+'th-byline' component gives information about the author and date of publication
+
+@group Thelma Text
+@element th-byline
+@blurb Element giving information about the author and date of publication
+@status alpha
+@homepage http://github.com/thelmanews/th-byline/th-byline.html
+-->
+
+<polymer-element name="th-byline" extends="th-animated" attributes="height name image date timestamp marketWatchLogo wsjLogo textColor bgColor bgOpacity">
+  <template>
+      <core-style ref="theme"></core-style>
+      <style>
+
+        .image {
+          display: inline-block;
+          float: left;
+        }
+
+        .byline {
+          display: inline-block;
+          text-transform: uppercase;
+          box-sizing: border-box;
+          font-weight: 500;
+        }
+        .name {
+          text-transform: uppercase;
+          font-size: 0.8em;
+          margin: 2px 6px;
+        }
+
+        .datetime {
+          font-size: 0.6em;
+          margin: 2px 6px;
+        }
+      </style>  
+
+      <!-- Inline styles are for Safari and mobile support --> 
+      <template if="{{imageCheck(image)}}">
+        <div class="image" style="background: url('{{image}}'); background-size: cover; height: {{computedHeight}}px; width: {{computedHeight}}px;"></div>  
+      </template>
+      <template if="{{wsjLogo}}">
+        <div class="image wsj" style="background-size: cover; height: {{computedHeight}}px; width: {{computedHeight}}px;"></div>  
+      </template>
+      <template if="{{marketWatchLogo}}">
+        <div class="image marketwatch" style="background-size: cover; height: {{computedHeight}}px; width: {{computedHeight}}px;"></div>  
+      </template>
+      <div class="byline" style="color: {{textColor}}; background-color: {{bgColor | convertToRgba}}; height: {{computedHeight}}px;">
+        <div class="name" style="font-size: {{computedHeight*0.43}}px">{{name}}</div>
+        <div class="datetime" style="font-size: {{computedHeight*0.32}}px">{{date}}<span style="font-weight: 200;"> {{timestamp}} <span> </div>
+
+      </div>
+  </template>
+  <script src="../moment/min/moment.min.js"></script>
+  <script>
+
+      Polymer('th-byline', {
+        wsjLogo: false,
+        marketWatchLogo: false,
+        height: '33',
+        image: "",
+        bgColor: "",
+        bgOpacity: 1,
+        ready: function(){
+          this.computedHeight = this.computeHeight(this.height);
+          this.date = this.date || moment().format('ll');
+          this.timestamp = this.timestamp || moment().format('h:mm a');
+        },
+        imageCheck: function(value){
+          var imageRegex = /^https?:\/\/.*(?:jpe?g|gif|png)$/;
+          // return imageRegex.test(value.toLowerCase());
+          return value;
+        },
+        convertToRgba: function(value){
+          var self = this;
+          if (value == "white"){
+            return "rgba(255,255,255,"+self.bgOpacity+");";
+          } else if (value == "black") {
+            return "rgba(0,0,0,"+self.bgOpacity+");";
+          } else {
+            return value;
+          }
+        }
+      });
+
+  </script>
+
+
+</polymer-element>

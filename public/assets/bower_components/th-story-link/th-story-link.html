@@ -1,0 +1,276 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../th-firebase/th-firebase.html">
+
+<polymer-element name="th-story-link" extends="th-animated" attributes="width url storytitle image bgColor">
+  <template>
+      <core-style ref="theme"></core-style>
+      <style>
+        :host{
+          width: 100%;
+        }
+
+        a {
+          text-decoration: none;
+        }
+
+        li {
+          list-style: none;
+          font-size: 0.8em;
+          font-weight: 300;
+          cursor: pointer;
+          display: inline-block;
+          width: 100%;
+          padding: 8px 7px 8px 7px;
+          box-sizing: border-box;
+          margin-top: 1px 0px;
+          -webkit-user-select: none;
+        }
+
+        .leadin {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;    
+          -webkit-line-clamp: 2;
+          overflow: hidden; 
+        }
+
+        .photo-container {
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+          width: 28%;
+          height: 75px;
+          display: inline-block;
+          float: left;
+          box-sizing: border-box;
+        }
+
+        .title-container {
+          width: 65%;
+          margin-left: 3%;
+          display: inline-block;
+          float: left;
+        }
+
+        .full-title-container {
+          height: 75px;
+          width: 97%;
+          display: inline-block;
+          float: left;
+        }
+
+        .story-title {
+          margin: 5px 0px 0px 0px;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;    
+          -webkit-line-clamp: 3;
+          overflow: hidden;  
+          line-height: 1.2;
+        }
+
+        .faded > *{
+          opacity: 0.5;
+          filter: alpha(opacity=50);
+          -moz-opacity:0.5;
+          -khtml-opacity: 0.5;
+        }
+
+        span.selected-story {
+          position: absolute;
+          right: 8px;
+          top: 40%;
+          font-size: 1em;
+        }
+
+      </style>
+      <core-ajax id="parse"
+        url={{requestUrl}}
+        handleAs="text"  
+        on-core-response="{{parseResponse}}">
+      </core-ajax>
+
+      <th-firebase id="firebase" directory="stories/" location="https://shining-fire-6376.firebaseio.com/"></th-firebase>
+      <template if="{{storytitle}}">
+          <li touch-action="auto" class="story-link selected" style="width: {{width | widthFilter}}; background-color: {{bgColor}};" on-hold="{{tapDown}}" on-down="{{tapDown}}" on-up="{{tapRelease}}"> 
+          
+            <!-- Story with image and title -->
+            <template if="{{imageCheck(image)}}">
+              <div class="photo-container" style="background: url({{image}}) center center no-repeat; background-size: cover;"></div>
+              <div class="title-container">
+                <div class="leadin subpoint"><content></content></div>
+                <p class="story-title">{{storytitle}}</p>
+              </div>
+            </template>
+
+            <!-- Story with just title, and no image -->
+            <template if="{{!imageCheck(image)}}">
+              <div class="full-title-container">
+                <div class="leadin subpoint"><content></content></div>
+                <p class="story-title">{{storytitle}}</p>
+              </div>
+            </template>
+
+            <!-- Selected marker shown when clicked --> 
+            <template if="{{selected}}">
+                <span class="selected-story">||</span>
+            </template>
+
+          </li>
+      </template>
+  </template>
+
+  <script>
+      Polymer('th-story-link', {
+        domReady: function(){
+          var self = this;
+          self.requestUrl = self.url.replace(/(ftp|http|https):\/\//,'http://www.corsproxy.com/');
+          self.firebase = this.$.firebase;
+          self.requests = 0;
+          
+          // Create unique hash for each URL as a reference to saved object
+          self.hash = 0;
+          var i, chr, len;
+            if (self.url.length == 0) return self.hash;
+            for (i = 0, len = self.url.length; i < len; i++) {
+              chr   = self.url.charCodeAt(i);
+              self.hash  = ((self.hash << 5) - self.hash) + chr;
+              self.hash |= 0; // Convert to 32bit integer
+            }
+         
+          // Check if it's a thelma story for favicon
+          self.thelma = /.*thelma.*/.test(self.url);
+
+          // Set up listeners for data events from firebase
+          self.firebase.addEventListener('th-data-ready', function(response) {
+            // Data found in firebase, so load into component
+            console.log("data received, now loading");
+            self.loadData(response.detail);
+          });
+          self.firebase.addEventListener('th-data-error', function(response) {
+            // No data in firebase for that URL, so call parse
+            console.log(response.detail);
+            self.parseData(); 
+          });
+         
+          // If an image and title are given, save it to firebase; otherwise, request it from firebase.
+          if(self.storytitle && self.image){
+            self.saveData();
+          } else {
+            self.requestData();
+          }
+  
+        },
+        // Request data from firebase, which will trigger either a data-ready or data-error event
+        requestData: function(){
+          var self = this;
+          self.firebase.load(self.hash); 
+          console.log("data requested");
+        },
+        // After data is received, set the component's attributes
+        loadData: function(d){
+          var self = this;
+          self.storytitle = self.storytitle || d.storytitle; 
+          self.image = self.image || d.image; 
+          console.log("data loaded");
+        },
+        // If no data is received, send an ajax request to parse the html
+        parseData: function(){
+          var self = this;
+          self.$.parse.go();
+
+          console.log("data parsed");
+        },
+        // Parse the ajax response for title and image
+        parseResponse: function(event, r) {
+          var self = this,
+              response = r.response,
+              // These matches work when content is listed after the name in the meta tag only.
+              titleMatch = response.match(/"twitter:title"\s*content=\s*"(.*)"/) || response.match(/"og:title"\s*content=\s*"(.*)"/), 
+              imgMatch = response.match(/"twitter:image"\s*content=\s*"(.*)"/) || response.match(/"og:image"\s*content=\s*"(.*)"/);
+              // descMatch = response.match(/"twitter:description"\s*content=\s*"(.*)"/) || response.match(/"og:description"\s*content=\s*"(.*)"/),
+
+          self.storytitle = titleMatch ? titleMatch[1] : "";
+          self.image = imgMatch ? imgMatch[1] : "";
+          // self.description = descMatch ? descMatch[1] : "";
+
+          if(self.storytitle){ // Does not require image, in case it does not exist for story
+            self.saveData();
+          } else if (r.response == ""){
+            // Since ajax request is occasionally sometimes denied, try up to 10 times to account for error.
+            if(self.requests < 10){
+              self.requests++;
+              self.parseData();
+              console.log(self.requests);             
+            } else if (!self.storytitle){
+              // If no data is parsed, throw an error to enter data manually.
+              self.fire('th-error', {msg: "Could not retrieve story data. Please enter it manually."});
+            }
+          }
+        },
+        // After parsing html, saved the data to firebase with unique reference of the hash
+        saveData: function(){
+          var self = this;
+          self.firebase.save({'url': self.url, 'storytitle': self.storytitle, 'image':self.image}, self.hash );
+          console.log("data saved");
+        },
+        // Use tap events to prevent navigating to links on hold event (preventing default for hold event does not work).
+        tapDown: function(e){
+          var self = this;
+          self.selected = true;
+          self.timeDown = e.timeStamp;
+          self.selectStory();
+
+        },
+        tapRelease: function(e){
+          var self = this,
+              holdTime = e.timeStamp - self.timeDown;
+          if (holdTime < 100 && self.selected){ window.open(self.url,"_self");}
+        },
+        mobileTap: function(e){
+          var self = this;
+          if (self.selected) {window.open(this.url,"_self");}
+          self.selectStory();
+        },
+        selectStory: function(){
+          var self = this,
+              selectedIndex = self.id,
+              stories = self.parentNode.querySelectorAll('th-story-link');
+
+          for (var i=0; i<stories.length; i++){
+            var storyClasses = stories[i].shadowRoot.querySelector('li').classList;
+            if (stories[i].id == selectedIndex){
+              storyClasses.remove("faded");
+            } else {
+              storyClasses.add("faded");
+              stories[i].selected = false;
+            }
+          }
+        },
+        imageCheck: function(value){
+          var imageRegex = /^https?:\/\/.*(?:jpe?g|gif|png)$/;
+          return value ? imageRegex.test(value.toLowerCase()) : null;
+        },
+        reset: function(){
+          var self = this;
+          self.selected = false;
+          self.shadowRoot.querySelector('li').classList.remove('faded');
+        },
+        storytitleChanged: function(){
+          if (this.storytitle){
+            this.storytitle = this.storytitle.replace("&#x27;","'");
+            this.storytitle = this.storytitle.replace("&amp;","&");
+          }
+        },
+        textContentChanged: function(){
+          if (this.textContent){
+            this.textContent = this.textContent.replace("&#x27;","'");
+            this.textContent = this.textContent.replace("&amp;","&");
+          }
+        }
+      });
+
+  </script>
+</polymer-element>
+

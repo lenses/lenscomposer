@@ -1,0 +1,120 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-d3-chart/lib/d3-import.html">
+<link href="lib/d3-slider-import.html" rel="import">
+
+
+<polymer-element name="th-slider" extends="th-animated" attributes="width height min max steps labels value">
+
+  <template>
+
+     <core-style ref="theme"></core-style>
+
+    <!-- d3.slider is not on bower yet-->
+
+    <core-style ref="theme"></core-style>
+
+    <link href="lib/d3.slider/d3.slider.css" rel="stylesheet">
+
+
+     <style>
+
+/*      :host {
+        display: inline-block;
+        position: relative;
+      }
+*/ 
+
+      #slider {
+        margin: 20px 5px 10px 5px;
+        border: 0;
+        border-top: 1px solid;
+      }
+
+      .d3-slider-handle {
+        border-radius: 50%;
+        opacity: 0.95;
+      }
+      .d3-slider-horizontal .d3-slider-handle {
+        top: -0.5em;
+      }
+      .d3-slider-axis-bottom {
+        top: 0;
+      }
+   </style>
+
+
+    <div id="slider" style="width: {{width}}px"></div>
+    
+  </template>
+
+  <script>
+
+      (function() {
+
+        //var slider = {};
+
+        Polymer('th-slider', {
+
+          min: 0,
+          max: 100,
+          step: 10,
+          labels: true,
+          value: 0,
+          width: 200,
+          height: 100,
+          observe: {
+            min: 'dataChanged',
+            max: 'dataChanged',
+            step: 'dataChanged'
+          },
+
+
+          domReady: function() {
+
+            var self = this;
+            var sliderel = this.$.slider;
+            //sliderel.style.width = self.width+"px";
+            //console.log(sliderel.style);
+
+            var axis = d3.svg.axis().orient('bottom').ticks(10);
+
+            self.slider = d3.slider().value(self.value).min(self.min).max(self.max).step(self.step); //.margin(100);
+
+            if(self.labels) {
+              self.slider.axis(axis);
+            }
+
+            //slider.value(self.value);
+
+             d3.select(sliderel).call(self.slider);
+
+             self.slider.on("slide", function(e, value) {
+                self.value = value;
+                self.fire('th-slide', {event: e, value: value});
+
+            });
+
+            
+          },
+          valueChanged: function() {
+
+            var self = this;
+            // NOT WORKING. d3.slider doesnt update slider...
+            self.slider.value(self.value);
+
+
+          },
+          dataChanged: function() {
+            console.log('datachanged');
+                       this. slider = d3.slider().value(self.value).min(self.min).max(self.max).step(self.step); //.margin(100);
+                       d3.select(this.$.slider).call(self.slider);
+
+          }
+
+          
+        });
+
+    })();
+
+  </script>
+</polymer-element>

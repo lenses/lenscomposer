@@ -1,0 +1,20 @@
+{
+  "name": "th-time-lapse",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-time-lapse.html",
+  "dependencies": {
+    "core-ajax": "polymer/core-ajax#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "th-text": "https://github.com/thelmanews/th-text.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-time-lapse",
+  "_release": "c3c22cb1b1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "c3c22cb1b1f269a6d4a29b5321cb3378b2fb3fe4"
+  },
+  "_source": "https://github.com/thelmanews/th-time-lapse.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-time-lapse.git"
+}

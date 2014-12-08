@@ -1,0 +1,11 @@
+{
+  "name": "th-map-us",
+  "version": "0.0.0",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-map-us.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "topojson": "latest",
+    "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
+  }
+}

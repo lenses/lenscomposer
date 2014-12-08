@@ -1,0 +1,197 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+<link rel="import" href="../th-d3-chart/lib/d3-import.html">
+
+<!--
+'Compare Image' component provides the ability to compare two overlapping images,
+often used to show 'before' and 'after'
+
+@group Thelma Text
+@element th-compare-image
+@blurb Element providing the ability to compare two overlapping images
+@status alpha
+@homepage http://github.com/thelmanews/thelma-text/blob/master/th-compare-image.html
+-->
+
+<polymer-element name="th-compare-image" extends="th-animated" attributes="width height imageLeft imageRight sliderPos">
+  <template>
+      <style>
+        :host {
+          display: inline-block;
+          position: relative;
+        }
+
+        #photos {
+            cursor: ew-resize;
+            position:relative;
+            overflow:visible;
+        }
+
+        #photos, #photos .layer {
+            height: 100%;
+        }
+
+        #slider {
+            height: 100%;
+            position: absolute;
+            width: 3px;
+            background-color: rgba(255,255,255,0.6);
+            z-index: 10;
+        }
+
+        .arrows {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            z-index: 10;
+            margin: -10px;
+            color: white;
+            opacity: 0;
+            top: {{computedHeight/2 + "px"}}; 
+        }
+
+        .pulse {
+          -webkit-animation-name: pulse;
+          -webkit-animation-duration: 3s;
+          -webkit-animation-iteration-count: 3;
+          animation-timing-function: linear;
+        }
+
+        #arrowLeft {
+          text-align: right;
+          left: {{computedWidth / 2 - 17 + "px"}};
+        }
+
+        #arrowRight:after {
+          content: "\25B6";
+          vertical-align: top;
+          text-align: left;
+        }
+
+        #arrowLeft:after {
+          vertical-align: top;
+          content: "\25C0";
+          text-align: right;
+        }
+
+        #photobefore, #photoafter {
+            max-width:100%;
+            min-width:100%;
+            position:absolute;
+        }
+
+        @-webkit-keyframes pulse {  
+          from { opacity: 0; }
+          50% { opacity:0.8; }
+          to { opacity: 0; }
+        }
+      </style>
+
+      <!-- Inline styles for mobile and Safari -->
+      <div id="container">
+        <div id='photos' style="width: {{computedWidth}}px; height:{{computedHeight}}px;">
+          <div id="slider" style="left: {{sliderPos}}"></div>
+          <div id="arrowLeft" class="arrows pulse" style="top: {{computedHeight/2}}px; left: {{lastPos - 16}}px;"></div>
+          <div id="arrowRight" class="arrows pulse"  style="top: {{computedHeight/2}}px; left: {{lastPos + 20}}px;"></div>
+          <div class='layer' id='photoafter' style="background:url('{{imageRight}}') center center no-repeat; background-size: cover;"></div>
+          <div class='layer' id='photobefore' style="background:url('{{imageLeft}}') center center no-repeat; background-size: cover;"></div>
+        </div>
+        
+        <!-- TODO: Set up so images can also be included as child elements -->
+        
+      </div>
+  </template>
+  <script>
+
+      Polymer('th-compare-image', {
+        /**
+         * 'imageLeft' relative path of left image
+         * @type {String}
+         */
+        imageLeft: "../thelma-all/images/lowtide.jpg",
+        /**
+         * 'imageRight' relative path of right image
+         * @type {String}
+         */
+        imageRight: "../thelma-all/images/hightide.jpg",
+         /**
+         * 'sliderPos' refers to the starting position of the slider relative to the width
+         * @type {String}
+         */
+        sliderPos: "50%",
+        /**
+         * 'width' of the container in pixels or percentage
+         * @type {String}
+         */
+        width: '280',
+        /**
+         * 'height' of the container in pixels or percentage
+         * @type {String}
+         */
+        height: '200',
+        ready: function(){
+          var self = this;
+          self.computedWidth=self.computeWidth(self.width);
+          self.computedHeight=self.computeHeight(self.height);
+        },
+        init: function() {
+          var self = this,
+              beforeLayer =  d3.select(self.$.photobefore).node(),
+              slider = d3.select(self.$.slider),
+              xPos;
+
+          // Initial position of the slider and photo clip
+          self.lastPos = self.computedWidth * parseInt(self.sliderPos)/100;
+          beforeLayer.style.clip = 'rect(0px ' + self.lastPos + 'px 99999px 0px)';
+          slider.style("left", self.sliderPos);
+
+          // Define drag behavior
+          var drag = d3.behavior.drag()
+                  .origin(function() { 
+                      var t = d3.select(this);
+                      return {x: t.style("x"), y: t.attr("y")};
+                  })
+                  .on("drag", dragMove)
+                  .on('dragend', dragEnd);
+
+          // Apply drag behavior to photo
+          d3.select(self.$.photos).call(drag);
+
+          // Move the slider and photo clip on drag
+          function dragMove(d){
+            d3.event.sourceEvent.stopPropagation();
+            xPos = Math.max(0,Math.min(self.computedWidth,(parseInt(self.lastPos) + d3.event.x)));
+
+            // Remove pulse transition for hinting at slider
+            self.$.arrowLeft.classList.remove("pulse");
+            self.$.arrowRight.classList.remove("pulse");
+
+            d3.timer.flush();
+            d3.timer(function() {
+                slider.style('left', xPos + "px");
+                beforeLayer.style.clip = 'rect(0px ' + xPos + 'px '+self.computedHeight+'px 0px)';
+                return true;
+            }, 0);
+          }
+
+          // Record the end position of the slider
+          function dragEnd(d){
+            self.lastPos = slider.style('left');
+          }
+        },
+        reset: function(){
+          var self = this,
+              slider = d3.select(self.$.slider),
+              beforeLayer =  d3.select(self.$.photobefore).node();
+
+          self.lastPos = self.computedWidth * parseInt(self.sliderPos)/100;
+
+          slider.style('left', self.sliderPos);
+          beforeLayer.style.clip = 'rect(0px ' + self.lastPos + 'px 99999px 0px)';
+
+        }
+        
+      });
+
+  </script>
+</polymer-element>

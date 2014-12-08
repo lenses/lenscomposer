@@ -1,0 +1,19 @@
+{
+  "name": "th-animated",
+  "keywords": "polymer, web-components, thelma",
+  "main": "th-animated.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-theme": "https://github.com/thelmanews/th-theme.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-animated",
+  "_release": "787534c45c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "787534c45c10f6c8aa898da4dade4aee9b34af22"
+  },
+  "_source": "git://github.com/thelmanews/th-animated.git",
+  "_target": "*",
+  "_originalSource": "thelmanews/th-animated"
+}

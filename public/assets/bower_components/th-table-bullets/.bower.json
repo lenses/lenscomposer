@@ -1,0 +1,19 @@
+{
+  "name": "th-table-bullets",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-table-bullets.html",
+  "dependencies": {
+    "core-ajax": "polymer/core-ajax#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git"
+  },
+  "homepage": "https://github.com/thelmanews/th-table-bullets",
+  "_release": "065491dce8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "065491dce8d0ac7ed334a6add524d759f4d7ff85"
+  },
+  "_source": "https://github.com/thelmanews/th-table-bullets.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-table-bullets.git"
+}

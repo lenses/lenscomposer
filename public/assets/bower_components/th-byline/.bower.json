@@ -1,0 +1,20 @@
+{
+  "name": "th-byline",
+  "keywords": "seed, polymer, web-components",
+  "main": "th-byline.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git",
+    "moment": "~2.8.3"
+  },
+  "homepage": "https://github.com/thelmanews/th-byline",
+  "_release": "b7e0fba8ec",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "b7e0fba8ecbf7e9d954619bd8424229e33d60eca"
+  },
+  "_source": "https://github.com/thelmanews/th-byline.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/thelmanews/th-byline.git"
+}

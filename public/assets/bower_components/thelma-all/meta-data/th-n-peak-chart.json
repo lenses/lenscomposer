@@ -1,0 +1,30 @@
+{
+  "name": "th-n-peak-chart",
+  "description": "Thelma Peak Chart",
+  "category":"chart",
+  "version": "0.0.1",
+  "thumbnail":"n-peak-chart.jpg", 
+  "tags":["chart", "bar"],
+  "helpLink":"http://composer.thelma.co/admin/composer/demos/chartlabels",
+  "width":280,
+  "height":200,
+  "inputAttr": {
+    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
+    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},
+    "wrapLabels":{"friendly":"Wrap Labels?", "type":"boolean", "default": false},
+    "chartData":{"friendly":"Data", "type":"table-repeating","rows":2, 
+      "fields":{
+        "label":{"friendly":"Label", "type":"string", "default":"Player"},
+        "value":{"friendly":"Value", "type":"int", "default":15},
+        "display_value":{"friendly":"Display Value", "type":"string", "default":"$15"},
+        "color":{"friendly":"Color", "type":"colorPicker", "colorDefault":"accent", "default":""}
+      },
+      "default":[
+        {"label": "Platinum", "value": 50, "display_value": "$50", "color":""},
+        {"label": "Gold", "value": 45, "display_value": "$40", "color":""},
+        {"label": "Silver", "value": 30, "display_value": "$30", "color":""},
+        {"label": "Bronze", "value": 25, "display_value": "$25", "color":""}
+      ]
+  }
+  }
+}

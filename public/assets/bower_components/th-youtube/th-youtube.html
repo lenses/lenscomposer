@@ -1,0 +1,126 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+<link rel="import" href="../google-apis/google-apis.html">
+
+<polymer-element name="th-youtube" extends="th-animated" attributes="videoid width height">
+  <template>
+      <core-style ref="theme"></core-style>
+      <div id="container" style="width: {{width | widthFilter}}; height: {{height | widthFilter}};">
+        <google-youtube-api on-api-load="{{apiLoad}}"></google-youtube-api>
+      
+        <div id="player"></div>
+        <template if="{{iframe}}">
+          <iframe id="iframe" frameborder="0" width="{{width}}" height="{{height}}" src="{{iframeSrc}}"></iframe>
+        </template>
+      </div>
+  </template>
+
+  <script>
+    Polymer('th-youtube', {
+      videoid: 'bLBSoC_2IY8',
+      height: '400',
+      width: '280',
+      play: function() {
+        var self = this;
+        if (self.player) {
+          self.player.playVideo();
+        }
+      },
+      pause: function() {
+        var self = this;
+        if (self.player) {
+          self.player.pauseVideo();
+        }
+      },
+      seekTo: function(seconds) {
+        var self = this;
+        if (self.player) {
+          self.player.seekTo(seconds, true);
+        }
+      },
+      videoidChanged: function() {
+        console.log("VIDEO ID CHANGED");
+        var self = this;
+        console.log(self.player);
+        if (self.player && self.player.cueVideoById) {
+          console.log("98908");
+          self.player.cueVideoById(self.videoid);
+        } else {
+          console.log("aaa");
+          self.pendingVideoId = self.videoid;
+        }
+        console.log("***");
+      },
+      reset: function() {
+        var self = this;
+        if (self.player) {
+          self.player.seekTo(0, true);
+        }
+      },
+      player: null,
+      apiLoad: function(){
+        var self = this;
+        var eventProxyFunctions = {};
+        ['onReady', 'onStateChange', 'onError'].forEach(function(eventName) {
+          eventProxyFunctions[eventName] = function(e) {
+            self.fire(eventName, e);
+          };
+        });
+
+        // Establish some defaults. Attributes set on the google-youtube element
+        // can override defaults, or specify addtional player parameters. See
+        // https://developers.google.com/youtube/player_parameters
+        var playerVars = {
+          autohide: 1,
+          controls: 2,
+          playsinline: 1,
+          theme:'dark', // light or dark
+          showinfo: 0, // title of video
+          color: 'white', // color of progress bar, white or red
+          modestbranding: 1, // 1 = no logo, 0 = logo
+          disablekb: 1 // 1 disables keyboard controls. 0 enables.
+        };
+        for (var i = 0; i < self.attributes.length; i++) {
+          var attribute = self.attributes[i];
+          // We don't want to set videoid in the playerVars object, so skip it.
+          if (attribute.nodeName != 'videoid') {
+            playerVars[attribute.nodeName] = attribute.value;
+          }
+        }
+
+        // Parse url to find videoid
+        var urlType = /^(ftp|http|https|www|youtube)/; 
+        var idPattern = /\?v\=(.*)/;
+
+        if(urlType.test(self.videoid)){
+          var videoid = self.videoid.match(idPattern)[1];
+          self.videoid = videoid;
+        } 
+        
+        self.player = new YT.Player(self.$.player, {
+          videoId: self.videoid,
+          width: self.width,
+          height: self.height,
+          playerVars: playerVars,
+          events: eventProxyFunctions
+        });
+        
+        self.iframeSrc = self.player.d.src;
+      },
+      animate: function(){
+        var self = this;
+        self.iframe = self.shadowRoot.querySelector('#player') ? false : true;
+        
+      },
+      reset: function(){
+        var self = this,
+            iframeSelector = self.$.container.querySelector('iframe');
+        
+        if (iframeSelector){
+          iframeSelector.remove();
+        }
+        self.iframe = false;
+      }
+    });
+  </script>
+</polymer-element>

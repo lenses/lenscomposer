@@ -1,0 +1,16 @@
+{
+  "name": "th-google-form",
+  "description": "Thelma Google Form",
+  "category":"textual",
+  "version": "0.0.1",
+  "thumbnail":"google-form.jpg", 
+  "tags":["survey", "form", "text"],
+  "helpLink":"http://composer.thelma.co/admin/composer/demos/survey",
+  "width":280,
+  "height":400,
+  "inputAttr": {
+    "width":{"friendly":"Width", "type":"string", "default":"100%"},
+    "height":{"friendly":"Height", "type":"string", "default":"100%"},   
+    "src":{"friendly":"Form URL", "type":"string", "default":"https://docs.google.com/forms/d/18KBVx88jEDb8KP4NjsK4e5g2ieggQ6XlPH5WoJMf_u4/viewform"}
+  }
+}

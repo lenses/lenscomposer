@@ -1,0 +1,115 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+
+<polymer-element name="th-countup-num" extends="th-animated" attributes="startFrom startFromSameNumberOfDigit width duration numberSize type growNumber color numberColor" >
+
+  <template>
+      <core-style ref="theme"></core-style>
+      <style>
+        :host {
+          display: inline-block;
+          position: relative;
+        }
+
+        span {
+          padding:0;
+          margin: 0;
+        }
+
+        #num, #unit_before, #unit_after {
+          font-size: {{numberSizeCurrent + "px"}};
+          color: {{color}};
+        }
+
+      </style>
+      <div id="container" style="width: 100%; height: 100%;" class="{{type}}">
+          <span id="before_num" style="color:{{color}}"></span>
+          <span id="unit_before" style="font-size: {{numberSizeCurrent}}px; color:{{numberColor || color}}"></span>
+          <span id="num" style="font-size: {{numberSizeCurrent}}px; color:{{numberColor || color}}"></span>
+          <span id="unit_after" style="font-size: {{numberSizeCurrent}}px; color:{{numberColor || color}}"></span>
+          <span id="after_num" style="color:{{color}}"></span>
+      </div>
+  </template>
+
+  <script src="../countUp.js/countUp.js"></script>
+  <script>
+
+      Polymer('th-countup-num', {
+        startFrom: -1,
+        startFromSameNumberOfDigit: true,  // to make sure span with remains the same
+        duration: 2,
+        ready: function() {
+          var content = this.textContent;
+          //TODO validation
+          var number = content.match(/\d+/g) || 40; //This gets called three times, on the 3rd, the content is false.
+          var digits = number.toString().length;
+
+
+          var beforeAfter = content.split(/\d+/,2);
+
+          var container = this.$.container;
+
+          var beforeEl = this.$.before_num;
+          
+          var numEl = this.$.num;
+          var afterEl = this.$.after_num;
+          var unitBefore = this.$.unit_before;
+          var unitAfter = this.$.unit_after;
+
+          // container.className = this.type; // don't need this with text component included
+
+          if(beforeAfter && beforeAfter.length>0) {
+            var splitUnitsBefore = beforeAfter[0].match(/(.*)(#|%|\+|-|\$)$/); // matches 1) everything else 2) symbol at the end of the line
+            if (splitUnitsBefore) {
+              beforeEl.innerText = splitUnitsBefore[1];
+              unitBefore.innerText = splitUnitsBefore[2];
+            } else {
+              beforeEl.innerText = beforeAfter[0];
+            }
+          }
+
+          if(beforeAfter && beforeAfter.length>1) {
+            var splitUnitsAfter = beforeAfter[1].match(/^(#|%|\+|-|\$)(.*)/); // matches 1) symbol at beginning of line 2) everything else
+            if (splitUnitsAfter) {
+              afterEl.innerText = splitUnitsAfter[2];
+              unitAfter.innerText = splitUnitsAfter[1];
+            } else {
+              afterEl.innerText = beforeAfter[1];
+            }
+          }
+
+          var start = (Boolean(this.startFromSameNumberOfDigit) && this.startFrom<0) ? Math.pow(10,digits-1) : this.startFrom;
+
+          this.cnt = new countUp(numEl, start, number[0], 0, this.duration);
+
+        },
+        reset: function() {
+          this.cnt.reset();
+        },
+        animate: function() {
+          var self = this;
+          
+          self.cnt.start();
+          self.numberSizeCurrent = self.growNumber == "true" ? "" : self.numberSize;
+          
+          if (self.growNumber == "true"){
+            self.fontsize = 12;
+            var intervals = (self.numberSize - self.fontsize),
+                intervalTime = self.duration*1000 / intervals;
+           
+            var count = setInterval(function(){               
+               if (self.fontsize < self.numberSize){
+                 self.fontsize += 1.75;
+                 self.numberSizeCurrent = self.fontsize;
+               } else {
+                 clearInterval(count);
+               }
+             }, intervalTime)
+            }
+        }
+      });
+
+  </script>
+
+
+</polymer-element>

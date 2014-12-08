@@ -1,0 +1,217 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../th-animated/th-animated.html">
+<link rel="import" href="../core-selector/core-selector.html">
+<link rel="import" href="../core-input/core-input.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+
+<!--
+Converts an array of object to data suitable for thelma charts.
+
+##### Example
+
+    <th-chart-data-filter></th-chart-data-filter>
+
+@element th-chart-data-filter
+@blurb Converts an array of object to data suitable for thelma charts.
+@status alpha
+@homepage http://thelmanews.github.io/thelma-components
+-->
+<polymer-element name="th-chart-data-filter" extends="th-animated" attributes="input output autoFlush">
+
+  <template>
+      <style>
+        :host {
+          width: 150px;
+          font-family: open-sans, sans-serif;
+          font-size: 12px;
+
+        }
+
+        core-selector {
+          min-height: 10px;
+          display: inline-block;
+        }
+
+        core-selector .col {
+          padding: 3px;
+          border: 1px solid #ccc;
+        }
+        core-selector .core-selected {
+          background-color: #ccc;
+          border: 1px solid #888;
+
+        }
+        label {
+          display: block;
+          color: #2fa3af;
+          border-top: 1px solid #AAA;
+        }
+
+      .elTitle {
+              color: #2fa3af;
+              padding: 2px;
+      }
+      
+      </style>
+      
+      
+
+
+     <!-- <span class="elTitle">th-chart-data-filter</span> -->
+
+    <core-icon-button icon="perm-data-setting" on-click="{{showControls}}"></core-icon-button>
+
+    <core-collapse id="ctrl_collapse">      
+      <label for="label_selector">Select label column: </label> 
+      <core-selector id="label_selector" selected="{{_selectedLabel}}" valueattr="label">
+        <template repeat="{{attr in _dataAttributes}}">
+          <div label="{{attr}}">{{attr}}</div>
+        </template>
+      </core-selector>
+
+      <label for="">Prefix for label: </label> 
+      <core-input value="{{labelPrefix}}" placeHolder="prefix for label"></core-input>
+      <label for="">Rows to pass (0 for all):</label> 
+      <core-input value="{{numberOfRows}}" placeHolder="Number of Rows"></core-input>
+
+
+      <label for="value_selector">Select value column: </label> 
+      <core-selector id="value_selector" selected="{{_selectedValue}}" valueattr="label">
+        <template repeat="{{attr in _dataAttributes}}">
+          <div label="{{attr}}">{{attr}}</div>
+        </template>
+      </core-selector>
+    </core-collapse>
+
+  </template>
+
+  <script>
+
+    Polymer('th-chart-data-filter', {
+      /**
+       * Input data from data source
+       * @type {Array}
+       */
+      input: null,
+      
+      /**
+       * Data suitable for thelma charts
+       * @type {Array}
+       */
+      output: [],
+
+      /**
+       * Automatically flush data to output when input changes
+       * @type {Boolean}
+       */
+      autoFlush: false,
+
+      /**
+       * Number of rows (dataPoints) to pass to the chart
+       * @type {Number}
+       */
+      numberOfRows: 0,
+
+      /**
+       * Attributes in each input Object
+       * @type {Array}
+       */
+      _dataAttributes: [],
+
+
+      _labelPrefix: '',
+
+
+      ready: function() {
+
+
+      },
+
+      inputChanged: function() {
+
+          var self = this;
+          var firstItem = self.input[0];
+          if(!firstItem) {
+            return;
+          }
+          var attributes = Object.keys(firstItem);
+          
+          if(JSON.stringify(self._dataAttributes) === JSON.stringify(attributes) ) {
+            //self._mapChartData();
+          }
+          else {
+            self._dataAttributes = attributes;
+            //check if second attribute is numerical
+            var firstKeyValue = parseFloat(firstItem[attributes[1]]);
+            console.log(firstKeyValue);
+            if(firstKeyValue) {
+              self._selectedLabel = attributes[0];
+              self._selectedValue = attributes[1];
+            }
+          }
+
+          self._mapChartData();
+
+
+        
+
+      },
+      numberOfRowsChanged: function() {
+        this._mapChartData();
+      },
+
+      _labelPrefixChanged: function() {
+        this._mapChartData();
+      },
+
+      _selectedLabelChanged: function() {
+        this._mapChartData();
+      },
+
+      _selectedValueChanged: function() {
+        this._mapChartData();
+      },
+
+      _mapChartData: function() {
+
+          var self = this;
+          var tmp = self.input;
+          if(self.numberOfRows>0) {
+            tmp = tmp.slice(0, self.numberOfRows);
+          }
+          if(tmp.lenght==0) {
+            return;
+          }
+          var ret = tmp.map(function(item) {
+            var floatValue;
+              if(item[self._selectedValue]) {
+                floatValue = item[self._selectedValue].replace(/\D+/g, '');
+                floatValue = parseFloat(floatValue);
+              } else {
+                floatValue = undefined;
+              }
+
+              return {label: self._labelPrefix + " " + item[self._selectedLabel] , value: floatValue, display_value: item[self._selectedValue]  };
+          });
+          console.log(ret);
+          self.output = ret;
+
+      },
+
+
+      showControls: function(e) {
+        this.$.ctrl_collapse.toggle();
+      },
+      outputChanged: function(){
+        this.fire('th-output-changed', this);
+      }
+
+
+
+
+    });
+
+  </script>
+
+</polymer-element>
