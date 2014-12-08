@@ -11,14 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141204182715) do
+ActiveRecord::Schema.define(version: 20141207033455) do
 
-  create_table "lens", force: true do |t|
+  create_table "components", force: true do |t|
     t.string   "tag"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "tagname"
     t.string   "currentstate"
+    t.integer  "lens_id"
+    t.string   "classlist"
+    t.boolean  "final_result"
+  end
+
+  create_table "lenses", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

@@ -15,6 +15,7 @@ class LensesController < ApplicationController
     @id = params[:id]
     @lens = Lens.find(@id)
     final_result = @lens.components.select{|component| component.final_result}[0]
+    # debugger
     @final_result_html = final_result.generate_html_tag
   end
 

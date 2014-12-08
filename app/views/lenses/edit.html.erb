@@ -1,4 +1,4 @@
-Edit page
+<%= link_to "View", lens_path(:id => @lens.id) %>
 <th-connector id="connector" componentList='<%= @component_list %>'>
   <% @components.each do |component| %>
     <%== component %>
