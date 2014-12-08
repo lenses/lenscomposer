@@ -26,7 +26,7 @@ class LensesController < ApplicationController
   end
 
   def update
-
+    
   end
 
   private
