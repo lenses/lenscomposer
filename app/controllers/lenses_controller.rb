@@ -26,7 +26,11 @@ class LensesController < ApplicationController
   end
 
   def update
-    
+    @lens = Lens.find(lens_params[:id])
+    @lens.update(lens_params)
+    render inline: "<%= @lens.id %>"
+    debugger
+
   end
 
   private

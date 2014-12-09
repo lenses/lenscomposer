@@ -23,17 +23,21 @@ $(document).ready(function(){
 
   if (update_lens_button){
     update_lens_button.addEventListener("click", function(){ 
-
+      var lens_id = this.className;
+      console.log(lens_id);
       var element_data = getElementData();
 
       $.ajax({
-        type: "POST",
-        url: "/lenses",
-        data: { "lens": {"components_attributes": element_data}},
+        type: "PUT",
+        url: "/lenses/"+lens_id,
+        data: { "lens": {"id": lens_id,"components_attributes": element_data}},
         dataType: 'json',
         success: function(e){
-          $('#status').html("You've created a new lens with ID:" + e);
+          $('#status').html("You've successfully updated the lens with ID:" + e);
         },
+        error: function(e){
+          console.log(e);
+        }
       });
     });
   }
