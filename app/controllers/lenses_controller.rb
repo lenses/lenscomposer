@@ -27,10 +27,10 @@ class LensesController < ApplicationController
 
   def update
     @lens = Lens.find(lens_params[:id])
+    current_component_ids = lens_params["components_attributes"].map {|key, value| value["id"]}
+    @lens.components = @lens.components.select {|obj| current_component_ids.include?(obj.id.to_s) }
     @lens.update(lens_params)
     render inline: "<%= @lens.id %>"
-    debugger
-
   end
 
   private
