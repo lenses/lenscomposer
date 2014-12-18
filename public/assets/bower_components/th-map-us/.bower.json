@@ -8,11 +8,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-map-us",
-  "_release": "a8415a4b70",
+  "_release": "d1f06e0cf8",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "a8415a4b70d7a6eba34a85d494844430a33ab89f"
+    "commit": "d1f06e0cf882144292e50b395b94f47e884e5753"
   },
   "_source": "git://github.com/thelmanews/th-map-us.git",
   "_target": "*",

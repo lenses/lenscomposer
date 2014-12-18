@@ -10,32 +10,34 @@ Element providing a flip box effect, allowing for any content on front and back.
 @homepage http://github.com/thelmanews/thelma-text/blob/master/th-flipbox.html
 -->
 
-<polymer-element name="th-flipbox" extends="th-animated" attributes="width height flippable">
+<polymer-element name="th-flipbox" extends="th-animated" attributes="flippable">
 
   <template>
       <core-style ref="theme"></core-style>
       <style>
-        :host {
-          width: {{width + "px"}};
-          height: {{height + "px"}};
-        }
+      :host {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+      }
 
         #container {
           perspective: 1000;
         }
 
         #box {
+          perspective: 1000;
           width: 100%;
           height: 100%;
-          position: relative;
+          /*position: relative;*/
           -webkit-transform-style: preserve-3d;
           opacity: 0;
-          
         }
 
         ::content .front, ::content .back {
           display: table;
-          box-sizing: border-box;
+          margin: 0;
+          /*box-sizing: border-box;*/
           width: 100%;
           height: 100%;
           -webkit-backface-visibility: hidden;
@@ -61,15 +63,15 @@ Element providing a flip box effect, allowing for any content on front and back.
 
       <!-- Inline styles are for Safari and mobile support --> 
       <template if="{{flippable}}">
-        <div touch-action="auto" id="container" on-down="{{flip}}" style="width: {{width}}px; height: {{height}}px;"> 
-          <div id="box" style="-webkit-transform: rotateY( 180deg );">
+        <div touch-action="auto" id="container" style="width: 100%; height:100%; box-sizing: border-box; padding: 2px;" on-down="{{flip}}" > 
+          <div id="box" style="-webkit-transform: rotateY( 180deg ); width: 100%; height: 100%;">
             <content></content>
           </div>
         </div>
       </template>
 
       <template if="{{!flippable}}">
-        <div id="container" style="width: {{width}}px; height: {{height}}px;"> 
+        <div id="container" style="width: 100%; height:100%; box-sizing: border-box; padding: 2px;"> 
           <div id="box" >
             <content></content>
           </div>
@@ -103,6 +105,7 @@ Element providing a flip box effect, allowing for any content on front and back.
          */
         animate: function(){
           var self =  this;
+          console.log("animate flipbox");
           self.animation.play(self._fadeEffect(self.$.box, 300, 0, 1));
           self.animation.play(self._flipEffect(self.$.box, 300,"rotateY(0deg)"));
         },

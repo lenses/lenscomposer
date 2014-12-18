@@ -4,7 +4,7 @@
   "main": "thelma-meta-components.html",
   "dependencies": {
     "polymer": "Polymer/polymer#~0.5.1",
-    "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git",
+    "core-icons": "polymer/core-icons",
     "core-icon-button": "polymer/core-icon-button#~0.5.1",
     "core-selector": "Polymer/core-selector#0.5.1",
     "core-collapse": "polymer/core-collapse#~0.5.1",
@@ -21,7 +21,8 @@
     "th-map-us": "thelmanews/th-map-us",
     "th-n-bar-chart": "thelmanews/th-n-bar-chart",
     "th-n-peak-chart": "thelmanews/th-n-peak-chart",
-    "th-table-data": "thelmanews/th-table-data"
+    "th-table-data": "thelmanews/th-table-data",
+    "th-component-list": "thelmanews/th-component-list"
   },
   "resolutions": {
     "polymer": "~0.5.1",
@@ -29,11 +30,11 @@
     "webcomponentsjs": "^0.5.0"
   },
   "homepage": "https://github.com/thelmanews/th-connector",
-  "_release": "cdca667683",
+  "_release": "8ffa87c5ad",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "cdca66768351361b20a17e262a6b024a1b2b544c"
+    "commit": "8ffa87c5ade0d4826a51df5b31e7c94ef338e665"
   },
   "_source": "git://github.com/thelmanews/th-connector.git",
   "_target": "*",

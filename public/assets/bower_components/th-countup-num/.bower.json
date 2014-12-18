@@ -9,11 +9,11 @@
     "web-animations-js": "https://github.com/web-animations/web-animations-js.git"
   },
   "homepage": "https://github.com/thelmanews/th-countup-num",
-  "_release": "03d727e322",
+  "_release": "083ca10fb1",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "03d727e322811b98f35f1108ccc7c3a844666a99"
+    "commit": "083ca10fb171d50e54614c41467a42dd2577ec28"
   },
   "_source": "https://github.com/thelmanews/th-countup-num.git",
   "_target": "*",

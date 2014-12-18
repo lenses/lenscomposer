@@ -9,8 +9,6 @@
   "width":280,
   "height":280,
   "inputAttr": {
-    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
-    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},
     "lineStyle":{"friendly":"Line Style", "type":"dropdown","default":"cardinal", "values":["linear", "basis", "cardinal", "monotone", "step-before", "step-after"]},
     "animateStyle":{"friendly":"Animate Style","type":"dropdown","default":"draw", "values":["draw","raise"]},
     "fillArea":{"friendly":"Fill Area", "type":"boolean", "default": false},

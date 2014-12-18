@@ -6,54 +6,13 @@
 	<template>
 	    <core-style ref="theme"></core-style>
 	    <style>
-
 	      :host {
 	        display: inline-block;
 	        position: relative;
-	      }
-	      #chart {
-
-	      }
-	      #chart text.label {
-	        /*font-size: 13px;*/
-	        /*font-weight: 300;*/
-	      }
-
-	      #data_errors {  
-	        display: none;
-	        font-size: 14px;
-	        color: red;
-	        position: absolute;
-	        top: 0;
-	        left: 0;
-	      }
-
-	    </style>
-
-	    <svg id="chart"></svg>
-
-	    <ul id="data_errors">
-	    </ul>  
-	    
-	    <!-- to allow embeded th-editor component -->
-	    <content select="th-editor"></content> 
-
-	</template>
-
-	<template>
-	    <core-style ref="theme"></core-style>
-	    <style>
-
-	      :host {
-	        display: inline-block;
-	        position: relative;
-	      }
-	      #chart {
-
-	      }
-	      #chart text.label {
-	        /*font-size: 13px;*/
-	        /*font-weight: 300;*/
+	        min-width: 100px;
+	        min-height: 100px;
+	        width: 240px;
+	        height: 140px;
 	      }
 
 	      #data_errors {  
@@ -79,13 +38,11 @@
 
 	<script>
 
-
 		Polymer('th-compare-grid-chart', {
 		  chartData: [
 		    {label: 'Non-Smoker', value: 21, image: 'images/kid.png'},
 		    {label: 'Smoker', value: 1, image: 'images/kid-smoker.png'}
 		  ],
-		  chartHeight: 150,
 		  /**
 		   * Transition type for images values: random or drop
 		   * @type {String}
@@ -109,15 +66,11 @@
 		          label: 3
 		     };
 
-		    self.getComputedDims(self);
+		    self.computedWidth = self.computeWidth();
+		    self.computedHeight = self.computeHeight();
 
-	      var width = this.computedWidth-margin.left - margin.right, 
-	      		height = this.computedHeight - margin.top - margin.bottom;
-	         
-
-	      this.height = height;
-	      this.width = width;
-	   
+	      self.width = self.computedWidth-margin.left - margin.right, 
+	      self.height = self.computedHeight - margin.top - margin.bottom;
 
 	      var chart_svg = this.$.chart;
 
@@ -138,25 +91,21 @@
 	      
 	      _data.count = d3.range(0, totalCount);
 	      _data.dim = {
-	          width : Math.floor(width / _data.elementsPerRow),
-	          height : Math.floor(height / rowNum)
+	          width : Math.floor(self.width / _data.elementsPerRow),
+	          height : Math.floor(self.height / rowNum)
 	      };
 
 
-	      this.data = _data;
+	      self.data = _data;
 	      
-
 	      var svg, scale_bar, lefts, right, barg, left_holder, right_holder, right_labels;
 
-	      // var bar_width = 15, holder_height = 100, holder_width = width * 0.5;
-	      
-
-	      this.container = d3.select(chart_svg).attr('width', width + margin.left + margin.right)
-	          .attr('height', height+ margin.top + margin.bottom)
+	      self.container = d3.select(chart_svg).attr('width', self.width + margin.left + margin.right)
+	          .attr('height', self.height+ margin.top + margin.bottom)
 	          .append('g');
 
 
-	       this.icons = this.container.selectAll('.icon').data(_data.count).enter().append('image')
+	       self.icons = self.container.selectAll('.icon').data(_data.count).enter().append('image')
 	          .attr('xlink:href',function(d, i) { 
 	              return (i<self.chartData[0].value) ? self.chartData[0].image : self.chartData[1].image;
 	           })
@@ -166,7 +115,7 @@
 	           })
 	          .attr('height', _data.dim.height);
 
-	        this.icons.call(self._setInitialIconPos.bind(self));
+	        self.icons.call(self._setInitialIconPos.bind(self));
 
 
 

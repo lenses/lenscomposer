@@ -12,11 +12,11 @@
     "google-chart": "GoogleWebComponents/google-chart#master"
   },
   "homepage": "https://github.com/thelmanews/th-google-pie",
-  "_release": "abbf122a17",
+  "_release": "2edc800874",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "abbf122a17d39a3a6fc04c29298cf12cd00e5a4d"
+    "commit": "2edc8008745e2249a32c269ecefba66429cc5f79"
   },
   "_source": "https://github.com/thelmanews/th-google-pie.git",
   "_target": "*",

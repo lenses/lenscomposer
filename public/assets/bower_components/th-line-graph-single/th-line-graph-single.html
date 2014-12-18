@@ -6,8 +6,14 @@
   <template>
     <core-style ref="theme"> </core-style>
     <style>
+      :host {
+        min-width: 100px;
+        min-height: 100px;
+        width: 300px;
+        height: 300px;
+      }
+
       #chart {
-        
         padding: 5px;
         box-sizing: border-box;
       }
@@ -218,7 +224,6 @@
               polymerObj.svg
                 .attr("width", polymerObj.dims.width+ polymerObj.dims.margin.right + polymerObj.dims.margin.left) // TODO: need to fix so the svg width already accounts for this!
                 .attr("height", polymerObj.dims.height); 
-                console.log(polymerObj.dims.margin.left);
               polymerObj.g
                 .attr("transform", "translate(0,"+ (polymerObj.dims.height-polymerObj.dims.margin.top) +")");
 
@@ -236,7 +241,6 @@
                   
               // if this option is true, set all display_values equal to values, otherwise leave them as is    
               data = polymerObj.defaultDisplayValues ? polymerObj.setDisplayVals(polymerObj) : data;
-              console.log(polymerObj.dims.margin.left);
 
               // After display values are determined, adjust margins for long values
               var firstValueLength = data[0].display_value.length;
@@ -352,7 +356,6 @@
                 .attr("stroke-width", 3)
                 .attr("cx", function(d) { return  x(d.date); })
                 .attr("cy", function(d) { return -1 * y(d.value); });
-
               if (polymerObj.joystick){
                 polymerObj.joystick.select('rect')
                   .attr("height", height-36)
@@ -397,6 +400,7 @@
             self.dims.joystick = { r: 8, d: 16};
             self.dims.margin.right = 10;
             self.dims.margin.left = 15;
+            self.dims.margin.bottom = 18;
             self.dims.margin.top += self.dims.joystick.d;
             self.dims.margin.bottom += self.dims.joystick.d;
             

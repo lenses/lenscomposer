@@ -2,15 +2,15 @@
 <link rel="import" href="../th-animated/th-animated.html">
 <link rel="import" href="../google-apis/google-apis.html">
 
-<polymer-element name="th-youtube" extends="th-animated" attributes="videoid width height">
+<polymer-element name="th-youtube" extends="th-animated" attributes="videoid">
   <template>
       <core-style ref="theme"></core-style>
-      <div id="container" style="width: {{width | widthFilter}}; height: {{height | widthFilter}};">
+      <div id="container" style="width: 100%; height: 100%;">
         <google-youtube-api on-api-load="{{apiLoad}}"></google-youtube-api>
       
         <div id="player"></div>
         <template if="{{iframe}}">
-          <iframe id="iframe" frameborder="0" width="{{width}}" height="{{height}}" src="{{iframeSrc}}"></iframe>
+          <iframe id="iframe" frameborder="0" width="100%" height="100%" src="{{iframeSrc}}"></iframe>
         </template>
       </div>
   </template>

@@ -13,18 +13,21 @@ often used to show 'before' and 'after'
 @homepage http://github.com/thelmanews/thelma-text/blob/master/th-compare-image.html
 -->
 
-<polymer-element name="th-compare-image" extends="th-animated" attributes="width height imageLeft imageRight sliderPos">
+<polymer-element name="th-compare-image" extends="th-animated" attributes="imageLeft imageRight sliderPos">
   <template>
       <style>
         :host {
           display: inline-block;
           position: relative;
+          width: 300px;
+          height: 250px;
         }
 
         #photos {
             cursor: ew-resize;
             position:relative;
             overflow:visible;
+            width: 100%;
         }
 
         #photos, #photos .layer {
@@ -88,8 +91,8 @@ often used to show 'before' and 'after'
       </style>
 
       <!-- Inline styles for mobile and Safari -->
-      <div id="container">
-        <div id='photos' style="width: {{computedWidth}}px; height:{{computedHeight}}px;">
+      <div id="container" style="width: 100%; height: 100%;">
+        <div id='photos'>
           <div id="slider" style="left: {{sliderPos}}"></div>
           <div id="arrowLeft" class="arrows pulse" style="top: {{computedHeight/2}}px; left: {{lastPos - 16}}px;"></div>
           <div id="arrowRight" class="arrows pulse"  style="top: {{computedHeight/2}}px; left: {{lastPos + 20}}px;"></div>
@@ -119,27 +122,15 @@ often used to show 'before' and 'after'
          * @type {String}
          */
         sliderPos: "50%",
-        /**
-         * 'width' of the container in pixels or percentage
-         * @type {String}
-         */
-        width: '280',
-        /**
-         * 'height' of the container in pixels or percentage
-         * @type {String}
-         */
-        height: '200',
-        ready: function(){
-          var self = this;
-          self.computedWidth=self.computeWidth(self.width);
-          self.computedHeight=self.computeHeight(self.height);
-        },
-        init: function() {
+        init: function(){
           var self = this,
               beforeLayer =  d3.select(self.$.photobefore).node(),
               slider = d3.select(self.$.slider),
               xPos;
 
+          self.computedWidth=self.computeWidth();
+          self.computedHeight=self.computeHeight();
+   
           // Initial position of the slider and photo clip
           self.lastPos = self.computedWidth * parseInt(self.sliderPos)/100;
           beforeLayer.style.clip = 'rect(0px ' + self.lastPos + 'px 99999px 0px)';

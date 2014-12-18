@@ -6,12 +6,12 @@
   <template>
       <core-style ref="theme"></core-style>
       <style>
-
         :host {
           display: inline-block;
           position: relative;
+          min-width: 120px;
+          width: 200px;
         }
-
         #data_errors {  
           display: none;
           font-size: 14px;
@@ -46,7 +46,7 @@
                 right: 20, 
                 label: 8
               };
-              self.getComputedDims(self);
+              self.computedWidth = self.computeWidth();
               width = self.computedWidth - margin.right - margin.left, 
               height = width/2,
               pi = Math.PI,

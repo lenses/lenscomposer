@@ -25,15 +25,18 @@
     "google"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#>=0.5.1 <1.0.0",
-    "core-ajax": "Polymer/core-ajax#>=0.5.1 <1.0.0",
-    "google-apis": "GoogleWebComponents/google-apis#~0.4.2"
+    "polymer": "Polymer/polymer#>=0.5.2 <1.0.0",
+    "core-ajax": "Polymer/core-ajax#>=0.5.2 <1.0.0",
+    "google-apis": "GoogleWebComponents/google-apis#~0.4.3"
   },
-  "_release": "18408f9d5a",
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^2.0.5"
+  },
+  "_release": "0725536093",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "18408f9d5a568da43d875683c98b4c7839b7b353"
+    "commit": "0725536093f6733fd9e0158ea154bc577b3f563a"
   },
   "_source": "git://github.com/GoogleWebComponents/google-chart.git",
   "_target": "master",

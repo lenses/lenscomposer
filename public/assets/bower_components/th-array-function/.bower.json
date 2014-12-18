@@ -13,11 +13,11 @@
     "core-icon-button": "polymer/core-icon-button#~0.5.1"
   },
   "homepage": "https://github.com/thelmanews/th-array-function",
-  "_release": "9b917d5605",
+  "_release": "10d1e44ca4",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "9b917d5605e0613c32903ec741dfad90a14771db"
+    "commit": "10d1e44ca4102669d90a988e28b82bb81298f34b"
   },
   "_source": "git://github.com/thelmanews/th-array-function.git",
   "_target": "*",

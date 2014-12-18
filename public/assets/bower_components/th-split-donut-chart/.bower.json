@@ -7,11 +7,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-split-donut-chart",
-  "_release": "ecfcbe1623",
+  "_release": "93e95bbe97",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "ecfcbe162376dc24cb837c15e5502675f7451d0c"
+    "commit": "93e95bbe97f66a4c6fa163603ae731ecb34c977e"
   },
   "_source": "https://github.com/thelmanews/th-split-donut-chart.git",
   "_target": "*",

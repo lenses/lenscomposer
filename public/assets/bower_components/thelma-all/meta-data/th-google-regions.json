@@ -9,8 +9,6 @@
   "width":280,
   "height":200,
   "inputAttr": {
-    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
-    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},    
     "resolution":{"friendly":"Boundary Detail", "type":"dropdown","default":"countries", "values":["countries","provinces","metros"]},
     "regionCode":{"friendly":"Scope of Map", "type":"string", "default":"155"},
     "dataLabel":{"friendly":"Data Label", "type":"string", "default":"Popularity"},

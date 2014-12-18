@@ -49,7 +49,7 @@
     "th-time-lapse": "https://github.com/thelmanews/th-time-lapse.git",
     "th-tweet": "https://github.com/thelmanews/th-tweet.git",
     "th-youtube": "https://github.com/thelmanews/th-youtube.git",
-    "image-mask": "https://github.com/thelmanews/image-mask.git",
+    "image-mask": "thelmanews/image-mask#master",
     "star-rating": "https://github.com/sepans/star-rating.git"
   },
   "resolutions": {

@@ -7,11 +7,11 @@
     "th-animated": "https://github.com/thelmanews/th-animated.git"
   },
   "homepage": "https://github.com/thelmanews/th-table-bullets",
-  "_release": "065491dce8",
+  "_release": "70c7434713",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "065491dce8d0ac7ed334a6add524d759f4d7ff85"
+    "commit": "70c7434713e5285558f95b9ff00a1d1a819051b9"
   },
   "_source": "https://github.com/thelmanews/th-table-bullets.git",
   "_target": "*",

@@ -9,11 +9,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-bubble",
-  "_release": "f1e5934209",
+  "_release": "52207b9493",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "f1e5934209d252bcafff19574d8aa0a6f58a896b"
+    "commit": "52207b9493a4dfeadaeb047c98c20b959a5873f7"
   },
   "_source": "https://github.com/thelmanews/th-bubble.git",
   "_target": "*",

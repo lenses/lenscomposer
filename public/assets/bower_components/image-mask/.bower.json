@@ -1,6 +1,5 @@
 {
   "name": "image-mask",
-  "version": "0.0.6",
   "homepage": "https://github.com/hejty/image-mask",
   "authors": [
     "Lubos Belak"
@@ -22,16 +21,16 @@
     "tests"
   ],
   "dependencies": {
-    "platform": "Polymer/platform#master",
-    "polymer": "Polymer/polymer#master"
+    "polymer": "Polymer/polymer#~0.5.1",
+    "th-animated": "https://github.com/thelmanews/th-animated.git"
   },
-  "_release": "0.0.6",
+  "_release": "4eb0063c8a",
   "_resolution": {
-    "type": "version",
-    "tag": "0.0.6",
-    "commit": "6532a1e70b344c84066e2107a42745e8da285430"
+    "type": "branch",
+    "branch": "master",
+    "commit": "4eb0063c8aab6bcea857dcfd336ca5852514c0ff"
   },
-  "_source": "https://github.com/thelmanews/image-mask.git",
-  "_target": "*",
-  "_originalSource": "https://github.com/thelmanews/image-mask.git"
+  "_source": "git://github.com/thelmanews/image-mask.git",
+  "_target": "master",
+  "_originalSource": "thelmanews/image-mask"
 }

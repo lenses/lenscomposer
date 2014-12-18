@@ -9,11 +9,11 @@
     "core-ajax": "polymer/core-ajax#~0.5.1"
   },
   "homepage": "https://github.com/thelmanews/th-story-link",
-  "_release": "8e338bc30a",
+  "_release": "47a223f6f7",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "8e338bc30a59d4db817dd33d3b50948fd004db96"
+    "commit": "47a223f6f7d993f3ccda99143117335909aac1db"
   },
   "_source": "https://github.com/thelmanews/th-story-link.git",
   "_target": "*",

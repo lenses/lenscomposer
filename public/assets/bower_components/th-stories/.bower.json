@@ -8,11 +8,11 @@
     "th-story-link": "https://github.com/thelmanews/th-story-link.git"
   },
   "homepage": "https://github.com/thelmanews/th-stories",
-  "_release": "db4dbc700a",
+  "_release": "f7976d7723",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "db4dbc700a8bf64efae5c61e67494126cd9ce505"
+    "commit": "f7976d7723b4fc7899f09499d5e74a1af63d442a"
   },
   "_source": "https://github.com/thelmanews/th-stories.git",
   "_target": "*",

@@ -10,6 +10,10 @@
         :host {
           display: inline-block;
           position: relative;
+          width: 300px;
+          height: 250px;
+          max-height: 100%;
+          max-width: 100%;
         }
 
         #data_errors {  
@@ -657,8 +661,6 @@
                   "thumbnail":"nbar.jpg", 
                   "tags":["chart", "bar"],
                   "inputAttr": {
-                    "chartWidth":{"friendly":"Width", "type":"int", "default":200},
-                    "chartHeight":{"friendly":"Height", "type":"int", "default":300},
                     "chartData":{"friendly":"Data", "type":"table-repeating","rows":2, 
                       "fields":{
                         "label":{"friendly":"Label", "type":"string", "default":"Player"},

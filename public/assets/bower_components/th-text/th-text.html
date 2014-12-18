@@ -1,7 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../th-animated/th-animated.html">
 
-<polymer-element name="th-text" extends="th-animated" attributes="align type markdown text width highlighting background opacity">
+<polymer-element name="th-text" extends="th-animated" attributes="align type markdown highlighting background opacity">
+
   <template>
     <core-style ref="theme"></core-style>
     <style>
@@ -82,7 +83,7 @@
     </style>
 
     <!-- Add inline styles for mobile --> 
-    <div id="container" class="{{type}}" style="color:{{color}}; width:{{width | widthFilter}}; text-align: {{align}};">
+    <div id="container" class="{{type}}" style="color:{{color}}; width:100%; text-align: {{align}};">
         <content></content>
     </div>
   </template>

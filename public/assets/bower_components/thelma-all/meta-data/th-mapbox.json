@@ -9,8 +9,6 @@
   "width":280,
   "height":430,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},
     "mapId":{"friendly":"Map ID", "type":"string", "default":"examples.map-i87786ca"},
     "startingZoom":{"friendly":"Starting Zoom", "type":"int", "default":12},
     "startingLat":{"friendly":"Starting Latitude", "type":"int", "default":38.8922},

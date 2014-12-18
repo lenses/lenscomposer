@@ -8,11 +8,11 @@
     "google-apis": "GoogleWebComponents/google-apis#~0.4.2"
   },
   "homepage": "https://github.com/thelmanews/th-youtube",
-  "_release": "71c49afc89",
+  "_release": "6876b7e31f",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "71c49afc8929670983c550e91e69c8f48d1768cb"
+    "commit": "6876b7e31fcf4fee65f8f770b36fb3da7b4fb5a8"
   },
   "_source": "https://github.com/thelmanews/th-youtube.git",
   "_target": "*",

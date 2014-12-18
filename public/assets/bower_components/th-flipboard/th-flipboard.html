@@ -11,61 +11,35 @@ Element providing a flexible layout grid of flippable boxes, dependent on th-fli
 @homepage http://github.com/thelmanews/thelma-text/blob/master/th-flipboard.html
 -->
 
-<polymer-element name="th-flipboard" extends="th-animated" attributes="width height itemsPerRow items flippable">
+<polymer-element name="th-flipboard" extends="th-animated" attributes="itemsPerRow items flippable">
 
   <template>
       <core-style ref="theme"></core-style>
       <style>
-        li, ul, menu, dir, li > p {
-          margin: 0;
-          -webkit-margin-before: 0; /* required override browser default */
-          -webkit-margin-after: 0; /* required override browser default */
-          padding: 0; /* required override browser default */
-        }
-
-        ul {
-          list-style: none;
-          position: relative;
-        }
-
-        li {
-          position: relative;
-          float: left;
-          display: inline-block;
-          cursor: pointer;
-          list-style: none;
-          -webkit-margin-before: -2px; /* A hack to remove extra margin inherited from browser */
-          -webkit-margin-after: -2px;  /* A hack to remove extra margin inherited from browser */
-          margin: 0px 2px;
+        :host {
+          width: 200px;
+          height: 200px;
         }
 
       </style>
 
       <!-- Inline styles are for Safari and mobile support --> 
-        <div id="container" style="width: {{computedWidth}}px; height: {{computedHeight}}px;">
-          <ul>
-            <template repeat="{{item, itemIndex in items }}">
-              <li style="max-height: {{itemHeight}};">
-                <th-flipbox width="{{itemWidth}}" height="{{itemHeight}}" animateAfter="{{(itemIndex + 1) * 200}}" flippable="{{flippable}}" style="overflow:hidden; max-height:{{itemHeight}}px;">
-                  
-                  <!-- Front side -->
-                  <div class="front" style="position: absolute; background: {{(item.backgroundFront || colors.accents[itemIndex]) | formatImageUrl }}; background-repeat: no-repeat; background-size: contain; top: 0; left: 0; ">
-                    <p class="mainpoint" style="color: {{item.colorFront || colors.theme.foreground1}};"> {{item.textFront | escapeHTML}} </p>
-                  </div>
-                  
-                  <!-- Back side -->
-                  <div class="back" style="position: absolute;  background: {{(item.backgroundBack || colors.accents[itemIndex]) | formatImageUrl }}; background-repeat: no-repeat; background-size: contain; top: 0; left: 0;">
-                    <p class="mainpoint" style="color: {{item.colorBack || colors.theme.foreground1}};"> {{item.textBack | escapeHTML}} </p>
-                  </div>
 
-                </th-flipbox>
-              </li>
-            </template>
+      <template repeat="{{item, itemIndex in items }}">
+        <th-flipbox flippable="{{flippable}}" style="display: inline-block: float: left; overflow:hidden; max-height:{{itemHeight}}; width: {{itemWidth}}; height:{{itemHeight}}; margin: -2px;">
+          
+          <!-- Front side -->
+          <div class="front" style="position: absolute; background: {{(item.backgroundFront || colors.accents[itemIndex]) | formatImageUrl }}; background-repeat: no-repeat; background-size: cover;">
+            <p class="mainpoint" style="color: {{item.colorFront || colors.theme.foreground1}};"> {{item.textFront | escapeHTML}} </p>
+          </div>
+          
+          <!-- Back side -->
+          <div class="back" style="position: absolute;  background: {{(item.backgroundBack || colors.accents[itemIndex]) | formatImageUrl }}; background-repeat: no-repeat; background-size: cover; ">
+            <p class="mainpoint" style="color: {{item.colorBack || colors.theme.foreground1}};"> {{item.textBack | escapeHTML}} </p>
+          </div>
 
-            <!-- TODO: Add alternate data entry using child elements in content instead of {{items}} object --> 
-          </ul>
-        </div>
-
+        </th-flipbox>
+      </template>
   </template>
   <link rel="import" href="lib/web-animations-import.html">
   <script>
@@ -108,26 +82,22 @@ Element providing a flexible layout grid of flippable boxes, dependent on th-fli
          * @type {Boolean}
          */
         flippable: true,
-        domReady: function(){
+        init: function(){
+          
           var self = this,
               rows = Math.ceil(self.items.length / self.itemsPerRow);
-              self.margin = 2;
+              self.margin = 0;
 
-          self.computedWidth = self.computeWidth(self.width);
-          self.computedHeight = self.computeHeight(self.height);
+          // Calculate height and with of items
+          self.itemWidth = (100/self.itemsPerRow-0) + "%";
+          self.itemHeight = (100/rows-0) + "%";
           
-          // Calculate height and with of items based on component size, itemsPerRow and margins
-          self.itemWidth = ((self.computedWidth - self.margin) / self.itemsPerRow) - 
-                            (self.margin/2 * (self.itemsPerRow-1) + self.margin); 
-          self.itemHeight =((self.computedHeight - self.margin) / rows) - 
-                            (self.margin/2 * (rows-1));
-
           // Get theme colors to set default colors for items
           self.colors = self.getColors();
           while (self.items.length > self.colors.count){
             self.addMoreColors();
           }
-
+          this.animate();
         },
         /**
          * 'getColors' detects the theme selected in th-theme and collects the hex codes
@@ -195,6 +165,29 @@ Element providing a flexible layout grid of flippable boxes, dependent on th-fli
         },
         escapeHTML: function(value){
           return value ? value.replace("&#x27;","'").replace("&amp;","&") : "";
+        },
+        animate: function(){
+          var self = this,
+              boxes = self.shadowRoot.querySelectorAll('th-flipbox'),
+              length = boxes.length,
+              i=0;
+
+          var interval = setInterval(function(){
+            boxes[i].animate();
+            i++
+            if(i >= boxes.length){
+              clearInterval(interval);
+            } 
+          },(i+1)*200)
+        },
+        reset: function(){
+          var self = this,
+              boxes = self.shadowRoot.querySelectorAll('th-flipbox'),
+              length = boxes.length;
+              
+          for(i=0;i<length;i++){
+            boxes[i].reset();
+          }
         }
       });
 

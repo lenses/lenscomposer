@@ -8,7 +8,6 @@
   "width":200,
   "height":45,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
     "content":{"friendly":"Number", "type":"content", "default":"Count to 40"}, 
     "growNumber":{"friendly":"Grow Number?", "type":"boolean", "default":"false"}, 
     "numberSize":{"friendly":"Number Size", "type":"int", "default":40}, 

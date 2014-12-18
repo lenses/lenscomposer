@@ -11,10 +11,13 @@
 @homepage http://github.com/thelmanews/thelma-text/blob/master/th-clock.html
 -->
 
-<polymer-element name="th-clock" extends="th-animated" attributes="width color">
+<polymer-element name="th-clock" extends="th-animated">
   <template>
       <core-style ref="theme"></core-style>
       <style>
+        :host {
+          width: 300px;
+        }
         .digit, .divider {
           position: relative;
           display: inline-block;
@@ -81,9 +84,10 @@
       Polymer('th-clock', {
         init: function(){
           var self =  this;
-          self.computedWidth = self.computeWidth(self.width);
+          self.computedWidth = self.computeWidth();
           self.numWidth = (self.computedWidth - 35) / 6.6 ;
           self.dividerWidth = Math.max(1, Math.round(self.numWidth / 15)); 
+          self.color = self.color || window.CoreStyle.g.theme.accent0 || '#dddddd';
         },
         /**
          * 'animate' is a loop that repeatedly checks the latest time

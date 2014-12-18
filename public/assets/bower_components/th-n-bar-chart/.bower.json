@@ -7,11 +7,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-n-bar-chart",
-  "_release": "0a2560aaa4",
+  "_release": "0a551ff115",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "0a2560aaa4243650ed4c84b6b311df1d8348f1b9"
+    "commit": "0a551ff115c17ea4562df26aeec9b78eaf082bf9"
   },
   "_source": "git://github.com/thelmanews/th-n-bar-chart.git",
   "_target": "*",

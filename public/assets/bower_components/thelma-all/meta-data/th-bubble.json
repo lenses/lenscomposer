@@ -8,7 +8,6 @@
   "width":125,
   "height":125,
   "inputAttr": {
-    "chartSize":{"friendly":"Width", "type":"string", "default":"100%"},
     "duration":{"friendly":"Duration", "type":"int", "default":2},
     "showNumber":{"friendly":"Show Number?", "type":"boolean", "default": true},
     "chartData":{"friendly":"Data", "type":"table-fixed","rows":1, 

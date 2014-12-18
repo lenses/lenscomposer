@@ -1,12 +1,13 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../th-animated/th-animated.html">
 
-<polymer-element name="th-tweet" extends="th-animated" attributes="width tweet twitterHandle image textColor">
+<polymer-element name="th-tweet" extends="th-animated" attributes="tweet twitterHandle image textColor">
   <template>
       <core-style ref="theme"></core-style>
       <style>
         :host {
-          width: 100%;
+          min-width: 100px;
+          width: 250px;
         }
         .img {
             height: 90px;
@@ -37,8 +38,8 @@
           <div class="personinfo subpoint" style="color:{{textColor}}">{{twitterHandle}}</div>
       </template>
       <template if="{{tweet}}">
-        <div class="tweetbox subpoint" style="color:{{textColor}}; border: 3px solid {{textColor}}; border-bottom: none; width: {{width | widthFilter}};"> {{tweet}} </div>
-          <div class="icon-wrapper" style="border-top: 3px solid {{textColor}}; width:{{width | widthFilter}};margin: 0 auto;
+        <div class="tweetbox subpoint" style="color:{{textColor}}; border: 3px solid {{textColor}}; border-bottom: none; width:100%;"> {{tweet}} </div>
+          <div class="icon-wrapper" style="border-top: 3px solid {{textColor}}; width:100%; margin: 0 auto;
           position: relative;" >
             <svg class="icon" viewbox="0 0 2000 1625.36" width="20" height="20">
               <path

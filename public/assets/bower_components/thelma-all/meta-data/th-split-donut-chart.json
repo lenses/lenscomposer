@@ -9,7 +9,6 @@
   "width":150,
   "height":180,
   "inputAttr": {
-    "chartSize":{"friendly":"Width", "type":"string", "default":"100%"},    
     "chartData":{"friendly":"Data", "type":"table-fixed","rows":2, 
       "fields":{
         "label":{"friendly":"Label", "type":"string", "default": "U.S."},

@@ -9,8 +9,6 @@
   "width":280,
   "height":400,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},
     "videoid":{"friendly":"URL or Video ID", "type":"string", "default":""}
   }
 }

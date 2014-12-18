@@ -18,7 +18,12 @@ Element providing solution to no problem in particular.
   <template>
     <core-style ref="theme"> </core-style>
     <style>
-     .xLabel {
+      :host {
+        width: 300px;
+        height: 300px;
+      }
+      
+     .xLabel, .label {
         font-size: 0.7em;
         font-weight: 300;
       }
@@ -42,11 +47,10 @@ Element providing solution to no problem in particular.
 
     Polymer({
       chartData: [
-            {"label": "2011", "value": 104, "display_value": "$104"},
-            {"label": "2012", "value": 106, "display_value": "$106"},
-            {"label": "2013", "value": 107, "display_value": "$107"},
-            {"label": "2014", "value": 110, "display_value": "$110"},
-            {"label": "2015", "value": 112, "display_value": "$112"}
+            {"label": "Q1 2014", "value": 104, "display_value": "$104"},
+            {"label": "Q2 2014", "value": 107, "display_value": "$107"},
+            {"label": "Q3 2014", "value": 110, "display_value": "$110"},
+            {"label": "Q4 2014", "value": 112, "display_value": "$112"}
           ],
       /**
        * fillArea determines whether the area under the line is filled or not
@@ -74,9 +78,10 @@ Element providing solution to no problem in particular.
 
         // Set up dimensions
         self.dims = self.setupDimensions(self);
+
         self.dims.height += self.dims.margin.bottom + self.dims.margin.top;
-        self.dims.margin.right = 10; 
-        self.dims.margin.left = 15;
+        self.dims.margin.right = 5; 
+        self.dims.margin.left = 25;
         self.dims.width -= self.dims.margin.left + self.dims.margin.right;
         
         // Set scales
@@ -342,7 +347,7 @@ Element providing solution to no problem in particular.
               self.circles
                 .attr('stroke-width', function(d,i){ return i === data.index-1 ? 3 : 1})
                 .classed('stroke-foreground', function(d,i){ return i === data.index-1 ? true : false});
-              self.animateMarker = false;
+              self._animateMarker = false;
             })
             .on('up', this.remove);
 
@@ -367,7 +372,7 @@ Element providing solution to no problem in particular.
             self.currentPos.index = i;
             self.currentPos.lastValue = d.valueDisplayed;
 
-            self.animateMarker = false; // Cancels the automated movement of marker
+            self._animateMarker = false; // Cancels the automated movement of marker
             self.marker.remove();
             
             // Update circles and value to reflect touched point
@@ -427,7 +432,6 @@ Element providing solution to no problem in particular.
           // Update current position for display value
           self.currentPos.lastValue = y.invert(yPos);
           self.currentPos.value = y.invert(yPos);
-  
           // Update display value
           self.displayValue.text(function(d){return self.valPrefix + d.value.toFixed(self.decimalPlaces) + self.valSuffix;}) // TODO: figure out how to do with decimals and display value
 
@@ -469,16 +473,16 @@ Element providing solution to no problem in particular.
         self.circles.call(drag);
       },
       /**
-       * _animateMarker sets the marker in motion to slide through each point in the line graph
+       * _moveMarker sets the marker in motion to slide through each point in the line graph
        * @return {[type]} [description]
        */
-      _animateMarker: function(){
+      _moveMarker: function(){
         var self = this,
             data = self.chartData
             x = self.x,
             y = self.y;
 
-        if (self.animateMarker){
+        if (self._animateMarker){
           var markerLine = d3.svg.line()
               .x(function(d) { return x(d.label); })
               .y(function(d,i) { return -y(d.value); })
@@ -501,7 +505,8 @@ Element providing solution to no problem in particular.
                 .delay(delay)
                 .duration(800)
                 .attrTween("transform", translateAlong(path.node()))
-                .each("end", function(d,i){                   
+                .each("end", function(d,i){   
+
                   // Update current position
                   self.currentPos.value = data[d.index].value;
                   // self.currentPos.date = data[d.index].date;
@@ -511,7 +516,7 @@ Element providing solution to no problem in particular.
                   pulseEffect(this);
 
                   // Check if it has reached the end
-                  if (d.index == data.length-1 || !self.animateMarker){
+                  if (d.index == data.length-1 || !self._animateMarker){
                     d.index++; // Increment counter
                     return null;
 
@@ -587,7 +592,6 @@ Element providing solution to no problem in particular.
         self.currentPos = { 
           value: self.chartData[0].value,
           label: self.chartData[0].label,
-          // date: self.chartData[0].date,
           index: 0
         };
       },
@@ -602,6 +606,7 @@ Element providing solution to no problem in particular.
             x = self.x, 
             y = self.y,
             startingLine = self.startingLine;
+        self._animateMarker = self.animateMarker ? true : false;
 
         // Fade in fillArea if option is chosen
         if (self.fillArea){ 
@@ -629,7 +634,7 @@ Element providing solution to no problem in particular.
         self.marker
           .transition().delay(650).duration(500)
             .attr('r', 5)
-            .each('end', self._animateMarker());
+            .each('end', self._moveMarker());
       },
       /**
        * resize is called when chartHeight or chartWidth are changed, and adjusts the elements sizes and scales accordingly
@@ -639,8 +644,8 @@ Element providing solution to no problem in particular.
 
         // Recalulate dimensions
         self.dims = self.setupDimensions(self);
-        self.dims.margin.right = 10; 
-        self.dims.margin.left = 15;
+        self.dims.margin.right = 5; 
+        self.dims.margin.left = 25;
         self.dims.width -= self.dims.margin.left + self.dims.margin.right;
         
         // Set scales
@@ -654,7 +659,7 @@ Element providing solution to no problem in particular.
         // Setup elements and sizes
         self._setElementSizes();
         self._setupTouchAnimate();
-        self._animateMarker();
+        self._moveMarker();
         self.animate();
       },
       /**
@@ -704,7 +709,7 @@ Element providing solution to no problem in particular.
         // Reset styles and animations
         self._setElementSizes();
         self._setupTouchAnimate();
-        self._animateMarker();
+        self._moveMarker();
         self.animate();
 
       },
@@ -714,8 +719,14 @@ Element providing solution to no problem in particular.
       reset: function(){
         var self = this;
         
+        // Reset current position of marker
+        self._resetCurrentPosition();
+
+        // Reset display value data to new currentPos
+        self.displayValue.data([self.currentPos]);
+        
         // Reset marker
-        self.animateMarker = false;
+        self._animateMarker = false;
         self.marker.remove();
         self.marker = self.g.append("circle")
           .data([self.currentPos])
@@ -729,7 +740,6 @@ Element providing solution to no problem in particular.
           .attr("d", function(){ return self.fillArea ? self.line(self.chartData) : self.startingLine(self.chartData);})
             .attr("opacity", function(){ return self.fillArea ? 0 : 1;})
 
-        // TODO: sometimes if it is in the middle of animation, delays create a weird effect/lag when reset and re-animated
       }
 
 

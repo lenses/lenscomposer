@@ -9,8 +9,6 @@
   "width":280,
   "height":200,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},
     "sliderPos":{"friendly":"Slider Position", "type":"string", "default":"50%"},
     "imageLeft":{"friendly":"Left Image", "type":"image", "default":"/bower_components/thelma-components/images/person-left.jpg"},
     "imageRight":{"friendly":"Right Image", "type":"image", "default":"/bower_components/thelma-components/images/person-right.jpg"}

@@ -13,6 +13,8 @@
 
   <script src="../webcomponentsjs/webcomponents.js"></script>
   <link rel="import" href="th-connector.html">
+  <link rel="import" href="../th-component-list/th-component-list.html">
+
   <link rel="import" href="../th-mapbox/th-mapbox.html">
   <link rel="import" href="../th-geocoder-firebase/th-geocoder-firebase.html">
   <link rel="import" href="../th-csv/th-csv.html">
@@ -54,6 +56,14 @@
   html, body {
     width: 100%;
     height: 100%;
+    font-size: 14px;
+  }
+
+  th-component-list {
+    z-index: 100;
+    position: absolute;
+    right: 0px;
+    top: 0px;
   }
 
 </style>
@@ -62,13 +72,16 @@
 
 <div>
   <p>
-    <strong>Data sets:</strong>
+    <span>Sample data sets:</span>
     <br>
-    <a href="http://en.wikipedia.org/wiki/List_of_Berlin_Wall_segments" get="_blank"> Data on Berlin Wall segments</a>
+    <a href="http://en.wikipedia.org/wiki/List_of_Berlin_Wall_segments" target="_blank"> Data on Berlin Wall segments</a>
     <br>
     <a href="http://graphics.wsj.com/homeprice/" target="_blank"> WSJ Data on Home Prices</a>
   </p>
 </div>
+
+  <th-component-list></th-component-list>
+
 
   <th-connector animateOnInit="true">
        <th-table-data></th-table-data>
@@ -86,22 +99,6 @@
 <script>
     window.addEventListener('polymer-ready', function(e) {
       console.log('ready');
-
-      var connector = document.querySelector('th-connector');
-      connector.componentList = [
-                                  {name:'th-csv', friendly: 'CSV Loader'},
-                                  {name: 'th-enigma', friendly: 'Enigma Data Loader'},
-                                  {name:'th-table-data', friendly: 'HTML Table Data Loader'},
-
-                                  {name:'th-array-function', friendly: 'Map/Reduce/Filter Functions'},
-                                  {name:'th-geocoder-firebase', friendly: 'Geocode Data'},
-                                  {name:'th-chart-data-filter', friendly: 'Convert Data to Chart Format'},
-
-                                  {name:'th-google-map', friendly: 'Google Map'},
-                                  {name:'th-n-bar-chart', friendly: 'Bar Chart'},
-
-
-                                 ];
     });
 </script>
 </html>

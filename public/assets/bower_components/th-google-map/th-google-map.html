@@ -15,12 +15,17 @@ Element providing solution to no problem in particular.
 @status alpha
 @homepage http://sepans.github.io/th-google-map
 -->
-<polymer-element name="th-google-map" extends="th-animated" attributes="input latitude longitude zoom showCenterMarker mapType markers fitToMarkers zoomable width height useTheme">
+<polymer-element name="th-google-map" extends="th-animated" attributes="input latitude longitude zoom showCenterMarker mapType markers fitToMarkers zoomable useTheme">
 
   <template>
     <link rel="stylesheet" href="th-google-map.css" />
     <core-style ref="theme"></core-style>
     <style>
+      :host {
+        width: 300px;
+        height: 300px;
+      }
+
       ::shadow .marker {
         color: black;
         font-size: 0.8em;
@@ -66,19 +71,6 @@ Element providing solution to no problem in particular.
      * @default -122.41942
      */
     longitude: -74.0059,
-    
-    /**
-     * Width of map
-     * @type {Number}
-     */
-    width: '200',
-    
-    /**
-     * Height of map
-     * @type {Number}
-     */
-    height: '200',
-
     /**
      * Map defualt zoom
      * @type {Number}
@@ -175,8 +167,8 @@ Element providing solution to no problem in particular.
 
       domReady: function() {
         var self = this;
-        self.computedHeight = self.computeHeight(self.height);
-        self.computedWidth = self.computeWidth(self.width);
+        self.computedHeight = self.computeHeight();
+        self.computedWidth = self.computeWidth();
 
         self.useThemeChanged();
         self.$.map.addEventListener('google-map-ready', function() {

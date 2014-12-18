@@ -8,8 +8,6 @@
   "width":200,
   "height":200,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},
     "content":{"friendly":"Content", "type":"content", "default":"5 million low-income Americans still can't get health insurance under Obamacare."},
     "image": {"friendly":"Image", "type":"image", "default":""},
     "startFrom":{"friendly":"Start From", "type":"int", "default":3},

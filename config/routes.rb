@@ -3,6 +3,8 @@ Lenscomposer::Application.routes.draw do
 
   root 'lenses#new'
 
+  get 'new_test' => 'lenses#new_test'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

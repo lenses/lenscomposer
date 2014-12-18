@@ -8,13 +8,12 @@
 	       :host {
 	        display: inline-block;
 	        position: relative;
+	        width: 300px;
+          height: 350px;
+          max-height: 100%;
+          max-width: 100%;
 	      }
-	      #chart {
-	       }
-	      #chart text.label {
-	        /*font-size: 13px;*/
-	        /*font-weight: 300;*/
-	      }
+
 	       #data_errors {  
 	        display: none;
 	        font-size: 14px;
@@ -72,8 +71,6 @@
 		      self.svg = d3.select(chart_svg);
 
 		      self._setupElements();
-
-
 
 		      // this is independent of size but dependent on data
 		      self.labels.text(function(d) {return d.label;});
@@ -439,8 +436,6 @@
                   "thumbnail":"nbar.jpg", 
                   "tags":["chart", "bar"],
                   "inputAttr": {
-                    "chartWidth":{"friendly":"Width", "type":"int", "default":200},
-                    "chartHeight":{"friendly":"Height", "type":"int", "default":300},
                     "chartData":{"friendly":"Data", "type":"table-repeating","rows":2, 
                       "fields":{
                         "label":{"friendly":"Label", "type":"string", "default":"Player"},

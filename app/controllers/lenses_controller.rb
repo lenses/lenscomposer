@@ -1,4 +1,8 @@
 class LensesController < ApplicationController
+  
+  def new_test
+  end
+  
   def new
     # Serve a page with elements that can be connected
     @component_list = Component.components.to_json

@@ -5,6 +5,7 @@
   "main": "thelma-meta-components.html",
   "dependencies": {
     "thelma-all": "thelmanews/thelma-all",
-    "th-connector": "thelmanews/th-connector"
+    "th-connector": "thelmanews/th-connector",
+    "th-lens-composer": "thelmanews/th-lens-composer#data-transform-version"
   }
 }

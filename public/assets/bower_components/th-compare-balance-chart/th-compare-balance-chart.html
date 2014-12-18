@@ -9,16 +9,17 @@
       :host {
         display: inline-block;
         position: relative;
+        min-width: 145px;
+        min-height: 100px;
+        width: 200px;
+        height: 200px;
       }
-      #chart {
 
-      }
       #chart text {
         font-size: 14px;
       }
 
     </style>
-
       <svg id="chart">
       </svg>
 
@@ -28,11 +29,9 @@
 	    <!-- to allow embeded th-editor component -->
 	    <content select="th-editor"></content> 
 
-    
   </template>
 
 	<script>
-
 
 		Polymer('th-compare-balance-chart', {
 		  chartData: [
@@ -43,7 +42,8 @@
 
 		    var self = this;
 				
-				self.getComputedDims(self);
+				self.computedWidth = self.computeWidth();
+				self.computedHeight = self.computeHeight();
 
 		    var margin = {
 		          top : 5,
