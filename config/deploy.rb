@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.3.4'
+lock '3.3.5'
 
 set :application, 'lenses'
 set :repo_url, 'https://github.com/lenses/lenscomposer.git'
