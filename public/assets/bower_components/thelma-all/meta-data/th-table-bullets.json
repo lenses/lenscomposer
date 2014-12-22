@@ -8,7 +8,6 @@
   "width":280,
   "height":100,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
     "tableData":{"friendly":"Data", "type":"table-repeating","rows":2, 
       "fields":{
         "bullet":{"friendly":"Bullet", "type":"unicode", "default":"\u25CF"},

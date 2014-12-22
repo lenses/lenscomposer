@@ -7,11 +7,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-stacked-chart",
-  "_release": "1b7bdf14f0",
+  "_release": "9557c24d5a",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "1b7bdf14f0f12625573a6b610a82d9e1968173d9"
+    "commit": "9557c24d5acffa1762408c6ede373232370b942e"
   },
   "_source": "https://github.com/thelmanews/th-stacked-chart.git",
   "_target": "*",

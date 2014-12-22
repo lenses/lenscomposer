@@ -9,7 +9,6 @@
   "width":280,
   "height":200,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
     "twitterHandle":{"friendly":"Twitter Handle", "type":"string", "default":"username"},
     "tweet":{"friendly":"Tweet", "type":"string", "default":"Enter tweet here."},
     "image":{"friendly":"Image", "type":"image", "default":"/bower_components/thelma-components/images/person.jpg"},

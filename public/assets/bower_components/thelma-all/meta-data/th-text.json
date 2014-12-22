@@ -9,7 +9,6 @@
   "width":140,
   "height":100,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
     "content":{"friendly":"Text/Markdown", "type":"content", "default":"Enter Text..."},
     "type":{
       "friendly":"Type",

@@ -8,11 +8,11 @@
     "marked": "~0.3.2"
   },
   "homepage": "https://github.com/thelmanews/th-text",
-  "_release": "2b53c1a7b4",
+  "_release": "de311e2933",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "2b53c1a7b483cae60241e82926a000ada891d20f"
+    "commit": "de311e293360f110e07bbb5ef4bb3adefb9430c8"
   },
   "_source": "https://github.com/thelmanews/th-text.git",
   "_target": "*",

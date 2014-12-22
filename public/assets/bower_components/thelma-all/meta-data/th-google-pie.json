@@ -9,8 +9,6 @@
   "width":280,
   "height":200,
   "inputAttr": {
-    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
-    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},    
     "type":{"friendly":"Pie or Donut", "type":"dropdown", "values": ["pie","donut"], "default": "pie"},
     "dataLabel":{"friendly":"Data Label", "type":"string", "default":"Popularity"},
     "tooltipText":{"friendly":"Tooltip Text", "type":"dropdown", "values": ["both","value","percentage"], "default": "both"},

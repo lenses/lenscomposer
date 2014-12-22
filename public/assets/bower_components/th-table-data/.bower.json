@@ -13,11 +13,11 @@
     "core-icon-button": "polymer/core-icon-button#~0.5.1"
   },
   "homepage": "https://github.com/thelmanews/th-table-data",
-  "_release": "bd51b05fff",
+  "_release": "34599284c1",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "bd51b05fff90600f39cb86d97a9b8499a22df3c9"
+    "commit": "34599284c106f6774e4a392564ec8b681980c74b"
   },
   "_source": "git://github.com/thelmanews/th-table-data.git",
   "_target": "*",

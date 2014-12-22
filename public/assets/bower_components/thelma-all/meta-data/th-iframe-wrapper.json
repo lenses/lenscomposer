@@ -9,8 +9,6 @@
   "width":280,
   "height":400,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},   
     "scale":{"friendly":"Scale content", "type":"int", "default":1.0},   
     "content":{"friendly":"iFrame", "type":"content", "default":""},
     "url":{"friendly":"URL", "type":"string", "default":""}

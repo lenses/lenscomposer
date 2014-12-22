@@ -116,8 +116,10 @@ Thelma.chartUtils = {
               left : 0,
               label: 16
           };
-        
-    polymerObj.getComputedDims(polymerObj);
+
+      polymerObj.computedWidth = polymerObj.computeWidth();
+      polymerObj.computedHeight = polymerObj.computeHeight();
+
 
     var MIN_WIDTH = 50,
         MIN_HEIGHT = 50;
@@ -134,41 +136,7 @@ Thelma.chartUtils = {
     // dims.barWidth = Math.min(70,((dims.width / dims.numBars)/(1+dims.barGap)));
     return dims;
 
-  },
-  /**
-   * 'getComputedDims' calculates a pixel width and height of a chart, given relative or absolute values for chartWidth and chartHeight
-   * @param  {object} polymerObj (the element itself)
-   * => attributes computedHeight, computedWidth and/or computedSize are assigned to the component. 
-   */
-  getComputedDims: function(polymerObj){
-    var percentMatch = /.*%/;
 
-    // Compute chartWidth
-    if(polymerObj.chartWidth && polymerObj.parentNode && percentMatch.test(polymerObj.chartWidth)){
-      var percentWidth = parseFloat(polymerObj.chartWidth)/100,
-          parentWidth = polymerObj.parentNode.offsetWidth;
-      polymerObj.computedWidth = parentWidth*percentWidth;     
-    } else if(polymerObj.chartWidth){
-      polymerObj.computedWidth = parseFloat(polymerObj.chartWidth);
-    }
-
-    // Compute chartHeight
-    if(polymerObj.chartHeight && polymerObj.parentNode && percentMatch.test(polymerObj.chartHeight)){
-      var percentHeight = parseFloat(polymerObj.chartHeight)/100,
-          parentHeight = polymerObj.parentNode.offsetHeight;  
-      polymerObj.computedHeight = parentHeight*percentHeight;     
-    } else if(polymerObj.chartHeight) {
-      polymerObj.computedHeight = parseFloat(polymerObj.chartHeight);
-    }
-
-    // Compute chartSize
-    if(polymerObj.chartSize && polymerObj.parentNode && percentMatch.test(polymerObj.chartSize)){
-      var percentSize = parseFloat(polymerObj.chartSize)/100,
-          parentSize = Math.min(polymerObj.parentNode.offsetHeight,polymerObj.parentNode.offsetWidth);
-      polymerObj.computedSize = parentSize*percentSize;     
-    } else if(polymerObj.chartSize) {
-      polymerObj.computedSize = parseFloat(polymerObj.chartSize);
-    }
   },
 
   /*
@@ -279,7 +247,8 @@ Thelma.chartUtils = {
       
       dims.margin = { top : 0, right : 0, bottom : 8, left : 0, label: 10, };
       
-      polymerObj.getComputedDims(polymerObj);
+      polymerObj.computedWidth = polymerObj.computeWidth();
+      polymerObj.computedHeight = polymerObj.computeHeight();
 
       dims.width = Math.max(MIN_WIDTH,(polymerObj.computedWidth - dims.margin.left - dims.margin.right));
       dims.height = Math.max(MIN_HEIGHT,(polymerObj.computedHeight - dims.margin.top - dims.margin.bottom));        

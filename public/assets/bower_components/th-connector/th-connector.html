@@ -7,328 +7,31 @@
 <link rel="import" href="../core-item/core-item.html">
 <link rel="import" href="../th-theme/th-theme.html">
 
-<polymer-element name="th-connector" extend="d3-chart" attributes="componentList">
+<polymer-element name="th-connector" attributes="componentList">
   <core-style ref="theme"></theme>
   <template>
-    <style>
-      :host{
-        font-size: 12px;
-        font-family: open-sans, sans-serif;
-        display: block;
-            width: 100%;
-      height: 100%;
-
-
-      } 
-      #chartData_anchor1 {
-        position: absolute;
-        top: 5px;
-        left: 5px;
-      }
-      #chartData_anchor2 {
-        position: absolute;
-        top: 25px;
-        left: 5px;
-      }
-      .anchor {
-        width: 5px;
-        height: 5px;
-        background-color: #555;
-        cursor: pointer;
-      }
-      .item {
-        width: 100%;
-        border-bottom: 1px solid #555;
-        line-height: 1.4em;
-
-      }
-      .panel {
-        border: 1px solid #AAA;
-        background-color: rgba(255,255,255,0.9);
-        padding: 5px;
-        margin: 10px;
-        position: relative;
-        width: 900px;
-        z-index: 110;
-
-      }
-      .panel .selector {
-        display: inline;
-        margin-right: 10px; 
-
-      }
-      .panel core-selector {
-        width: 150px;
-        display: inline-block;
-        vertical-align: top;
-      }
-      .panel .core-selected {
-        background-color: #ccc;
-        border: 1px solid #888;
-      }
-      .panel label {
-        display: inline-block;
-        vertical-align: top;
-      }
-      .connections {
-        margin-top: 10px;
-        opacity: 0; /* TEMPORARILY HIDE */
-      }
-
-      .connections ul {
-        list-style: none;
-        width: 80%;
-        padding: 0;
-        margin: 0;
-      }
-      .connections ul li {
-        margin: 3px 0;
-      }
-      .connections .del {
-        float: right;
-        color: #2fa3af;
-      }
-
-      .panel #connect {
-
-        display: none;
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-color: #2fa3af;
-        color: #EEE;
-        border: 1px solid #AAA;
-
-      }
-
-      a, a:visited {
-        color: #555;
-        text-decoration: none;
-      }
-
-      .panel h3 {
-        font-family: arial;
-        margin: 5px 0px;
-        font-weight: normal;
-      }
-
-      label {
-        color: #2fa3af;
-      }
-
-      ::content  .selected-src-element {
-        border-left-color: #66CCFF;
-        margin: 0;
-
-        box-sizing:border-box;
-        -moz-box-sizing:border-box;
-        -webkit-box-sizing:border-box;
-      }
-      ::content  .selected-target-element {
-        border-left-color: #00FF99  ;
-        margin: 0;
-
-        box-sizing:border-box;
-        -moz-box-sizing:border-box;
-        -webkit-box-sizing:border-box;
-      }
-      
-      ::content > *:not(ul) { /* selects the elements */
-        min-width: 20px;
-        min-height: 20px;
-        /*border: 1px solid #DDD;*/
-        margin: 2px;
-        display: inline-block;
-        position: relative;
-        /* border inside */
-        vertical-align: top;
-      }
-
-      /* Style above can be removed? */
-
-      .connections {
-        margin: 0px 0px 30px 30px;
-      }
-
-      .connections core-icon, .connections core-icon-button::shadow core-icon {
-        height: 20px;
-      }
-
-      .connections ul {
-        list-style: none;
-      }
-
-      .connections li {
-        padding-left: 5px;
-        /*padding: 0;*/
-      }
-      .connection-list {
-        border: 2px solid #ddd;
-        
-        width: 500px;
-        /*padding: 10px;*/
-
-      }
-
-      .wrapper {
-        border: 3px solid #eee;
-        display: inline-block;
-        position: absolute;
-        margin: 30px 20px;
-        margin-left: 60px;
-        min-height: 80px;
-        background-color: white;
-      }
-      /*
-      .wrapper [draggable] {
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        user-select: none;
-        
-        -khtml-user-drag: element;
-        -webkit-user-drag: element;
-      }
-      */
-
-      .connectors-in {
-        position: absolute;
-        left: -15px;
-        top: 0px;
-      }
-
-      .connectors-out {
-        position: absolute;
-        right: -15px;
-        top: 0px;
-      }
-
-      .wrapper li {
-        list-style: none;
-        position: relative;
-        font-size: 9px;
-        margin: 2px auto;
-      }
-
-
-      .inputMarker {
-          width: 0; 
-          height: 0; 
-          border-top: 8px solid transparent;
-          border-bottom: 8px solid transparent;
-  
-          border-left: 10px solid #555;
-          box-sizing: border-box;
-      }
-
-      .outputMarker {
-          width: 0; 
-          height: 0; 
-          border-top: 8px solid transparent;
-          border-bottom: 8px solid transparent;
-          border-left: 10px solid #555;
-      }
-
-      .final-result-buttons {
-        position: absolute;
-        right: -45px;
-        top: -10px;
-      }
-
-      .final-result-selected core-icon-button {
-        color: #52CC6A;
-      }
-
-      .wrapper label{
-        position: absolute;
-        top: -20px;
-        left: 0;
-        padding: 0;
-        font-size: 10pt;
-        overflow: visible;
-        cursor: move;
-      }
-
-      #container {
-        position: relative;
-        width: 100%;
-        height: 100%;
-
-      }
-
-      svg {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        margin: 0;
-        padding: 0;
-        z-index: 100;
-        pointer-events: none;
-      }
-
-      #component-list {
-        position: absolute;
-        right: 0;
-        top: 50px;
-        height: auto;
-        width: 200px;
-        border: 3px solid #eee;
-        box-sizing: border-box;
-      }
-
-      #component-list core-item {
-        font-size: 12px;
-        padding: 0px 10px;
-        cursor: pointer;
-      }
-
-      #component-list core-item:hover {
-        background-color: #eee;
-      }
-
-      .core-selected {
-       font-weight: normal;
-      }
-      .deleteEl {
-        width: 20px;
-        height: 20px;
-        float: right;
-        display: inline-block;
-        position: absolute;
-        top: -15px;
-        right: -10px;
-        cursor: pointer;
-
-
-      }
-
-    </style>
+    <link rel="stylesheet" href="th-connector.css"/>
+ 
     <div class="connectors">
     </div>
 
     <div id="container" on-dragover="{{dragOver}}" on-drop="{{droppedInContainer}}">
       <svg id="svg"></svg>
-      <template if="{{componentList.length>0}}">
-        <core-menu id="component-list">
-          <template repeat="{{component in componentList}}">
-            <core-item class="{{component.name}}" on-dragStart="{{dragStartList}}" on-click="{{listClicked}}" draggable="true" label="{{component.friendly || component.name}}"></core-item>
-          </template>
-        </core-menu>
-      </template>
+
 
       <!-- Components and connector dots --> 
-      <template repeat="{{el, index in elements}}">
-        <div class="wrapper {{el.name}}" id="wrapper-{{el.element.id}}" on-dragStart="{{dragStartWrapper}}" on-th-output-changed="{{showOutputAvailable}}" on-th-input-changed="{{showInputAvailable}}" draggable="true">
+      <template repeat="{{el, index in _elements}}">
+        <div class="wrapper {{el.name}}" id="wrapper-{{el.element.id}}" on-dragStart="{{dragStartWrapper}}" 
+        on-th-output-changed="{{showOutputAvailable}}" on-th-input-changed="{{showInputAvailable}}" 
+        style="top: {{el.top}}px; left: {{el.left}}px" draggable="true">
           <label>{{el.name}}</label>
           <!--<core-icon-button icon="clear" class="deleteEl {{el.element.id}}" on-click="{{_deleteElement}}"></core-icon-button> -->
-          <div  class="deleteEl {{el.element.id}}" on-click="{{_deleteElement}}">X</div>
+          <div  class="deleteEl" component_id="{{el.element.id}}" on-click="{{_deleteElement}}">X</div>
            
           <div class="connectors-in" >
             <!-- Input -->
             <template if="{{el.element.publish | checkForInputAttr}}">
-              <li class="{{el.element.id}} inputMarker" on-dragover="{{dragOver}}" on-dragStart="{{dragStart}}" on-dragleave="{{dragLeave}}" on-drop="{{_connectBubble}}" on-dragEnd="{{droppedInContainer}}" style="border-left-color:{{el.inputConnectedTo ? el.inputConnectedTo.color : defaultColor}};}}" draggable="true"></li>
+              <li class="{{el.element.id}} inputMarker" on-dragover="{{dragOver}}" on-dragStart="{{dragStart}}" on-dragleave="{{dragLeave}}" on-drop="{{_connectBubble}}" on-dragEnd="{{droppedInContainer}}" draggable="true"></li>
               
             </template>
 
@@ -352,18 +55,19 @@
       </template>
     </div>
 
-    <!-- Connections -->
+    <!-- Connections (for old connection pannel, depriciated) -->
+    <!--
       <div class="connections">
-        <span class="elTitle">{{connections.length}} Connections</span>
+        <span class="elTitle">{{_connections.length}} Connections</span>
         <core-icon-button icon="view-list" on-click="{{showControls}}"></core-icon-button>
         <core-collapse id="ctrl_collapse">
             <div class="connection-list">
               <ul>
-                <template if="{{!connections || connections.length < 1}}"> 
+                <template if="{{!_connections || _connections.length < 1}}"> 
                   <li>No connections. To make a connection, drag the bubble of one component over another.</li> 
                 </template>
 
-                <template repeat="{{connection, index in connections}}">  
+                <template repeat="{{connection, index in _connections}}">  
                   <li class="connection">
                     <core-icon icon="image:lens" style="color:{{connection.source.color}};"></core-icon>
                     {{connection.source.name}} ({{connection.sourceAttr}}) 
@@ -376,29 +80,26 @@
             </div>
         </core-collapse>
       </div>
+    -->
   </template>
 
   <script>
 
       Polymer('th-connector', {
-        elements: [],
+        _elements: [],
         _srcAttrs: [],
         _targetAttrs: [],
         _srcElementSelection: null,
         _srcPropertySelection: null,
         _targetElementSelection: null,
         _targetPropertySelection: null,
-        _connections: [], // retire?
-        connections: [],
-        /**
-         * 'componentList' is an array of objects that is used to create a menu of components which can be added to th-connector
-         * @type {Array} 
-         * @example [{"name":"th-mapbox", "friendly":"Mapbox", "category":"Maps"}]
-         */
-        componentList: [],
+        _connections: [], 
         domReady: function() {
           var self = this;
-          self.showControls();
+
+          //for old connection pannel
+          //self.showControls();
+          
           // Set colors
           self.defaultColor = '#555';
           self.colors = self.getThemeColors();
@@ -474,21 +175,18 @@
 
           //TODO don't recreate wrappers!!!!!
 
-          //self.elements = [];
+          //self._elements = [];
 
           var components = self.querySelectorAll('*'); 
           [].forEach.call(components, function(el, i) {
 
-              // el.setAttribute('draggable',true); // Does this do anything?
-              // el.addEventListener('dragstart',function(e) {
-              //   self.draggedEl = e.toElement;
-              // });
               
               // if element already processed, ignore...
-              var alreadyInElements = self.elements.filter(function(item) {
+              var alreadyInElements = self._elements.filter(function(item) {
                 return el.id && el.id===item.id;
               });
               if(alreadyInElements.length>0) {
+                //return e.g. continue the loop
                 return;
               }
 
@@ -499,19 +197,17 @@
               el.id = el.id || self.generateUniqueId(elName);
 
               var index=boringTags.indexOf(elName);
-              if(index<0) {
-                self.elements.push({  element: el, 
-                                      id: el.id,
-                                      name: elName, 
-                                      outputReady: false,
-                                      inputReady: false
-                                  });
+              if(index>-1) {
+                // or continue the loop
+                return;
               }
 
+
               var droppedTop = el.getAttribute('_top'),
-                  droppedLeft = el.getAttribute('_left')
+                  droppedLeft = el.getAttribute('_left');
 
 
+              /*
               if(droppedTop && droppedLeft) {
                   //wait until the wrapper is created...
                   setTimeout(function() { 
@@ -522,20 +218,37 @@
                 },10 );
 
               }
+              */
+
+
+              self._elements.push({  element: el, 
+                                    id: el.id,
+                                    name: elName, 
+                                    outputReady: false,
+                                    inputReady: false,
+                                    top: droppedTop,
+                                    left: droppedLeft
+                                });
+              
+
 
 
           
           });
 
-          for (var i=0; i<self.elements.length; i++){
-            self.elements[i].color = self.colors.accents[i];
+          for (var i=0; i<self._elements.length; i++){
+            self._elements[i].color = self.colors.accents[i];
           }
 
 
 
 
         },
-
+        /**
+         * Arranges the wrappers if not already have top/left positions
+         * for when th-connector is created with elements inside it
+         * @return {null} 
+         */
         _arrangeComponents: function() {
 
           var self = this;
@@ -596,9 +309,10 @@
           return attrsObj;
           
         },
+        /*
         updateConnections: function(){
           var self = this;
-          self.connections = self.elements.filter(function(el){ return el.inputConnectedTo}).map(function(el){
+          self._connections = self._elements.filter(function(el){ return el.inputConnectedTo}).map(function(el){
               return { 
                 target: el,
                 targetAttr: 'input',
@@ -607,27 +321,55 @@
               }
           })
         },
+        */
         _connectBubble: function(e, detail, selection){ 
           var self = this;
           //selection.style.border = "3px solid "+this.colors.accents[this.draggedEl.id];
           
           selection.style.borderLeftColor = this.colors.accents[this.draggedEl.id];
 
-          var sourceEl = self.findElById(self.draggedEl.classList[0])
-          var targetEl = self.findElById(selection.classList[0])
+          var source = self.findElById(self.draggedEl.classList[0])
+          var target = self.findElById(selection.classList[0])
 
-          this._connectAttributes(sourceEl,'output',targetEl,'input');
+          this._connectAttributes(source,'output',target,'input');
+
+          self._drawConnections();
           
         },
+        
+        /**
+         * The functions which sets the connection (two way binging) between two element attrubutes
+         * There is not really a sourc/target distinction in the observer since it is a two way binging (in theory)
+         * but the distinction is conceptual and in UI.
+         * @param  {[type]} source      Source element
+         * @param  {[type]} sourceField The attribute to connect from source element
+         * @param  {[type]} target      Target element
+         * @param  {[type]} targetField The attribute to connect from target element
+         * @return {None}             
+         */
         _connectAttributes: function(source, sourceField, target, targetField) {
           var self = this;
+
+          //find the index of connection which has the same target
+          var connWithSameTargetIndex = self._connections.reduce(function(value, conn, index) {
+              if (conn.target.id===target.id) {
+                return index;
+              }
+
+          }, -1);
+          // and remove it from connections array
+          if(connWithSameTargetIndex>-1) {
+            self._connections.splice(connWithSameTargetIndex,1);
+          }
+
+          console.log('connWithSameTargetIndex', connWithSameTargetIndex);
 
           if (source === target){ //if a bubble was dropped on itself
             alert('You cannot make a connection within the same element');
           } else { 
 
             // make the connection in the elements array
-            target.inputConnectedTo = source;
+            //target.inputConnectedTo = source;  // not needed
               
             var observer = new PathObserver(source.element, sourceField);     
                observer.open(function(newValue, oldValue) {
@@ -635,11 +377,16 @@
             });
 
             // to set the value when elements are connected
+            
             target.element[targetField] = source.element[sourceField];  
 
-            self.updateConnections();
+            //self.updateConnections();
+
+            //console.log(self.connections);
+            
+            self._connections.push({source: source, target: target});
+
           }
-          self._drawConnections();
 
         },
 
@@ -655,10 +402,12 @@
 
           //clear all paths. since it is not done offten it is fine to do it in a not optimized way
           self.$.svg.innerHTML = '';
-          
-          for (var i = 0; i < self.connections.length; i++) {
 
-            var conn = self.connections[i];
+          console.log('connections to draw', self._connections);
+          
+          for (var i = 0; i < self._connections.length; i++) {
+
+            var conn = self._connections[i];
             var srcEl = conn.source.element;
             var targetEl = conn.target.element;
 
@@ -722,26 +471,46 @@
           var self = this;
           
           // Select the element being dragged from elements array          
-          var targetEl = self.findElById(self.draggedEl.classList[0]);
+          //var target = self.findElById(self.draggedEl.classList[0]);
+          
+          var targetId = self.draggedEl.classList[0];
+          console.log(targetId);
 
           // Check if it has a connection
-          if (targetEl.inputConnectedTo ){
-            self._deleteConnection(targetEl);
+          // 
+          var connection = self._connections.filter(function(conn) {
+            return conn.target.id===targetId;
+          });
+
+
+          if (connection.length>0){
+            self._deleteConnection(connection[0].target);
           }
         },
-        _deleteConnection: function(targetEl){
+        _deleteConnection: function(target){
           var self = this;
           if (confirm('Do you want to remove this connection?')) {
-              targetEl.element.input = null; // TODO: switch to called clearData on the element
-              targetEl.inputConnectedTo = false;
+              target.input = null; // TODO: switch to called clearData on the element
+              //targetEl.inputConnectedTo = false;
           } 
-          self.updateConnections();
+          //self.updateConnections();
+          
+          self._connections = self._connections.filter(function(conn) {
+            //assuming a component can accept incoming connection from only one
+            //component we can only check for target
+            return conn.target.id!==target.id;
+          });
+
+          console.log(self._connection);
+          
           self._drawConnections();
         },
+        //for old connection pannel
+        /*
         showControls: function(e) {
           this.$.ctrl_collapse.toggle();
         } ,
-
+        */
         watchMutation: function() {
             var change = function() {
 
@@ -756,9 +525,49 @@
 
           },
 
-          _deleteElement: function() {
+        _deleteElement: function(e) {
 
-          },
+          if(confirm('Do you want to remove this element from the sketch?')) {
+
+            var self = this;
+            var compId = e.target.getAttribute('component_id');
+            var ebmededEl = self.querySelector('#'+compId);
+            var elInArray = self.findElById(compId);
+
+            //remove all connections
+            self.removeAllConnectionsFromElement(compId)
+
+            // remove element from elements array (which removes it from the shadowDOM)
+            var filteredEls = self._elements.filter(function(el) {
+                return el.element.id!==compId;
+            });
+            self._elements = filteredEls;
+
+            // remove elements from th-connector 
+            self.removeChild(ebmededEl);
+          }
+
+
+        },
+
+        removeAllConnectionsFromElement: function(elId) {
+
+          var self = this;
+          var goodConnections = self._connections.filter(function (conn, index) {
+            
+            //filter if element is source or target of a connection
+            return !(conn.source.id===elId || conn.target.id === elId)
+             
+          });
+          console.log('goods',goodConnections);
+
+          self._connections = goodConnections;
+
+          self._drawConnections();
+
+
+        },
+
         checkForInputAttr: function(value){
           return Object.keys(value).indexOf("input") > -1 ? true : false;
         },
@@ -815,10 +624,6 @@
           }
 
         },
-        dragStartList: function(e, detail, selection) {
-           e.dataTransfer.setData("text/plain",selection.classList[0]);
-
-        },
 
         listClicked: function(e, detail, selection) {
           console.log(selection, e);
@@ -830,7 +635,7 @@
         dragOver: function(e, detail, selection){
           //selection.style.border = "3px solid "+this.colors.accents[this.draggedEl.id]; 
         if(this.draggedEl) {	
- 	   selection.style.borderLeftColor = this.colors.accents[this.draggedEl.id];
+ 	          selection.style.borderLeftColor = this.colors.accents[this.draggedEl.id];
          }
           e.preventDefault(); // allows drop event on this element
 
@@ -959,7 +764,7 @@
         },
         findElByName: function(name){
           var self = this;
-          element = self.elements.filter(function(el){
+          element = self._elements.filter(function(el){
             return el.name === name;
           })[0];
 
@@ -967,7 +772,7 @@
         },        
         findElById: function(id){
           var self = this;
-          element = self.elements.filter(function(el){
+          element = self._elements.filter(function(el){
             return el.element.id === id;
           })[0];
 
@@ -976,7 +781,7 @@
         generateUniqueId: function(elName){
           var self = this;
           var num = 0;
-          var tagsWithSameName = self.elements.filter(function(elem){return elem.name == elName});
+          var tagsWithSameName = self._elements.filter(function(elem){return elem.name == elName});
           
           if(tagsWithSameName){
             num+= tagsWithSameName.length;
@@ -995,8 +800,8 @@
           for(i=0;i<checkmarks.length;i++){
             checkmarks[i].classList.remove('final-result-selected');
           }
-          for(i=0;i<self.elements.length;i++){
-            self.elements[i].element.classList.remove('final-result');
+          for(i=0;i<self._elements.length;i++){
+            self._elements[i].element.classList.remove('final-result');
           }
 
           // Add final result class only to selected element and button
@@ -1005,7 +810,6 @@
         },
         addNewElToConnector: function(newElName, left, top){
 
-              console.log(left, top);
 
           var self = this,
               

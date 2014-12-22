@@ -12,11 +12,11 @@
     "google-chart": "GoogleWebComponents/google-chart#master"
   },
   "homepage": "https://github.com/thelmanews/th-google-regions",
-  "_release": "9a423660b1",
+  "_release": "bc195ae6c6",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "9a423660b18e30a3dc849874434dd434bd725f07"
+    "commit": "bc195ae6c625c7c465805705cb53843884ea2a77"
   },
   "_source": "https://github.com/thelmanews/th-google-regions.git",
   "_target": "*",

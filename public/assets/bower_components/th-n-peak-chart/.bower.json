@@ -7,11 +7,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-n-peak-chart",
-  "_release": "fa60845e8b",
+  "_release": "1b1ce341ac",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "fa60845e8bc34423d884bdbe0e9c665da87d3a6c"
+    "commit": "1b1ce341ac87a43a0d2c24be5328841624f05b18"
   },
   "_source": "git://github.com/thelmanews/th-n-peak-chart.git",
   "_target": "*",

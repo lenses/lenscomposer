@@ -9,7 +9,6 @@
   "width":280,
   "height":200,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
     "content":{"friendly":"Quote", "type":"content", "default":"You're only given a little spark of madness. You mustn't lose it."},
     "qtitle":{"friendly":"Title", "type":"string", "default":"Robin Williams"},
     "details":{"friendly":"Details", "type":"string", "default":""},

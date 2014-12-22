@@ -7,11 +7,11 @@
     "th-animated": "https://github.com/thelmanews/th-animated.git"
   },
   "homepage": "https://github.com/thelmanews/th-quote-box",
-  "_release": "a822adfa4a",
+  "_release": "b5baf0008b",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "a822adfa4a8a291b822020bae213ab5193f9300d"
+    "commit": "b5baf0008b04f5e7dc3caf9f7a575ae9182e0742"
   },
   "_source": "https://github.com/thelmanews/th-quote-box.git",
   "_target": "*",

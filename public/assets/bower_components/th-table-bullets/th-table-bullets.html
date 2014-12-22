@@ -1,13 +1,18 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../th-animated/th-animated.html">
 
-<polymer-element name="th-table-bullets" extends="th-animated" attributes="tableData width">
+<polymer-element name="th-table-bullets" extends="th-animated" attributes="tableData">
   <template>
      <core-style ref="theme"></core-style>
       <style>
         :host {
           display: block;
           position: relative;
+          width: 250px;
+        }
+
+        #container {
+          width: 100%;
         }
 
         #container img {
@@ -39,7 +44,7 @@
         }
 
       </style>
-      <table id="container" style="width: {{width | widthFilter}}"> </table>
+      <table id="container"> </table>
   </template>
   <script>
 

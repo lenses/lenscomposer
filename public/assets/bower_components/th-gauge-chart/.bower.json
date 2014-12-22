@@ -7,11 +7,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-gauge-chart",
-  "_release": "4c3b41af16",
+  "_release": "0fd222ae1c",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "4c3b41af1651666f6f0a4866b85fc0d625076452"
+    "commit": "0fd222ae1c4a06dbfbf9ddd0df17d0467ad4cdc3"
   },
   "_source": "https://github.com/thelmanews/th-gauge-chart.git",
   "_target": "*",

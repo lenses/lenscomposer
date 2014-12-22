@@ -9,8 +9,6 @@
   "width":280,
   "height":200,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},
     "latitude": {"friendly":"Latitude", "type":"int", "default":40.7127},
     "longitude": {"friendly":"Longitude", "type":"int", "default":-74.0059},
     "zoom": {"friendly":"Zoom", "type":"int", "default":10},

@@ -9,8 +9,6 @@
   "width":280,
   "height":400,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},   
     "src":{"friendly":"Form URL", "type":"string", "default":"https://docs.google.com/forms/d/18KBVx88jEDb8KP4NjsK4e5g2ieggQ6XlPH5WoJMf_u4/viewform"}
   }
 }

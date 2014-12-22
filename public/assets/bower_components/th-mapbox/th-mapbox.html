@@ -9,8 +9,6 @@ Element providing the ability to create maps with the Mapbox API.
 ##### Example
 
       <th-mapbox 
-          width="300" 
-          height="450" 
           animateOnInit="true" 
           mapId="examples.map-i87786ca" 
           layers="[{'layerId': 'examples.bike-lanes'},{'layerId': 'examples.bike-locations'}]" 
@@ -23,15 +21,22 @@ Element providing the ability to create maps with the Mapbox API.
 @status alpha
 @homepage http://github.com/thelmanews/th-mapbox/demo.html
 -->
-<polymer-element name="th-mapbox" extends="th-animated" attributes="accessTokenRoute accessToken mapId width height layers geolocation geolocateZoom startingZoom startingLat startingLng showSwipeBar input markerColor">
+<polymer-element name="th-mapbox" extends="th-animated" attributes="accessTokenRoute accessToken mapId layers geolocation geolocateZoom startingZoom startingLat startingLng showSwipeBar input markerColor">
 
   <template>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.css' rel='stylesheet' />
     <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.css' rel='stylesheet' />
     <core-style ref="theme"></core-style>
     <style>
+       :host {
+         width: 280px;
+         height: 500px;
+       }
+
        #container {
         position: relative;
+        width: 100%;
+        height: 100%;
         /*top:-15px;*/
        }
        #map { 
@@ -63,7 +68,7 @@ Element providing the ability to create maps with the Mapbox API.
         on-core-response="{{_receiveToken}}">
       </core-ajax>
     </template>
-    <div id="container" style="width: {{computedWidth}}px; height: {{computedHeight}}px;">
+    <div id="container">
       <div id='map'></div>
       <template if="{{showSwipeBar}}">
         <div class="swipearea submainpoint"> Swipe next here </div>
@@ -83,13 +88,8 @@ Element providing the ability to create maps with the Mapbox API.
       geolocation: false,
       geolocateZoom: 10,
       showSwipeBar: true,
-      width: '288',
-      height: '503',
       ready: function(){
         var self = this;
-
-        self.computedWidth = self.computeWidth(self.width);
-        self.computedHeight = self.computeHeight(self.height);
 
         if (self.accessToken){
           self._createMap();

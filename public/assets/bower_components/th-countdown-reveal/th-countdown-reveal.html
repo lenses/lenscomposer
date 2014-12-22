@@ -1,11 +1,16 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../th-animated/th-animated.html">
 
-<polymer-element name="th-countdown-reveal" extends="th-animated" attributes="startFrom countdownColor width height animationSpeed image revealTextColor">
+<polymer-element name="th-countdown-reveal" extends="th-animated" attributes="startFrom countdownColor animationSpeed image revealTextColor">
 
   <template>
       <core-style ref="theme"></core-style>
       <style>
+        :host {
+          width: 300px;
+          height:300px;
+        }
+
         #container {
           display: table;
         }
@@ -40,8 +45,8 @@
       </style>
 
       <!-- Inline styles are for mobile support --> 
-      <div id="container" class="headline" style="width:{{computedWidth}}px;"> 
-        <span id="countdown" style="text-align: center; font-size: {{fontSize}};width:{{computedWidth}}px; color: {{countdownColor}}">
+      <div id="container" class="headline" style="width:100%;"> 
+        <span id="countdown" style="text-align: center; font-size: {{fontSize}};width:100%; color: {{countdownColor}}">
           {{number}}
         </span>
         <div id="countdownImg" class="hidden" style="background: url({{image}}) center center no-repeat; background-size: cover;">
@@ -61,14 +66,9 @@
         countdownColor: '',
         revealTextColor: '',
         animationSpeed: 2, 
-        ready: function(){
-          var self = this;
-          self.computedWidth = self.computeWidth(self.width);
-          self.computedHeight = self.computeHeight(self.height);
-
-        },
         init: function() {
           var self = this;
+          self.computedHeight = self.computeHeight();
           self.fontSize = (parseInt(this.computedHeight)*0.87).toString() + "px"; // 0.87 is the magic number to make the font size the same as the height of the element
           self.number = self.startFrom;
           self.content = self.$.content;

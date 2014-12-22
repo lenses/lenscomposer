@@ -23,4 +23,20 @@
   <th-google-regions></th-google-regions>
     
 </body>
+  <script> 
+    document.addEventListener('polymer-ready', function() {
+        var chart = document.querySelector('th-google-regions'); 
+        document.addEventListener('google-chart-render', function() {
+          console.log('changing selection');
+          chart.selection = [{row: 1, column: null}];
+        })
+        document.addEventListener('google-chart-select', function(e) {
+          console.log(e);
+          console.log(chart.selection);
+        })
+
+
+
+    })
+  </script>
 </html>

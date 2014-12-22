@@ -9,8 +9,6 @@
   "width":280,
   "height":200,
   "inputAttr": {
-    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
-    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},    
     "dataLabelX":{"friendly":"Data Label X", "type":"string", "default":""},
     "dataLabelY":{"friendly":"Data Label Y", "type":"string", "default":""},
     "dataLabelSize":{"friendly":"Data Label Size", "type":"string", "default":""},

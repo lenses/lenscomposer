@@ -3,7 +3,7 @@
 <link href="lib/d3-slider-import.html" rel="import">
 
 
-<polymer-element name="th-slider" extends="th-animated" attributes="width height min max steps labels value">
+<polymer-element name="th-slider" extends="th-animated" attributes="min max steps labels value">
 
   <template>
 
@@ -18,16 +18,19 @@
 
      <style>
 
-/*      :host {
+      :host {
         display: inline-block;
         position: relative;
+        width: 200px;
+        height: 100px;
       }
-*/ 
+ 
 
       #slider {
         margin: 20px 5px 10px 5px;
         border: 0;
         border-top: 1px solid;
+        width: 100%;
       }
 
       .d3-slider-handle {
@@ -43,7 +46,7 @@
    </style>
 
 
-    <div id="slider" style="width: {{width}}px"></div>
+    <div id="slider"></div>
     
   </template>
 
@@ -60,8 +63,6 @@
           step: 10,
           labels: true,
           value: 0,
-          width: 200,
-          height: 100,
           observe: {
             min: 'dataChanged',
             max: 'dataChanged',

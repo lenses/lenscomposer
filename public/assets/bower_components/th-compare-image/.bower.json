@@ -9,11 +9,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-compare-image",
-  "_release": "c52608c767",
+  "_release": "691be0784e",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "c52608c76756cf2fe4d7fb5c9222b2672070fea9"
+    "commit": "691be0784e4be5fba0a69fb7682c1fd9a065a1c5"
   },
   "_source": "https://github.com/thelmanews/th-compare-image.git",
   "_target": "*",

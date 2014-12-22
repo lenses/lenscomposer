@@ -7,12 +7,12 @@ Element is a simple wrapper for an iframe to be used in the Thelma Composer.
 ##### Example
 
     # This wraps the iframe given
-    <th-iframe-wrapper width="300" height="300">
+    <th-iframe-wrapper>
       <iframe width='100%' height='100%' src='http://www.thelma.co'></iframe>
     </th-iframe-wrapper>
 
     # This creates an iframe with the URL
-    <th-iframe-wrapper width="300" height="300" url="http://www.thelma.co">
+    <th-iframe-wrapper url="http://www.thelma.co">
     </th-iframe-wrapper>
 
 @element th-iframe-wrapper
@@ -20,10 +20,16 @@ Element is a simple wrapper for an iframe to be used in the Thelma Composer.
 @status alpha
 @homepage http://polymerlabs.github.io/th-iframe-wrapper
 -->
-<polymer-element  extends="th-animated" name="th-iframe-wrapper" attributes="url width height scale" noscript>
+<polymer-element  extends="th-animated" name="th-iframe-wrapper" attributes="url scale" noscript>
 
   <template>  
-    <div style="overflow:scroll;-webkit-overflow-scrolling:touch; width:{{width}}px; height: {{height}}px; -webkit-transform: scale({{scale}}); -moz-transform: scale({{scale}})">
+    <style>
+      :host{
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <div style="overflow:scroll;-webkit-overflow-scrolling:touch;  -webkit-transform: scale({{scale}}); -moz-transform: scale({{scale}})">
       <!-- Drop the in iframe provided in the content, unless a URL is given --> 
       <template if="{{!url}}">
         <content select="iframe"></content>

@@ -11,11 +11,11 @@
     "th-animated": "https://github.com/thelmanews/th-animated.git"
   },
   "homepage": "https://github.com/thelmanews/th-google-form",
-  "_release": "990e53b057",
+  "_release": "34e1e075d4",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "990e53b05756633b4d9ee9c962176b75fd7eb4ab"
+    "commit": "34e1e075d499d27e0d8ef14aec5ac3085fbfe5dc"
   },
   "_source": "https://github.com/thelmanews/th-google-form.git",
   "_target": "*",

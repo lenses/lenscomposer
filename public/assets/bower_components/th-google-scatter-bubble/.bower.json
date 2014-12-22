@@ -12,11 +12,11 @@
     "google-chart": "GoogleWebComponents/google-chart#master"
   },
   "homepage": "https://github.com/thelmanews/th-google-scatter-bubble",
-  "_release": "0f260f0b4b",
+  "_release": "149e53be8f",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "0f260f0b4bfc71260dc290ffdc3fa753ed533baf"
+    "commit": "149e53be8f81e9b84829053ec55abcafe6f81b63"
   },
   "_source": "https://github.com/thelmanews/th-google-scatter-bubble.git",
   "_target": "*",

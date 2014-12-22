@@ -8,7 +8,6 @@
   "width":280,
   "height":33,
   "inputAttr": {
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},
     "name":{"friendly":"Name", "type":"string", "default":"Your Name"},
     "image":{"friendly":"Image", "type":"image", "default": ""},
     "wsjLogo":{"friendly":"WSJ?", "type":"boolean", "default":"false"},

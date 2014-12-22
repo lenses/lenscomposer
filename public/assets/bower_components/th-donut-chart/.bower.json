@@ -7,11 +7,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-donut-chart",
-  "_release": "4c9c5d02ab",
+  "_release": "4a36ebb5e3",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "4c9c5d02ab14beae2dc0f7a788cc78de382ada51"
+    "commit": "4a36ebb5e3fd06b4cd1feb3c70ec50417c0a5c4a"
   },
   "_source": "https://github.com/thelmanews/th-donut-chart.git",
   "_target": "*",

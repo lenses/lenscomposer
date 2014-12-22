@@ -4,15 +4,14 @@
   "main": "th-time-lapse.html",
   "dependencies": {
     "core-ajax": "polymer/core-ajax#~0.5.1",
-    "th-animated": "https://github.com/thelmanews/th-animated.git",
-    "th-text": "https://github.com/thelmanews/th-text.git"
+    "th-animated": "https://github.com/thelmanews/th-animated.git"
   },
   "homepage": "https://github.com/thelmanews/th-time-lapse",
-  "_release": "c3c22cb1b1",
+  "_release": "fdbd3ecb50",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "c3c22cb1b1f269a6d4a29b5321cb3378b2fb3fe4"
+    "commit": "fdbd3ecb50bd858e8ab5b8e2770e4a6e4793c299"
   },
   "_source": "https://github.com/thelmanews/th-time-lapse.git",
   "_target": "*",

@@ -5,7 +5,6 @@
   "main": "th-time-lapse.html",
   "dependencies": {
     "core-ajax": "polymer/core-ajax#~0.5.1",
-    "th-animated": "https://github.com/thelmanews/th-animated.git",
-    "th-text": "https://github.com/thelmanews/th-text.git"
+    "th-animated": "https://github.com/thelmanews/th-animated.git"
   }
 }

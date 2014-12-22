@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../th-d3-chart/th-d3-chart.html">
 
-<polymer-element name="th-split-donut-chart" extends="th-d3-chart" attributes="chartSize">
+<polymer-element name="th-split-donut-chart" extends="th-d3-chart">
 
   <template>
       <core-style ref="theme"></core-style>
@@ -10,15 +10,12 @@
         :host {
           display: inline-block;
           position: relative;
+          width: 225px;
+          height: 300px;
+          max-height: 100%;
+          max-width: 100%;
         }
-        #chart {
-
-        }
-        #chart text.label {
-          /*font-size: 13px;*/
-          /*font-weight: 300;*/
-        }
-
+        
         #data_errors {  
           display: none;
           font-size: 14px;
@@ -47,14 +44,14 @@
         chartSize: "200",
         init: function() {
           var self = this;
-          self.getComputedDims(self);
+          self.chartSize = Math.min(self.computeWidth(), self.computeHeight());
 
           var margin = {
-                top : self.computedSize*0.14,
-                bottom : self.computedSize*0.14,
+                top : self.chartSize*0.14,
+                bottom : self.chartSize*0.14,
                 label: 3
               }, 
-              width = self.computedSize*0.95, 
+              width = self.chartSize, 
               height = width + margin.top + margin.bottom,
               pi = Math.PI,
               progress = 0,

@@ -5,7 +5,7 @@
   "main": "thelma-meta-components.html",
   "dependencies": {
     "polymer": "Polymer/polymer#~0.5.1",
-    "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git",
+    "core-icons": "polymer/core-icons",
     "core-icon-button": "polymer/core-icon-button#~0.5.1",
     "core-selector": "Polymer/core-selector#0.5.1",
     "core-collapse": "polymer/core-collapse#~0.5.1",
@@ -22,7 +22,8 @@
     "th-map-us": "thelmanews/th-map-us",
     "th-n-bar-chart": "thelmanews/th-n-bar-chart",
     "th-n-peak-chart": "thelmanews/th-n-peak-chart",
-    "th-table-data": "thelmanews/th-table-data"
+    "th-table-data": "thelmanews/th-table-data",
+    "th-component-list": "thelmanews/th-component-list"
   },
   "resolutions": {
     "polymer": "~0.5.1",

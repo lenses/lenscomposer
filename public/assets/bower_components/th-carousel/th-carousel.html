@@ -21,7 +21,7 @@ Element providing a 3D carousel for either text or images.
 @status alpha
 @homepage http://aendrew.github.io/th-carousel
 -->
-<polymer-element name="th-carousel" extends="th-animated" attributes="items animateOn interval isHorizontal backfaces width height fontSize">
+<polymer-element name="th-carousel" extends="th-animated" attributes="items animateOn interval isHorizontal backfaces fontSize">
 
   <template>
 
@@ -35,13 +35,14 @@ Element providing a 3D carousel for either text or images.
            -moz-perspective: 1100px;
              -o-perspective: 1100px;
                 perspective: 1100px;
+        width: 300px;
+        height: 300px;
       }
 
 
       :host #carousel {
         width: 100%;
         height: 100%;
-        /*position: absolute;*/
         -webkit-transform-style: preserve-3d;
            -moz-transform-style: preserve-3d;
              -o-transform-style: preserve-3d;
@@ -117,7 +118,7 @@ Element providing a 3D carousel for either text or images.
 
     </style>
     <!-- Inline styles for mobile and Safari --> 
-    <div class="container" style="width: {{computedWidth}}px; height: {{computedHeight}}px;">
+    <div class="container" style="width: {{width}}px; height: {{height}}px;">
       
       <div id="carousel" class="panels-backface-invisible" style="-webkit-transform-style: preserve-3d; -webkit-transition: -webkit-transform 1s;">
         <content></content>
@@ -138,8 +139,6 @@ Element providing a 3D carousel for either text or images.
 
 
   </template>
-
-  <!-- <link rel="import" href="lib/modernizr-import.html"> -->
 
   <script>
 
@@ -200,23 +199,6 @@ Element providing a 3D carousel for either text or images.
        * @type integer
        */
       _panelCount: 0,
-
-      /**
-       * The `width` property specifies width of the component in pixels or percent.
-       *
-       * @attribute width
-       * @type string
-       */
-      width: '300',
-
-      /**
-       * The `height` property specifies height of the component in pixels or percent.
-       *
-       * @attribute height
-       * @type string
-       */
-      height: '300',
-
       /**
        * The `fontSize` property specifies fontSize in pixels.
        *
@@ -268,8 +250,8 @@ Element providing a 3D carousel for either text or images.
 
       init: function() {
         var self = this;
-        self.computedWidth=self.computeWidth(self.width);
-        self.computedHeight=self.computeHeight(self.height);
+        self.width=self.computeWidth();
+        self.height=self.computeHeight();
 
         var element = this;
             carousel = this.shadowRoot.getElementById('carousel'),
@@ -308,7 +290,7 @@ Element providing a 3D carousel for either text or images.
         var self = this,
             panel, angle, i;
         
-        this.panelSize = this.isHorizontal ? this.computedWidth : this.computedHeight
+        this.panelSize = this.isHorizontal ? this.width : this.height
         this.rotateFn = this.isHorizontal ? 'rotateY' : 'rotateX';
         this.theta = 360 / this._panelCount;
 

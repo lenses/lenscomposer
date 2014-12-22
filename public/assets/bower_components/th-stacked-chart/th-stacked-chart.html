@@ -11,9 +11,8 @@
 	      :host {
 	        display: inline-block;
 	        position: relative;
-	      }
-	      #chart {
-
+	        width: 300px;
+	        height: 200px;
 	      }
 
 	      #data_errors {  
@@ -348,8 +347,6 @@
 						  "thumbnail":"stacked.jpg", 
 						  "tags":["chart", "column", "animated"],
 						  "inputAttr": {
-						    "chartWidth":{"friendly":"Width", "type":"int", "default":200},
-						    "chartHeight":{"friendly":"Height", "type":"int", "default":250},
 						    "chartData":{"friendly":"Data", "type":"table-repeating","rows":2, 
 						      "fields":{
 						        "label":{"friendly":"Label", "type":"string", "default":"Player"},

@@ -7,11 +7,11 @@
     "th-animated": "https://github.com/thelmanews/th-animated.git"
   },
   "homepage": "https://github.com/thelmanews/th-tweet",
-  "_release": "8a50fd951b",
+  "_release": "e8068c2fd5",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "8a50fd951bfc95451e8bb5a65db330ea3518ae62"
+    "commit": "e8068c2fd5a36827dbb2d26a48ceb0b462bb0516"
   },
   "_source": "https://github.com/thelmanews/th-tweet.git",
   "_target": "*",

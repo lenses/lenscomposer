@@ -98,41 +98,34 @@ A Core element which all thelma animated elements extend. No use as a stand alon
           }
           return JSON.stringify(currentState);
         },
-        computeWidth: function(width){
-          var self = this;
+        computeWidth: function(){
+          // NOTE: getComputedStyle and this.style are not as reliable; offset works better, as long as there is no padding on elements
 
-          if(/.*\%/.test(width)){
-            var parentWidth = self.parentNode.offsetWidth,
-                percentWidth = parseFloat(width)/100,
-                computedWidth = parentWidth * percentWidth;
-            return computedWidth;
-          } else if(width) {
-            return width;
-          } else {
-            return self.parentNode.offsetWidth;
-          }
+          var width = this.offsetWidth;
 
-        },
-        computeHeight: function(height){
-          var self = this;
-          // TODO: combine with utility.js function
-          if(/.*\%/.test(height)){
-            var parentHeight = self.parentNode.offsetHeight,
-                percentHeight = parseFloat(height)/100,
-                computedHeight = parentHeight * percentHeight;
-            return computedHeight;
-          } else if(height){
-            return height;
-          } else {
-            return self.parentNode.offsetHeight;
+          if (width <= 0){
+            width = this.style.width;
+            if(/.*\%/.test(width)){
+              width = parseInt(window.getComputedStyle(this).width);
+            }else {
+              width = parseInt(width);
+            }
           }
+          return width;
         },
-        widthFilter: function(value){
-          if(/.*\%/.test(value)){
-            return value;
-          } else {
-            return value + "px";
+        computeHeight: function(){
+          // NOTE: getComputedStyle and this.style are not as reliable; offset works better, as long as there is no padding on elements
+          var height = this.offsetHeight;
+
+          if (height <= 0){
+            height = this.style.height;
+            if(/.*\%/.test(height)){
+              height = parseInt(window.getComputedStyle(this).height);
+            }else {
+              height = parseInt(height);
+            }
           }
+          return height;
         }
 
 

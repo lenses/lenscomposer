@@ -11,11 +11,11 @@
     "th-animated": "https://github.com/thelmanews/th-animated.git"
   },
   "homepage": "https://github.com/thelmanews/th-iframe-wrapper",
-  "_release": "6d41e0c696",
+  "_release": "31018c2f28",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "6d41e0c6963817d14112f3d4500851e37449f575"
+    "commit": "31018c2f28e33534faa1e81be3fc0abdd58a2fe5"
   },
   "_source": "https://github.com/thelmanews/th-iframe-wrapper.git",
   "_target": "*",

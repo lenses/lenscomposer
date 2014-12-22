@@ -11,15 +11,15 @@ Element providing a multiple choice quiz, animated via th-flipbox
 @homepage http://github.com/thelmanews/thelma-text/blob/master/th-mult-choice.html
 -->
 
-<polymer-element name="th-mult-choice" extends="th-animated" attributes="width height question answerText choices choicesPerRow textColor">
+<polymer-element name="th-mult-choice" extends="th-animated" attributes="question answerText choices choicesPerRow textColor">
   <template>
       <core-style ref="theme"></core-style>
       <style>
         :host {
           position: relative;
           display: inline-block;
-          width: {{computedWidth + "px"}};
-          height: {{computedHeight + "px"}};
+          width: 300px;
+          height: 300px;
         }
 
         .img-choice {
@@ -52,6 +52,7 @@ Element providing a multiple choice quiz, animated via th-flipbox
           -webkit-margin-before: 0;
           -webkit-margin-after: 0;
           -webkit-user-select: none;
+          box-sizing: border-box;
         }
 
         .choices {
@@ -99,8 +100,8 @@ Element providing a multiple choice quiz, animated via th-flipbox
       </style>
 
           <!-- Inline styles are required for mobile and Safari -->      
-          <th-flipbox id="flipbox" width="{{computedWidth}}" height="{{computedHeight}}" flippable="false" animateOnInit="true">
-            <div class="front" style="color: {{textColor}}; position: absolute; top: 0; left: 0; -webkit-backface-visibility: hidden; display: table;">
+          <th-flipbox id="flipbox" style="width: 100%; height: 100%;" flippable="false" animateOnInit="true">
+            <div class="front" style="color: {{textColor}}; position: absolute; top: 0; left: 0; -webkit-backface-visibility: hidden; display: table; width: {{computedWidth}}px; ">
               <div id="question">
                 <div id="headline" class="headline">{{question}}</div>
                 <template if="{{tapped}}"> <div class="flash">Please press and hold</div> </template>
@@ -159,17 +160,6 @@ Element providing a multiple choice quiz, animated via th-flipbox
           {'text': 'That guy', 'image':'../thelma-all/images/person.jpg', 'answer': 'false'}
         ],
 
-        /** 
-         * The 'width' attribute specifies the width of the component in pixels or percentage.
-         * @type {String}
-         */
-        width: '400',
-
-        /** 
-         * The 'height' attribute specifies the height of the component in pixels or percentage.
-         * @type {String}
-         */
-        height: '300',
 
         /**
          * The 'answerText' attribute specifies the text that prefaces the correct answer(s).
@@ -179,8 +169,9 @@ Element providing a multiple choice quiz, animated via th-flipbox
         choicesPerRow: 2,
         domReady: function(){
           var self = this;
-          self.computedWidth = self.computeWidth(self.width);
-          self.computedHeight = self.computeHeight(self.height);
+          self.computedWidth = self.computeWidth();
+          self.computedHeight = self.computeHeight();
+
           self.setColors();
           self.answered = false;
           self.setElementDims();
@@ -199,7 +190,7 @@ Element providing a multiple choice quiz, animated via th-flipbox
               questionHeight = self.$.headline.offsetHeight, // Computed height of question
               width = self.computedWidth - 2,
               height = self.computedHeight - 2; 
-
+    
           self.choiceWidth = Math.floor(width / parseInt(self.choicesPerRow)); // Width of each choice
           self.choiceHeight = (height - questionHeight) / numRows; // Height of area for choices
           self.imageSize = Math.min(self.choiceHeight, self.choiceWidth) * 0.7;  // Size of image (assumes room for label)

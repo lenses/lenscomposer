@@ -1,50 +1,50 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../th-animated/th-animated.html">
 
-<polymer-element name="th-simple-quote" extends="th-animated" attributes="width details qtitle color textColor endQuotes">
+<polymer-element name="th-simple-quote" extends="th-animated" attributes="details qtitle color textColor endQuotes">
   <template>
       <core-style ref="theme"></core-style>
       <style>
-          #quotes, #endquotes {
-            width: 50px;
-            /*height: 100%; */
-            position: relative;
-            display: inline-block;
-            float: left;
-            padding-right: 5px; /* space btw quotation marks and content */
-            box-sizing: border-box;
-          }
-          #endquotes {
-            position: absolute;
-            bottom: 0px;
-            right: 0px;
-          }
+        :host {
+          width: 300px;
+        }
+        #quotes, #endquotes {
+          width: 50px;
+          position: relative;
+          display: inline-block;
+          float: left;
+          padding-right: 5px; /* space btw quotation marks and content */
+          box-sizing: border-box;
+        }
+        #endquotes {
+          position: absolute;
+          bottom: 0px;
+          right: 0px;
+        }
 
-          .content {
-            display: inline-block;
-            float: left;
-            padding-top: 25px;
-            padding-right: 20px;
-            box-sizing: border-box;
-            /*height: 100%; */
-            
-          }
+        .content {
+          display: inline-block;
+          float: left;
+          padding-top: 25px;
+          padding-right: 20px;
+          box-sizing: border-box;          
+        }
 
-          .quotetitle {
-            -webkit-margin-before: 0em;
-            -webkit-margin-after: 0em;
-            -webkit-margin-start: 0px;
-            -webkit-margin-end: 0px;
-            display: block;
-            padding-top: 10px;
-            font-style: italic;
-            font-size: 0.8em;
-          }
+        .quotetitle {
+          -webkit-margin-before: 0em;
+          -webkit-margin-after: 0em;
+          -webkit-margin-start: 0px;
+          -webkit-margin-end: 0px;
+          display: block;
+          padding-top: 10px;
+          font-style: italic;
+          font-size: 0.8em;
+        }
           
       </style>
-      <div id="container" style="width: {{computedWidth}}px; color:{{textColor}}">
+      <div id="container" style="color:{{textColor}}; display: flex; display: -webkit-flex;flex-wrap: wrap; flex-direction: row; -webkit-flex-wrap: wrap; -webkit-flex-direction: row; ">
           
-          <div id="quotes" class="data0" style="fill: {{color || ''}}; stroke: {{color || ''}};">
+          <div id="quotes" class="data0" style="display:inline-block; fill: {{color || ''}}; stroke: {{color || ''}};">
             <svg  style="height: 100%"x="0px" y="0px"  viewBox="20 20 60 50" enable- xml:space="preserve">
               <g i:extraneous="self">
                 <path d="M23.105,55.627c-0.005,0.138-0.021,0.273-0.021,0.413c0,0.047,0.006,0.092,0.007,0.138 c-0.001,0.092-0.007,0.183-0.007,0.275l0.02-0.014c0.212,6.166,5.265,11.103,11.482,11.103c6.352,0,11.502-5.149,11.502-11.502    c0-5.796-4.292-10.577-9.869-11.372c1.386-4.595,5.645-7.938,10.695-7.938v-4.106C34.021,32.625,23.541,42.841,23.105,55.627z"/>
@@ -53,7 +53,7 @@
             </svg>
           </div>
 
-          <div class="content mainpoint" style="width: {{computedWidth - 50}}px;">
+          <div class="content mainpoint" style="flex-grow: 1; flex: 1; -webkit-flex-grow: 1; -webkit-flex: 1; display: inline-block; min-width: 50%;">
             <content></content>
             <p class="quotetitle" >{{qtitle}}<template if="{{details}}">, {{details}}</template></p>
           </div>
@@ -74,12 +74,7 @@
   <script>
 
       Polymer('th-simple-quote', {
-        endQuotes: false,
-        ready: function(){
-          var self = this;
-          self.computedWidth = self.computeWidth(self.width);
-          self.computedHeight = self.computeHeight(self.height);
-        }
+        endQuotes: false
       });
 
   </script>

@@ -10,8 +10,6 @@
   "width":280,
   "height":200,
   "inputAttr": {
-    "chartWidth":{"friendly":"Width", "type":"string", "default":"100%"},
-    "chartHeight":{"friendly":"Height", "type":"string", "default":"100%"},
     "chartData":{"friendly":"Data", "type":"table-repeating","rows":2, 
       "fields":{
         "label":{"friendly":"Label", "type":"string", "default":"Medicaid"},

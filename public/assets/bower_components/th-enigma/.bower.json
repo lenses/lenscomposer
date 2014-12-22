@@ -11,11 +11,11 @@
     "core-input": "polymer/core-input#~0.5.1"
   },
   "homepage": "https://github.com/thelmanews/th-enigma",
-  "_release": "87d7b8fcbe",
+  "_release": "711e2d9920",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "87d7b8fcbe5b4d34e4e3e006e43450eedf4ce155"
+    "commit": "711e2d9920797df7e1495978e90c142a2e400ffb"
   },
   "_source": "git://github.com/thelmanews/th-enigma.git",
   "_target": "*",

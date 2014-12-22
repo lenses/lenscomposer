@@ -48,7 +48,7 @@
     "th-time-lapse": "https://github.com/thelmanews/th-time-lapse.git",
     "th-tweet": "https://github.com/thelmanews/th-tweet.git",
     "th-youtube": "https://github.com/thelmanews/th-youtube.git",
-    "image-mask": "https://github.com/thelmanews/image-mask.git",
+    "image-mask": "thelmanews/image-mask#master",
     "star-rating": "https://github.com/sepans/star-rating.git"
   },
   "resolutions": {
@@ -58,11 +58,11 @@
     "platform": "master"
   },
   "homepage": "https://github.com/thelmanews/thelma-all",
-  "_release": "c488ea1015",
+  "_release": "e8298c820d",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "c488ea1015130af4790c779e14a76d49f6e8a54e"
+    "commit": "e8298c820d78fb88803b8f5fd33132934011071c"
   },
   "_source": "git://github.com/thelmanews/thelma-all.git",
   "_target": "*",

@@ -3,7 +3,7 @@
 <link rel="import" href="../core-ajax/core-ajax.html">
 <link rel="import" href="../th-firebase/th-firebase.html">
 
-<polymer-element name="th-story-link" extends="th-animated" attributes="width url storytitle image bgColor">
+<polymer-element name="th-story-link" extends="th-animated" attributes="url storytitle image bgColor">
   <template>
       <core-style ref="theme"></core-style>
       <style>
@@ -93,7 +93,7 @@
 
       <th-firebase id="firebase" directory="stories/" location="https://shining-fire-6376.firebaseio.com/"></th-firebase>
       <template if="{{storytitle}}">
-          <li touch-action="auto" class="story-link selected" style="width: {{width | widthFilter}}; background-color: {{bgColor}};" on-hold="{{tapDown}}" on-down="{{tapDown}}" on-up="{{tapRelease}}"> 
+          <li touch-action="auto" class="story-link selected" style="background-color: {{bgColor}};" on-hold="{{tapDown}}" on-down="{{tapDown}}" on-up="{{tapRelease}}"> 
           
             <!-- Story with image and title -->
             <template if="{{imageCheck(image)}}">
@@ -250,6 +250,7 @@
         },
         imageCheck: function(value){
           var imageRegex = /^https?:\/\/.*(?:jpe?g|gif|png)$/;
+          return value;
           return value ? imageRegex.test(value.toLowerCase()) : null;
         },
         reset: function(){

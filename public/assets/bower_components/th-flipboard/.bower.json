@@ -8,11 +8,11 @@
     "th-flipbox": "https://github.com/thelmanews/th-flipbox.git"
   },
   "homepage": "https://github.com/thelmanews/th-flipboard",
-  "_release": "307f9ed822",
+  "_release": "499c4b504c",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "307f9ed822047060de50dd276b8f8806286c1d65"
+    "commit": "499c4b504cfd8e11456500bda50009d985586ab7"
   },
   "_source": "https://github.com/thelmanews/th-flipboard.git",
   "_target": "*",

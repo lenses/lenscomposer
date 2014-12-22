@@ -9,11 +9,11 @@
     "th-text": "https://github.com/thelmanews/th-text.git"
   },
   "homepage": "https://github.com/thelmanews/th-carousel",
-  "_release": "2b3f445df3",
+  "_release": "1f785bf528",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "2b3f445df3799654aea0120f241870e9e1b37e87"
+    "commit": "1f785bf528003b5e0b87e20226bc14e7934c81fa"
   },
   "_source": "https://github.com/thelmanews/th-carousel.git",
   "_target": "*",

@@ -9,7 +9,6 @@
   "width":250,
   "height":200,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
     "content":{"friendly":"Quote", "type":"content", "default":"Please enter a quote."},
     "qtitle":{"friendly":"Title", "type":"string", "default":"Name"},
     "details":{"friendly":"Details", "type":"string", "default":""},

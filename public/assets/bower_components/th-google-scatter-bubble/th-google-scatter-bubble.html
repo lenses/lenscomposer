@@ -3,27 +3,24 @@
 <link rel="import" href="../google-chart/google-chart.html">
 
 <!--
-Element providing a Thelma wrapper for the Google geochart.
-
-##### Example
-
-    <th-google-regions chartWidth="200" chartHeight="200" regionCode="155" resolution="countries" color="blue"></th-google-regions>
+Element providing a Thelma wrapper for the Google geochart.    
 
 @element th-google-regions
 @blurb Element providing a Thelma wrapper for the Google geochart.
 @status alpha
 @homepage http://nishacodes.github.io/th-google-regions
 -->
-<polymer-element name="th-google-scatter-bubble"  extends="th-animated" attributes="chartWidth chartHeight chartData dataLabel color backgroundColor legend">
+<polymer-element name="th-google-scatter-bubble" extends="th-animated" attributes="chartData dataLabel color backgroundColor legend">
+  <template> 
   <core-style ref="theme"></core-style>
   <style>
-
+    :host {
+      width: 400px;
+      height: 400px;
+    }
   </style>
-  <template> 
-    <google-chart id="googleChart" on-google-chart-render="{{chartReady}}"
+    <google-chart id="googleChart" on-google-chart-render="{{chartReady}}" style="width:100%; height: 100%;"
           type='bubble'
-          height="{{computedHeight}}"
-          width="{{computedHeight}}"
           options= "{{options}}"
           data="{{_data}}">
     </google-chart>
@@ -88,17 +85,7 @@ Element providing a Thelma wrapper for the Google geochart.
        */
       dataLabelColor: "Region",
       /**
-       * 'chartWidth' refers to the width of the element container
-       * @type {Number}
-       */
-      chartWidth: '280',
-      /**
-       * 'chartHeight' refers to the height of the element container
-       * @type {Number}
-       */
-      chartHeight: '400',
-      /**
-       * 'backgroundColor' refers to the background color of the container
+       * 'backgroundcolor' determines the background color of the chart
        * @type {String}
        */
       backgroundColor: "",
@@ -120,26 +107,9 @@ Element providing a Thelma wrapper for the Google geochart.
       numberFormat: "",     
       ready: function() {
         var self = this;
-        self.computedHeight = self.computeHeight(self.chartHeight);
-        self.computedWidth = self.computeWidth(self.chartWidth);
         
-        
-        //NOT WORKING?!?! remove
-        self.$.googleChart.addEventListener('google-chart-render',function() {
-          console.log('render');
-          console.log(self.$.googleChart.chartObject);
-
-          //if works, is it possible to attach select event handler and fire touch-end event?
-          // https://developers.google.com/chart/interactive/docs/events#The_Select_Event
-
-        });
-
         self.reformatData();
         self.configureOptions();
-      },
-      //NOT WORKING?!?! remove
-      chartReady: function() {
-        console.log('chart ready');
       },
       /**
        * 'reformatData' converts chartData into the correct data structure for the map
@@ -149,12 +119,7 @@ Element providing a Thelma wrapper for the Google geochart.
         self._data = self.chartData.map(function(item){
           return [item.label, item.valueX, item.valueY,  item.valueColor ? item.valueColor : 1, item.valueSize];//item.valueColor];
         });
-        console.log(self._data)
         self._data.unshift(["ID", self.dataLabelX, self.dataLabelY, self.dataLabelColor, self.dataLabelSize]);
-
-
-
-       
       },
       /**
        * 'configureOptions' sets the appropriate options properties for the map, given the attribute values
@@ -169,11 +134,8 @@ Element providing a Thelma wrapper for the Google geochart.
 
         var textColorSetting = { color: colors.theme.foreground2, fontName: colors.theme.font, fontSize: '0.8em', opacity: 0.7};
 
-
         // Define chart options 
         self.options = {
-          height: self.computedHeight,
-          width: self.computedWidth,
           colors: colors.accents,
           tooltip: { trigger: 'selection', textStyle: { color: "black", fontName: colors.theme.font, fontSize: '0.85em'}},
           colorAxis: { colors: [colors.theme.accent1, colors.theme.accent2] , legend : {textStyle : textColorSetting, position: 'bottom'}  },
@@ -195,8 +157,6 @@ Element providing a Thelma wrapper for the Google geochart.
           pieHole: self.type == 'donut' ? 0.4 : 0
         };
 
-        console.log(self.options);
-
         var legendSetting = { gridlines : {color : colors.theme.foreground2},
                             baselineColor: colors.theme.foreground2,
                             textStyle: textColorSetting};
@@ -205,9 +165,6 @@ Element providing a Thelma wrapper for the Google geochart.
         //self.options.colorAxis = {legend : {textStyle : textColorSetting}};
         self.options.vAxis = legendSetting;
         self.options.hAxis = legendSetting;
-
-        console.log(self.chartData[0]);
-        console.log(self.chartData[0].valueColor);
 
         if (!self.legend) { 
           self.options.colorAxis.legend.position = 'none';
@@ -219,9 +176,6 @@ Element providing a Thelma wrapper for the Google geochart.
           self.options.colorAxis.legend.position = 'none';
         }
         
-         // var google = self.$.googleChart.$.chartdiv.querySelectorAll('div');
-        // var chart = google.$.chartdiv;
-        // console.log(google);
       },
       /**
        * 'getColors' gets the color theme from the global scope

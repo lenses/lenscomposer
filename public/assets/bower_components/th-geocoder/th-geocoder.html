@@ -208,8 +208,8 @@ The th-geocoder retrieves the latitude and longitude coordinates of a location o
            if (status == google.maps.GeocoderStatus.OK) {
 
               var lat = results[0].geometry.location.k,
-                  lng = results[0].geometry.location.B;
-                  console.log(lat);
+                  lng = results[0].geometry.location.D;
+                  
               outputArr.push({'input': location, 'label': location, 'latitude': lat, 'longitude':lng});
               console.log(self.output);
            } else {

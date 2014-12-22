@@ -7,11 +7,11 @@
     "th-d3-chart": "https://github.com/thelmanews/th-d3-chart.git"
   },
   "homepage": "https://github.com/thelmanews/th-compare-grid-chart",
-  "_release": "1d45a5453a",
+  "_release": "c350cf7a19",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "1d45a5453a95883ef282b45284aad6f65f7c809f"
+    "commit": "c350cf7a19030944c426496e8e1683485511510f"
   },
   "_source": "https://github.com/thelmanews/th-compare-grid-chart.git",
   "_target": "*",

@@ -8,8 +8,6 @@
   "width":250,
   "height":200,
   "inputAttr": {
-    "width":{"friendly":"Width", "type":"string", "default":"100%"},
-    "height":{"friendly":"Height", "type":"string", "default":"100%"},
     "question":{"friendly":"Question", "type":"string", "default":"Which one is better?"},
     "answerText":{"friendly":"Answer Text", "type":"string", "default":"The correct answer is:"},
     "choicesPerRow":{"friendly":"Choices Per Row", "type":"int", "default":2},

@@ -1,16 +1,15 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../th-animated/th-animated.html">
-<link rel="import" href="../th-text/th-text.html">
 
-<polymer-element name="th-time-lapse" extends="th-animated" attributes="timePeriod rate units altText frequency textType numberSize width displayWholeNum">
+<polymer-element name="th-time-lapse" extends="th-animated" attributes="timePeriod rate units altText frequency textType numberSize displayWholeNum">
 
   <template>
       <core-style ref="theme"></core-style>
 
       <!-- Inline styles are for Safari and mobile support --> 
-      <th-text markdown="false" type="{{textType}}" width="{{width}}">
+      <div class="{{textType}}">
         <span style="font-size: {{numberSize}}px;">{{currentCount | numberFilter}}</span> {{units}} {{textDetail}}
-      </th-text>
+      </div>
   </template>
   
   <script>
