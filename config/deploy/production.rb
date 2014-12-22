@@ -35,7 +35,7 @@ server 'makelenses.com', user: 'deployer', roles: %w{web app}
 namespace :deploy do
   after :finished,  :lens_setup do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
-      within release_path do
+      within current_path do
         with rails_env: :production do
           execute :rake, 'assets:precompile'
           execute :rake, 'db:migrate'
