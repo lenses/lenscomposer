@@ -32,6 +32,9 @@ gem 'nokogiri', '1.6.0'
 
 gem 'emcee'
 
+gem 'capistrano-rvm'
+gem 'capistrano-rails'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

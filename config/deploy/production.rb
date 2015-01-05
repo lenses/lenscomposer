@@ -31,7 +31,20 @@ server 'makelenses.com', user: 'deployer', roles: %w{web app}
    forward_agent: false,
    auth_methods: %w(password)
  }
-#
+
+namespace :deploy do
+  after :finished,  :lens_setup do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      within current_path do
+        with rails_env: :production do
+          execute :rake, 'assets:precompile'
+          execute :rake, 'db:migrate'
+          execute 'bower update'
+        end
+      end
+    end
+  end
+end
 # And/or per server (overrides global)
 # ------------------------------------
 # server 'example.com',
