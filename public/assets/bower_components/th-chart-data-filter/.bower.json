@@ -14,11 +14,11 @@
     "core-input": "polymer/core-input#~0.5.1"
   },
   "homepage": "https://github.com/thelmanews/th-chart-data-filter",
-  "_release": "06d993988d",
+  "_release": "3519e16da5",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "06d993988d0f267e4f9177843fb44f1d08a42c55"
+    "commit": "3519e16da5995543da14abae23f19d4b5931409b"
   },
   "_source": "git://github.com/thelmanews/th-chart-data-filter.git",
   "_target": "*",

@@ -14,7 +14,7 @@
     "branch": "master",
     "commit": "e4b87a439a2878656a7e0ce39c10bdcea5fbd7f2"
   },
-  "_source": "git://github.com/thelmanews/th-firebase.git",
+  "_source": "https://github.com/thelmanews/th-firebase.git",
   "_target": "*",
-  "_originalSource": "thelmanews/th-firebase"
+  "_originalSource": "https://github.com/thelmanews/th-firebase.git"
 }

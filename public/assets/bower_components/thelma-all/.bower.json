@@ -58,11 +58,11 @@
     "platform": "master"
   },
   "homepage": "https://github.com/thelmanews/thelma-all",
-  "_release": "e8298c820d",
+  "_release": "46e31eadf1",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "e8298c820d78fb88803b8f5fd33132934011071c"
+    "commit": "46e31eadf10af03cf4cee1ec69bb5a5c9c9144db"
   },
   "_source": "git://github.com/thelmanews/thelma-all.git",
   "_target": "*",

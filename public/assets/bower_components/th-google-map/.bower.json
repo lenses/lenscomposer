@@ -7,11 +7,11 @@
     "google-map": "~0.4.0"
   },
   "homepage": "https://github.com/thelmanews/th-google-map",
-  "_release": "9b5c093816",
+  "_release": "eed55c6ba7",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "9b5c0938165ded30a24af0775d8c568272c49a4d"
+    "commit": "eed55c6ba77efdfa5097880d10c465d0118ed884"
   },
   "_source": "git://github.com/thelmanews/th-google-map.git",
   "_target": "*",

@@ -16,11 +16,11 @@
     "th-google-map": "https://github.com/thelmanews/th-google-map.git"
   },
   "homepage": "https://github.com/thelmanews/th-geocoder",
-  "_release": "510e1bb842",
+  "_release": "76acc94889",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "510e1bb8428913fc9b90b8a68a9dc81f1333f9f5"
+    "commit": "76acc94889ea805f62c9838347f1407f42e516a6"
   },
   "_source": "git://github.com/thelmanews/th-geocoder.git",
   "_target": "*",

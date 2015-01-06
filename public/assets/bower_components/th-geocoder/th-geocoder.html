@@ -213,6 +213,7 @@ The th-geocoder retrieves the latitude and longitude coordinates of a location o
               outputArr.push({'input': location, 'label': location, 'latitude': lat, 'longitude':lng});
               console.log(self.output);
            } else {
+
              console.log("Geocode for "+ location +" was not successful for the following reason: " + status);
              
              if(status == "OVER_QUERY_LIMIT"){
@@ -220,6 +221,7 @@ The th-geocoder retrieves the latitude and longitude coordinates of a location o
                 self._addGeocodeToOutput(location, outputArr);
               },1000)
              } else {
+                outputArr.push({'input': location, 'label': location, 'latitude': '', 'longitude':''});
                self.errors.push({location: location, reason: status});
              }
              

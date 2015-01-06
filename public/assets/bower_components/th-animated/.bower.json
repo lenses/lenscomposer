@@ -13,7 +13,7 @@
     "branch": "master",
     "commit": "0098bbf5be1aa2437cc6a1186e589cdbf471842c"
   },
-  "_source": "git://github.com/thelmanews/th-animated.git",
+  "_source": "https://github.com/thelmanews/th-animated.git",
   "_target": "*",
-  "_originalSource": "thelmanews/th-animated"
+  "_originalSource": "https://github.com/thelmanews/th-animated.git"
 }

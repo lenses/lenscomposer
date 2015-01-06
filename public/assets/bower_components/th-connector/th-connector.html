@@ -31,7 +31,7 @@
           <div class="connectors-in" >
             <!-- Input -->
             <template if="{{el.element.publish | checkForInputAttr}}">
-              <li class="{{el.element.id}} inputMarker" on-dragover="{{dragOver}}" on-dragStart="{{dragStart}}" on-dragleave="{{dragLeave}}" on-drop="{{_connectBubble}}" on-dragEnd="{{droppedInContainer}}" draggable="true"></li>
+              <li class="{{el.element.id}} inputMarker" on-dragover="{{dragOver}}" on-dragStart="{{dragStart}}" on-dragleave="{{dragLeave}}" on-drop="{{_connectBubble}}" draggable="true"></li>
               
             </template>
 
@@ -51,6 +51,7 @@
               </li>
             </template>
           </div>
+          <div class="resize"  draggable="true"  on-drag="{{dragResize}}" on-dragEnd="{{dragResizeEnd}}"></div>
         </div>
       </template>
     </div>
@@ -205,6 +206,10 @@
 
               var droppedTop = el.getAttribute('_top'),
                   droppedLeft = el.getAttribute('_left');
+
+              //set element width and height to 100% so it takes the whole wrapper area.
+              el.style.width = '100%';
+              el.style.height = '100%';
 
 
               /*
@@ -695,6 +700,10 @@
 
         dragStartWrapper: function(e, details, selection) {
 
+          //if resize is being dragged don't do anything (stopPropagation is not doing anything)
+          if(e.path[0].classList && e.path[0].classList.length>0 && e.path[0].classList.contains('resize')) {
+            return false;
+          }
           var style = window.getComputedStyle(e.target, null),
               left = parseInt(style.getPropertyValue("left"),10),
               top = parseInt(style.getPropertyValue("top"),10);
@@ -704,6 +713,65 @@
                         ',' + ((isNaN(top) ? 0 : top) - e.clientY) +
                         ',' + selection.id;
           e.dataTransfer.setData("text/plain",offset_data);
+        },
+        /**
+         * onDrag event handler for the resize anchor
+         * @param  {[type]} e         [description]
+         * @param  {[type]} details   [description]
+         * @param  {[type]} selection [description]
+         * @return {[type]}           [description]
+         */
+        dragResize: function(e, details, selection) {
+
+          var self = this;
+
+          var wrapper = selection.parentNode;
+          //var styles = window.getComputedStyle(wrapper);
+          // var wrapperTop = parseInt(styles.top.replace('px',''));
+          // var wrapperLeft = parseInt(styles.left.replace('px',''));
+
+          // var w =  e.x - wrapperLeft - 65,
+          //     h = e.y - wrapperTop - 172;
+
+          var wrapperTop = parseInt(wrapper.getBoundingClientRect().top),
+              wrapperLeft = parseInt(wrapper.getBoundingClientRect().left);
+          
+
+          var w =  e.x - wrapperLeft,
+              h = e.y - wrapperTop;
+
+
+           wrapper.style.width = w +'px';
+           wrapper.style.height = h +'px';
+
+          var elementInsideId = wrapper.id.replace('wrapper-','');
+          var elementInside = this.querySelector('#'+elementInsideId);
+
+          console.log(elementInside.resize);
+          if(typeof elementInside.resize ==='function') {
+            elementInside.resize();
+          }
+
+          self._drawConnections();
+
+          //console.log( wrapper.style);
+          e.stopPropagation();
+          e.preventDefault();
+
+        },
+
+        dragResizeEnd: function(e, details, selection) {
+          
+          var wrapper = selection.parentNode;
+
+          var elementInsideId = wrapper.id.replace('wrapper-','');
+          var elementInside = this.querySelector('#'+elementInsideId);
+
+          //console.log(elementInside.resize);
+          if(typeof elementInside.resize ==='function') {
+            elementInside.resize();
+          }
+
         },
 
         getThemeColors: function(){

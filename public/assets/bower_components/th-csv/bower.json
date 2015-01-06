@@ -5,7 +5,6 @@
   "main": "thelma-meta-components.html",
   "dependencies": {
     "polymer": "Polymer/polymer#~0.5.1",
-    "polymer-ui-accordion": "PolymerLabs/polymer-ui-accordion#~0.3.0",
     "csv-preview": "~1.0.0",
     "core-input": "polymer/core-input#~0.5.1",
     "core-collapse": "polymer/core-collapse#~0.5.1",

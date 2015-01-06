@@ -1,7 +1,7 @@
 {
-  "name": "thelma-meta-components",
+  "name": "th-connector",
   "keywords": "seed, polymer, web-components",
-  "main": "thelma-meta-components.html",
+  "main": "th-connector.html",
   "dependencies": {
     "polymer": "Polymer/polymer#~0.5.1",
     "core-icons": "polymer/core-icons",
@@ -30,11 +30,11 @@
     "webcomponentsjs": "^0.5.0"
   },
   "homepage": "https://github.com/thelmanews/th-connector",
-  "_release": "8ffa87c5ad",
+  "_release": "148c634dd8",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "8ffa87c5ade0d4826a51df5b31e7c94ef338e665"
+    "commit": "148c634dd8870f71bd05c4fd147ea569da26bca2"
   },
   "_source": "git://github.com/thelmanews/th-connector.git",
   "_target": "*",
