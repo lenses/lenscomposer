@@ -30,3 +30,28 @@ html, body { /* Needed for th-connector absolute position of elements */
   top: 0;
 }
 
+
+/*** Overriding Handsontable default styles for th-data-table ***/
+/*   These must live in document, not component */
+.htContextMenu { /* entire menu */
+  position: fixed;
+  top: -20px;
+  left:50px;
+  height: auto;
+}
+
+.htBorders { /* these are not displaying correctly */
+  display: none;
+}
+
+.wtSpreader { /* area of menu options */
+  background-color: rgba(252,252,252,0.9);
+  padding: 3px;
+}
+.wtSpreader tr { /* menu item */
+  cursor: pointer;
+  position: relative;
+}
+.wtSpreader tr:hover {
+  background-color: #eee;
+}
