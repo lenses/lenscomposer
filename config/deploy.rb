@@ -8,7 +8,7 @@ set :repo_url, 'https://github.com/lenses/lenscomposer.git'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/rails'
+set :deploy_to, '/home/rails/current'
 
 # Default value for :scm is :git
 # set :scm, :git

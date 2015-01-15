@@ -47,6 +47,7 @@ html, body { /* Needed for th-connector absolute position of elements */
 .wtSpreader { /* area of menu options */
   background-color: rgba(252,252,252,0.9);
   padding: 3px;
+  width: 100%;
 }
 .wtSpreader tr { /* menu item */
   cursor: pointer;
