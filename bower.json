@@ -6,7 +6,7 @@
   "dependencies": {
     "thelma-all": "thelmanews/thelma-all",
     "th-connector": "thelmanews/th-connector",
-    "th-lens-composer": "thelmanews/th-lens-composer"
+    "th-lens-composer": "lenses/th-lens-composer"
   },
   "resolutions": {
     "polymer": "~0.5.1",
