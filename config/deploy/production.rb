@@ -39,7 +39,7 @@ namespace :deploy do
         with rails_env: :production do
           execute :rake, 'assets:precompile'
           execute :rake, 'db:migrate'
-          execute 'bower update'
+          execute :bower, 'update -f --quiet --config.interactive=false'
         end
       end
     end
