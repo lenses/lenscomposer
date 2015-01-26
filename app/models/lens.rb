@@ -1,5 +1,5 @@
-class Lens < ActiveRecord::Base
-  has_many :components
-  accepts_nested_attributes_for :components
+class Lens
+  include Mongoid::Document
+  include Mongoid::Attributes::Dynamic
 
 end

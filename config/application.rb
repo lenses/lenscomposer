@@ -1,6 +1,13 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+# We don't need active record so we'll select the aspects of rails we want
+# require 'rails/all'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'sprockets/railtie'
+require 'rails/test_unit/railtie'
+
+Mongoid.load!("config/mongoid.yml")
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
