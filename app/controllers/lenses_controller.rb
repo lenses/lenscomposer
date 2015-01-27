@@ -9,6 +9,8 @@ class LensesController < ApplicationController
   def create
     lens_params = [:author, :name, :els]
     attrb = select_params(lens_params)
+    # Els is an array of Objects of Components Properties
+    # that needs to be deserialized correctly
     attrb["els"] = JSON.parse(attrb["els"])
     lens = Lens.create(attrb)
     render json: lens.id.to_s.to_json

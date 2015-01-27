@@ -3,27 +3,36 @@ var Lenses = function(){
 
     getAllElData: function(){
 
-      var elements = document.querySelector('th-connector').children;
-      var els = [];
+      var els = document.querySelector('th-connector').children;
+      var els_data = [];
 
-      for (var i=0; i<elements.length; i++){
-        var element_id = elements[i].dataset && elements[i].dataset.componentId ? elements[i].dataset.componentId : null;
-        var element_state = elements[i].getState ? JSON.parse(elements[i].getState()) : "";
+      for (var i = 0; i < els.length; i++) {
 
+        els_data.push(this.getElData(els[i]));
 
-        var el_data = {
-          id: element_id,
-          tagname: elements[i].tagName.toLowerCase(),
-          classlist: elements[i].className,
-          final_result: elements[i].className == "final-result",
-          currentstate: element_state
-        };
-        els.push(el_data);
       }
-      return els;
+
+      return els_data;
+
     },
 
-    getElData: function(id) {
+    getElData: function(el) {
+
+        var el_id = el.dataset && el.dataset.componentId ? el.dataset.componentId : null;
+        var el_state = el.getState ? JSON.parse(el.getState()) : "";
+
+        var el_data = {
+
+          id: el_id,
+          tagname: el.tagName.toLowerCase(),
+          classlist: el.className,
+          final_result: el.className == "final-result",
+          currentstate: el_state
+
+        };
+
+        return el_data;
+
     },
 
     getFinalEl: function() {
