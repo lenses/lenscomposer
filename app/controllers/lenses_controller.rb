@@ -28,9 +28,6 @@ class LensesController < ApplicationController
   end
 
   def edit
-    @component_list = Component.components.to_json
-    @lens = Lens.find(params[:id])
-    @components = @lens.components.map { |component| component.generate_html_tag }
   end
 
   def update
