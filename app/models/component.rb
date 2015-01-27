@@ -1,5 +1,6 @@
 class Component
   include Mongoid::Document
+  include Mongoid::Attributes::Dynamic
 
   def generate_html_tag
     attrs = generate_html_attrs
@@ -11,7 +12,7 @@ class Component
     attrs = ""
 
     if self.currentstate.length > 0
-      JSON.parse(self.currentstate).each do |attr, value|
+      self.currentstate.each do |attr, value|
           if value.kind_of?(Array)
             attrs << "#{attr}= '#{value.to_json}' "
           else
@@ -20,10 +21,6 @@ class Component
       end
     end
     return attrs
-  end
-
-  def self.components
-    @@components
   end
 
 end

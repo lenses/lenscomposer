@@ -4,21 +4,23 @@ var Lenses = function(){
     getAllElData: function(){
 
       var elements = document.querySelector('th-connector').children;
-      var element_data = {};
+      var els = [];
 
       for (var i=0; i<elements.length; i++){
-        var element_id = elements[i].dataset && elements[i].dataset.componentId ? elements[i].dataset.componentId : null,
-        element_state = elements[i].getState ? JSON.parse(elements[i].getState()) : "";
+        var element_id = elements[i].dataset && elements[i].dataset.componentId ? elements[i].dataset.componentId : null;
+        var element_state = elements[i].getState ? JSON.parse(elements[i].getState()) : "";
 
-        element_data[i] = {
+
+        var el_data = {
           id: element_id,
           tagname: elements[i].tagName.toLowerCase(),
           classlist: elements[i].className,
           final_result: elements[i].className == "final-result",
           currentstate: element_state
         };
+        els.push(el_data);
       }
-      return element_data;
+      return els;
     },
 
     getElData: function(id) {
@@ -41,14 +43,18 @@ $(document).ready(function(){
         type: "POST",
         url: "/lenses",
         data: {
-                "author": "demo",
-                "name": "demo",
-                "els": element_data,
+              "name" : "demo_name",
+              "author": "demo_author",
+              "els": JSON.stringify(element_data),
         },
         dataType: 'json',
-        success: function(e){
-          $('#status').html("You've created a new lens with ID:" + e);
+        success: function(d, s, xhr){
+          $('#status').html("You've created a new lens with ID:" + d);
         },
+        error: function(xhr, s, e){
+          console.log("error");
+          $('#status').html("You've created a new lens with ID:" + e);
+        }
       });
   });
 

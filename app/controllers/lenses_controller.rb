@@ -4,23 +4,20 @@ class LensesController < ApplicationController
   end
 
   def new
-    # Serve a page with elements that can be connected
-    @lens = Lens.new
   end
 
   def create
     lens_params = [:author, :name, :els]
-    lens_select = params.select { |v| lens_params.include?(v.to_sym)}
-    Rails.logger.info(lens_select)
-    @lens = Lens.create(lens_select)
-    render inline: "<%= @lens.id %>"
+    attrb = select_params(lens_params)
+    attrb["els"] = JSON.parse(attrb["els"])
+    lens = Lens.create(attrb)
+    render json: lens.id.to_s.to_json
   end
 
   def show
-    @id = params[:id]
-    @lens = Lens.find(@id)
-    final_result = @lens.components.select{|component| component.final_result}[0]
-    # debugger
+    lens = Lens.find(params[:id])
+    idx = lens.els.find_index { |e| e["final_result"]}
+    final_result = Component.new(lens.els[idx])
     @final_result_html = final_result.generate_html_tag
   end
 
@@ -36,6 +33,12 @@ class LensesController < ApplicationController
     @lens.components = @lens.components.select {|obj| current_component_ids.include?(obj.id.to_s) }
     @lens.update(lens_params)
     render inline: "<%= @lens.id %>"
+  end
+
+  private
+
+  def select_params(sel_params)
+    params.select { |v| sel_params.include?(v.to_sym)}
   end
 
 end
