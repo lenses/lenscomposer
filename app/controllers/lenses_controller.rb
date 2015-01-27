@@ -19,8 +19,12 @@ class LensesController < ApplicationController
   def show
     lens = Lens.find(params[:id])
     idx = lens.els.find_index { |e| e["final_result"]}
-    final_result = Component.new(lens.els[idx])
-    @final_result_html = final_result.generate_html_tag
+    if idx
+      final_result = Component.new(lens.els[idx])
+      @final_result_html = final_result.generate_html_tag
+    else
+      render inline: "No final result for this lens"
+    end
   end
 
   def edit
