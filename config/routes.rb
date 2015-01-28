@@ -1,9 +1,11 @@
 Lenscomposer::Application.routes.draw do
-  resources :lenses 
+  resources :lenses
 
   root 'lenses#new'
 
   get 'new_test' => 'lenses#new_test'
+
+  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp)
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
