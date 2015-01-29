@@ -37,6 +37,22 @@ var Lenses = function(){
 
     getFinalEl: function() {
     },
+    getLensState: function(lens){
+      // var lens = document.querySelector('th-lens-composer');
+      return lens.getState();
+    },
+    getAuthor: function(lens){
+      // var lens = document.querySelector('th-lens-composer');
+      return lens.lensAuthor;
+    },
+    getTitle: function(lens){
+      // var lens = document.querySelector('th-lens-composer');
+      return lens.lensTitle;
+    },
+    getFinalResult: function(lens){
+      return lens.getFinalResult();
+    }
+
 
   };
 
@@ -46,15 +62,34 @@ $(document).ready(function(){
 
 
   $('#create_lens').bind("click", function(){
-      var element_data = Lenses.getAllElData();
+      
+      var lens = document.querySelector('th-lens-composer'),
+          element_data,
+          author, 
+          title;
+
+      if (lens){ // this is for th-lens-composer
+          element_data = Lenses.getLensState(lens);
+          author = Lenses.getAuthor(lens) || "Author";
+          title = Lenses.getTitle(lens) || "Name of Lens";
+          finalResult = Lenses.getFinalResult(lens);
+          console.log("$$$");
+          console.log(finalResult);
+      } else { // this is for th-connector
+          element_data = Lenses.getAllElData();
+          author = "author";
+          name = "name";
+      }
+
 
       $.ajax({
         type: "POST",
         url: "/lenses",
         data: {
-              "name" : "demo_name",
-              "author": "demo_author",
+              "name" : title,
+              "author": author,
               "els": JSON.stringify(element_data),
+              "final_result": JSON.stringify(finalResult)
         },
         dataType: 'json',
         success: function(d, s, xhr){
