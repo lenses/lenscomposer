@@ -15,7 +15,6 @@ var Lenses = function(){
       return els_data;
 
     },
-
     getElData: function(el) {
 
         var el_id = el.dataset && el.dataset.componentId ? el.dataset.componentId : null;
@@ -34,12 +33,9 @@ var Lenses = function(){
         return el_data;
 
     },
-
-    getFinalEl: function() {
-    },
-    getLensState: function(lens){
+    saveLens: function(lens){
       // var lens = document.querySelector('th-lens-composer');
-      return lens.getState();
+      return lens.saveLens();
     },
     getAuthor: function(lens){
       // var lens = document.querySelector('th-lens-composer');
@@ -66,15 +62,16 @@ $(document).ready(function(){
       var lens = document.querySelector('th-lens-composer'),
           element_data,
           author, 
-          title;
+          title,
+          finalResult;
 
       if (lens){ // this is for th-lens-composer
-          element_data = Lenses.getLensState(lens);
+          element_data = Lenses.saveLens(lens);
           author = Lenses.getAuthor(lens) || "Author";
           title = Lenses.getTitle(lens) || "Name of Lens";
           finalResult = Lenses.getFinalResult(lens);
-          console.log("$$$");
-          console.log(finalResult);
+
+      //TODO: fix saving for th-connector...somewhere it went wrong...
       } else { // this is for th-connector
           element_data = Lenses.getAllElData();
           author = "author";

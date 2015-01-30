@@ -6,6 +6,7 @@ class Lens
   field :final_result, type: Object
 
   def generate_html_tag(element_obj)
+    # element_obj contains two keys: componentState(json string of attrs/values) and componentName(string)
     current_state = JSON.parse(element_obj["componentState"])
     attrs = generate_html_attrs(current_state)
     tag_name = element_obj['componentName']
@@ -15,7 +16,6 @@ class Lens
 
   def generate_html_attrs(attrs_obj)
     attrs = ""
-    debugger
     if attrs_obj
       attrs_obj.each do |attr, value|
           if value.kind_of?(Array)

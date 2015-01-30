@@ -48,5 +48,3 @@ end
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
-
-
