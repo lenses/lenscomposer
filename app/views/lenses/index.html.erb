@@ -1,0 +1,26 @@
+<h1>Lenses</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Author</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+
+<% @lenses.each do |lens|%>
+  <tr>
+    <td><%= lens.name%></td>  
+    <td><%= lens.author%></td>  
+    <td><%= link_to 'Edit', edit_lens_path(lens) %></td>  
+    <td><%= link_to 'View Result', lens_path(lens) %></td>  
+    <td><%= link_to "Delete", lens_path(lens), method: :delete, data: { confirm: 'Are you certain you want to delete this?' } %></td>
+  </tr>
+<% end %>
+
+</table>
+<br>
+<%= link_to 'Create new lens (freeform version)', new_lens_path %>
+<br>
+<%= link_to 'Create new lens (linear version)', new_test_path %>

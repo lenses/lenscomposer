@@ -1,7 +1,8 @@
 Lenscomposer::Application.routes.draw do
   resources :lenses
 
-  root 'lenses#new'
+  root 'lenses#index'
+
 
   get 'new_test' => 'lenses#new_test'
 
