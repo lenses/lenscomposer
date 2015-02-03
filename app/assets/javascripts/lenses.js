@@ -1,61 +1,99 @@
 var Lenses = function(){
   return {
 
-    getAllElData: function(){
-
-      var els = document.querySelector('th-connector').children;
-      var els_data = [];
-
-      for (var i = 0; i < els.length; i++) {
-
-        els_data.push(this.getElData(els[i]));
-
-      }
-
-      return els_data;
+    getLinearState: function(lens){
+      var data = {};
+      data.author = lens.lensAuthor;
+      data.name = lens.lensTitle;
+      data.type = "linear";
+      data.linear_data = JSON.stringify(lens.saveLens());
+      data.final_result = JSON.stringify(lens.getFinalResult());
+      return data;
 
     },
+    getConnectorState: function(connector){
+      var data = {};
+        data.author = '';
+        data.name = '';
+        data.type = "connector";
+        data.connector_data = connector.dumpStateDataAsString();
+        data.final_result = {};
+      return data;
+    },
+    buildLinearLens: function(lens){
+      // TODO: why doesn't adding this event listener down below achieve the same result? I just want to have it once within $(document).ready
+      document.addEventListener('polymer-ready', function(){
+        var lenscomposer = document.querySelector('th-lens-composer');
+        lenscomposer.lensTitle = lens.title;
+        lenscomposer.lensAuthor = lens.author;
+        lenscomposer.recreateLens(JSON.parse(lens.linear_data));
 
-    getElData: function(el) {
+      })
+    },
+    buildConnectorLens: function(lens){
+      document.addEventListener('polymer-ready', function(){
+        var connector = document.querySelector('th-connector'),
+            elements = JSON.parse(lens.connector_data).elements, 
+            connections = JSON.parse(lens.connector_data).connections;
 
-        var el_id = el.dataset && el.dataset.componentId ? el.dataset.componentId : null;
-        var el_state = el.getState ? JSON.parse(el.getState()) : "";
-
-        var el_data = {
-
-          id: el_id,
-          tagname: el.tagName.toLowerCase(),
-          classlist: el.className,
-          final_result: el.className == "final-result",
-          currentstate: el_state
-
-        };
-
-        return el_data;
+        connector.scaffoldFromData(elements, connections);
+      })
 
     },
+    createEl: function(final_result){
+      document.addEventListener('polymer-ready', function(){
+        
+        final_result = JSON.parse(final_result);
 
-    getFinalEl: function() {
-    },
-
+        var componentName = final_result.componentName,
+            componentState = JSON.parse(final_result.componentState), // TODO: why does it need to be parsed so much? Has is been stringified too many times?
+            pathToEl = "/assets/bower_components/" + componentName + "/" +componentName+ ".html"; 
+        
+        // Dynamically import element and create it with attrs saved in componentState
+        Polymer.import([pathToEl], function(){     
+          var component = document.createElement(componentName);
+          
+          for (var attr in componentState){
+            component[attr] = componentState[attr]
+          }
+          component.style.width = "100%";
+          component.style.height = "100%";
+          document.querySelector('body').appendChild(component);
+        })
+      })
+    }
   };
 
 }();
 
 $(document).ready(function(){
 
+  var lens = gon.lens, // object that holds info to recreate lens
+      final_result = gon.final_result; 
+  
+  // If lens exists (only on edit page), recreate the lens
+  if(lens && lens.type == "linear"){ 
+    Lenses.buildLinearLens(lens);
+  } else if (lens && lens.type === "connector"){
+    Lenses.buildConnectorLens(lens);
+  }
 
+  // If final_result exists (only on show page), recreate the element
+  if(final_result){
+    Lenses.createEl(final_result);
+  }
+
+  // Create new lens callback
   $('#create_lens').bind("click", function(){
-      var element_data = Lenses.getAllElData();
-
+      console.log('create lens begin')
+      var lenscomposer = document.querySelector('th-lens-composer'),
+          connector = document.querySelector('th-connector'),
+          element_data = lenscomposer ? Lenses.getLinearState(lenscomposer) : connector ? Lenses.getConnectorState(connector) : null;
+      
       $.ajax({
         type: "POST",
         url: "/lenses",
-        data: {
-              "name" : "demo_name",
-              "author": "demo_author",
-              "els": JSON.stringify(element_data),
-        },
+        data: element_data,
         dataType: 'json',
         success: function(d, s, xhr){
           $('#status').html("You've created a new lens with ID:" + d);
@@ -66,6 +104,9 @@ $(document).ready(function(){
         }
       });
   });
+
+
+
 
   /* Put request to update an existing lens
   if (update_lens_button){
