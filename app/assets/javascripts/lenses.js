@@ -1,103 +1,71 @@
 var Lenses = function(){
   return {
 
-    getAllElData: function(){
-
-      var els = document.querySelector('th-connector').children;
-      var els_data = [];
-
-      for (var i = 0; i < els.length; i++) {
-
-        els_data.push(this.getElData(els[i]));
-
-      }
-
-      return els_data;
+    getLinearState: function(lens){
+      var data = {};
+      data.author = lens.lensAuthor;
+      data.name = lens.lensTitle;
+      data.type = "linear";
+      data.linear_data = JSON.stringify(lens.saveLens());
+      data.final_result = JSON.stringify(lens.getFinalResult());
+      return data;
 
     },
-    getElData: function(el) {
-
-        var el_id = el.dataset && el.dataset.componentId ? el.dataset.componentId : null;
-        var el_state = el.getState ? JSON.parse(el.getState()) : "";
-
-        var el_data = {
-
-          id: el_id,
-          tagname: el.tagName.toLowerCase(),
-          classlist: el.className,
-          final_result: el.className == "final-result",
-          currentstate: el_state
-
-        };
-
-        return el_data;
-
+    getConnectorState: function(connector){
+      var data = {};
+        data.author = '';
+        data.name = '';
+        data.type = "connector";
+        data.connector_data = connector.dumpStateDataAsString();
+        data.final_result = {};
+      return data;
     },
-    saveLens: function(lens){
-      // var lens = document.querySelector('th-lens-composer');
-      return lens.saveLens();
+    buildLinearLens: function(lens){
+      document.addEventListener('polymer-ready', function(){
+        var lenscomposer = document.querySelector('th-lens-composer');
+        lenscomposer.lensTitle = lens.title;
+        lenscomposer.lensAuthor = lens.author;
+        lenscomposer.recreateLens(JSON.parse(lens.linear_data));
+
+      })
     },
-    getAuthor: function(lens){
-      // var lens = document.querySelector('th-lens-composer');
-      return lens.lensAuthor;
-    },
-    getTitle: function(lens){
-      // var lens = document.querySelector('th-lens-composer');
-      return lens.lensTitle;
-    },
-    getFinalResult: function(lens){
-      return lens.getFinalResult();
+    buildConnectorLens: function(lens){
+      document.addEventListener('polymer-ready', function(){
+        var connector = document.querySelector('th-connector'),
+            elements = JSON.parse(lens.connector_data).elements, 
+            connections = JSON.parse(lens.connector_data).connections;
+
+        connector.scaffoldFromData(elements, connections);
+      })
+
     }
-
-
   };
 
 }();
 
 $(document).ready(function(){
+  var lens = gon.lens; // object that holds info to recreate lens
   
-  
-  document.addEventListener('th-lens-composer-ready', function(response){
-    var lensComposer = response.detail,
-        els = JSON.parse(gon.els);
-      console.log(els);  
-    if (lensComposer.className ==='edit-lens' && els){
-      lensComposer.recreateLens(els);
-    }
+  // If lensInfo exists (only on edit page), recreate the lens
+  if(lens && lens.type == "linear"){ 
+    Lenses.buildLinearLens(lens);
+  } else if (lens && lens.type === "connector"){
+    Lenses.buildConnectorLens(lens);
+  } 
 
-  })
-
+  // Create new lens callback
   $('#create_lens').bind("click", function(){
+      console.log('create lens begin')
+      var lenscomposer = document.querySelector('th-lens-composer'),
+          connector = document.querySelector('th-connector'),
+          element_data = lenscomposer ? Lenses.getLinearState(lenscomposer) : connector ? Lenses.getConnectorState(connector) : null;
       
-      var lens = document.querySelector('th-lens-composer'),
-          element_data,
-          author, 
-          title,
-          finalResult;
-
-      if (lens){ // this is for th-lens-composer
-          element_data = Lenses.saveLens(lens);
-          author = Lenses.getAuthor(lens) || "Author";
-          title = Lenses.getTitle(lens) || "Name of Lens";
-          finalResult = Lenses.getFinalResult(lens);
-
-      //TODO: fix saving for th-connector...somewhere it went wrong...
-      } else { // this is for th-connector
-          element_data = Lenses.getAllElData();
-          author = "author";
-          name = "name";
-      }
-
+        console.log(element_data)
 
       $.ajax({
         type: "POST",
         url: "/lenses",
-        data: {
-              "name" : title,
-              "author": author,
-              "els": JSON.stringify(element_data),
-              "final_result": JSON.stringify(finalResult)
-        },
+        data: element_data,
         dataType: 'json',
         success: function(d, s, xhr){
           $('#status').html("You've created a new lens with ID:" + d);
@@ -108,6 +76,9 @@ $(document).ready(function(){
         }
       });
   });
+
+
+
 
   /* Put request to update an existing lens
   if (update_lens_button){

@@ -2,8 +2,10 @@ class Lens
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  field :els, type: Array
   field :final_result, type: Object
+  field :linear_data, type: Array
+  field :connector_data, type: Object
+  field :type
 
   def generate_html_tag(element_obj)
     # element_obj contains two keys: componentState(json string of attrs/values) and componentName(string)

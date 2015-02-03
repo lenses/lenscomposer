@@ -1,8 +1,10 @@
 <%= link_to "View", lens_path(@lens) %>
 
-<th-lens-composer class="edit-lens" pathToComponents="../assets/bower_components/" lensTitle='<%=@lens.name %>' lensAuthor='<%=@lens.author %>' >
-
-</th-lens-composer>
+<% if @lens.type == 'linear' %>
+  <th-lens-composer class="edit-lens" pathToComponents="../assets/bower_components/"></th-lens-composer>
+<% else %>
+  <th-connector></th-connector>
+<% end %>
 
 <div id='create_lens' data-lens-id="<%=@lens.id %>">Create Lens</div>
 <div id='status'></div>
