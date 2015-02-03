@@ -39,6 +39,7 @@ class LensesController < ApplicationController
   def edit
     @lens = Lens.find(params[:id])
     @els = @lens.els.to_json
+    gon.els= @els
   end
 
   def update

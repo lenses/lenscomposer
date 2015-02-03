@@ -1,6 +1,6 @@
-<%= link_to "View", lens_path(:id => @lens.id) %>
+<%= link_to "View", lens_path(@lens) %>
 
-<th-lens-composer pathToComponents="../assets/bower_components/" nodes='<%=@els %>' lensTitle='<%=@lens.name %>' lensAuthor='<%=@lens.author %>' >
+<th-lens-composer class="edit-lens" pathToComponents="../assets/bower_components/" lensTitle='<%=@lens.name %>' lensAuthor='<%=@lens.author %>' >
 
 </th-lens-composer>
 

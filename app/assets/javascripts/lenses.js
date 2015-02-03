@@ -55,7 +55,17 @@ var Lenses = function(){
 }();
 
 $(document).ready(function(){
+  
+  
+  document.addEventListener('th-lens-composer-ready', function(response){
+    var lensComposer = response.detail,
+        els = JSON.parse(gon.els);
+      console.log(els);  
+    if (lensComposer.className ==='edit-lens' && els){
+      lensComposer.recreateLens(els);
+    }
 
+  })
 
   $('#create_lens').bind("click", function(){
       

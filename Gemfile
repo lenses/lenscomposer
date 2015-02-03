@@ -46,6 +46,8 @@ group :development, :test do
   gem "magic_lamp"
 end
 
+gem 'gon'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
