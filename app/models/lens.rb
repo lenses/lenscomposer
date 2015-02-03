@@ -2,6 +2,9 @@ class Lens
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  field :els, type: Array
+  field :final_result, type: Object
+  field :linear_data, type: Array
+  field :connector_data, type: Object
+  field :type
 
 end

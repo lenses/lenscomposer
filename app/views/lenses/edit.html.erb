@@ -1,9 +1,10 @@
-<%= link_to "View", lens_path(:id => @lens.id) %>
-<th-connector id="connector" componentList='<%= @component_list %>'>
-  <% @components.each do |component| %>
-    <%== component %>
-  <% end %>
-</th-connector>
+<%= link_to "View", lens_path(@lens) %>
 
-<div id='update_lens' data-lens-id="<%=@lens.id %>">Update Lens</div>
+<% if @lens.type == 'linear' %>
+  <th-lens-composer class="edit-lens" pathToComponents="../assets/bower_components/"></th-lens-composer>
+<% else %>
+  <th-connector></th-connector>
+<% end %>
+
+<div id='create_lens' data-lens-id="<%=@lens.id %>">Create Lens</div>
 <div id='status'></div>
