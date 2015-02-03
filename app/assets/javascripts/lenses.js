@@ -21,6 +21,7 @@ var Lenses = function(){
       return data;
     },
     buildLinearLens: function(lens){
+      // TODO: why doesn't adding this event listener down below achieve the same result? I just want to have it once within $(document).ready
       document.addEventListener('polymer-ready', function(){
         var lenscomposer = document.querySelector('th-lens-composer');
         lenscomposer.lensTitle = lens.title;
@@ -43,10 +44,12 @@ var Lenses = function(){
       document.addEventListener('polymer-ready', function(){
         
         final_result = JSON.parse(final_result);
+
         var componentName = final_result.componentName,
             componentState = JSON.parse(final_result.componentState), // TODO: why does it need to be parsed so much? Has is been stringified too many times?
             pathToEl = "/assets/bower_components/" + componentName + "/" +componentName+ ".html"; 
         
+        // Dynamically import element and create it with attrs saved in componentState
         Polymer.import([pathToEl], function(){     
           var component = document.createElement(componentName);
           
@@ -87,8 +90,6 @@ $(document).ready(function(){
           connector = document.querySelector('th-connector'),
           element_data = lenscomposer ? Lenses.getLinearState(lenscomposer) : connector ? Lenses.getConnectorState(connector) : null;
       
-        console.log(element_data)
-
       $.ajax({
         type: "POST",
         url: "/lenses",
