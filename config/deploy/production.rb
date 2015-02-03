@@ -38,9 +38,18 @@ namespace :deploy do
       within current_path do
         with rails_env: :production do
           execute :rake, 'assets:precompile'
-          execute :rake, 'db:migrate'
           execute :bower, 'update -f --quiet --config.interactive=false'
         end
+      end
+    end
+  end
+end
+
+task :update_components do
+  on roles(:web), in: :groups, limits: 3, wait: 10 do
+    within current_path do
+      with rails_env: :production do
+        execute :bower, 'update -f --quiet --config.interactive-false'
       end
     end
   end
