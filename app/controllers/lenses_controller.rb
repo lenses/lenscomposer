@@ -27,11 +27,8 @@ class LensesController < ApplicationController
 
   def show
     lens = Lens.find(params[:id])
-    final_result = lens.final_result
-    if final_result
-      @final_result_html = lens.generate_html_tag(JSON.parse(final_result))
-
-    else
+    gon.final_result = lens.final_result
+    if !lens.final_result
       render inline: "No final result for this lens"
     end
   end

@@ -38,20 +38,47 @@ var Lenses = function(){
         connector.scaffoldFromData(elements, connections);
       })
 
+    },
+    createEl: function(final_result){
+      document.addEventListener('polymer-ready', function(){
+        
+        final_result = JSON.parse(final_result);
+        var componentName = final_result.componentName,
+            componentState = JSON.parse(final_result.componentState), // TODO: why does it need to be parsed so much? Has is been stringified too many times?
+            pathToEl = "/assets/bower_components/" + componentName + "/" +componentName+ ".html"; 
+        
+        Polymer.import([pathToEl], function(){     
+          var component = document.createElement(componentName);
+          
+          for (var attr in componentState){
+            component[attr] = componentState[attr]
+          }
+          component.style.width = "100%";
+          component.style.height = "100%";
+          document.querySelector('body').appendChild(component);
+        })
+      })
     }
   };
 
 }();
 
 $(document).ready(function(){
-  var lens = gon.lens; // object that holds info to recreate lens
+
+  var lens = gon.lens, // object that holds info to recreate lens
+      final_result = gon.final_result; 
   
-  // If lensInfo exists (only on edit page), recreate the lens
+  // If lens exists (only on edit page), recreate the lens
   if(lens && lens.type == "linear"){ 
     Lenses.buildLinearLens(lens);
   } else if (lens && lens.type === "connector"){
     Lenses.buildConnectorLens(lens);
-  } 
+  }
+
+  // If final_result exists (only on show page), recreate the element
+  if(final_result){
+    Lenses.createEl(final_result);
+  }
 
   // Create new lens callback
   $('#create_lens').bind("click", function(){
