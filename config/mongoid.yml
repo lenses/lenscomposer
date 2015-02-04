@@ -72,4 +72,4 @@ production:
     default:
       database: lenscomposer_production
       hosts:
-        - Lenses:27017
+        - makelenses.com:27017
