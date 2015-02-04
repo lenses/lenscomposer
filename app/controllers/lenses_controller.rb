@@ -7,7 +7,7 @@ class LensesController < ApplicationController
   end
 
   def index
-    @lenses = Lens.all.to_a
+    @lenses = Lens.all ? Lens.all.to_a : Lens.all
   end
 
   def create
