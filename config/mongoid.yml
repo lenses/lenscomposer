@@ -66,7 +66,7 @@ development:
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
-        - localhost:27017
+        - 0.0.0.0:27017
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -124,3 +124,9 @@ test:
         # low amounts for fast failures.
         max_retries: 1
         retry_interval: 0
+production:
+  sessions:
+    default:
+      database: lenscomposer_production
+      hosts:
+        - makelenses.com:27017
