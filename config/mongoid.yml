@@ -67,3 +67,9 @@ test:
         # low amounts for fast failures.
         max_retries: 1
         retry_interval: 0
+production:
+  sessions:
+    default:
+      database: lenscomposer_production
+      hosts:
+        - makelenses.com:27017
