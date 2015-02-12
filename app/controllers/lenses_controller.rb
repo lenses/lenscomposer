@@ -22,7 +22,12 @@ class LensesController < ApplicationController
     end
     
     lens = Lens.create(attrb)
+    if lens
+      flash[:notice] = 'Your lens has been saved!'
+      flash.keep(:notice)
+    end
     render json: lens.id.to_s.to_json
+    
   end
 
   def show

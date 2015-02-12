@@ -42,7 +42,9 @@
   <link rel="import" href="/assets/bower_components/th-data-split/th-data-split.html">
 </head>
 <body unresolved>
-
+ <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %>
 <%= yield %>
 
 </body>

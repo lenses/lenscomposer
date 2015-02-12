@@ -1,4 +1,4 @@
-<%= link_to "View", lens_path(@lens) %>
+
 
 <% if @lens.type == 'linear' %>
   <th-lens-composer class="edit-lens" pathToComponents="../assets/bower_components/"></th-lens-composer>
@@ -6,5 +6,10 @@
   <th-connector></th-connector>
 <% end %>
 
-<div id='create_lens' data-lens-id="<%=@lens.id %>">Create Lens</div>
+<div id="buttons">
+  <div id='create_lens' data-lens-id="<%=@lens.id %>">Create Lens</div>
+  <div ><%= link_to "View Result", lens_path(@lens) %></div>
+  <!-- <div id="embed" class="inactive">Embed as iframe <br>(coming soon)</div> -->
+</div>
+
 <div id='status'></div>

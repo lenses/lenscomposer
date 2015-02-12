@@ -96,11 +96,13 @@ $(document).ready(function(){
         data: element_data,
         dataType: 'json',
         success: function(d, s, xhr){
-          $('#status').html("You've created a new lens with ID:" + d);
+          window.location.replace("/lenses/"+d+"/edit");
+          // $('#status').html("You've created a new lens with ID:" + d);
         },
         error: function(xhr, s, e){
           console.log("error");
-          $('#status').html("You've created a new lens with ID:" + e);
+          
+          $('#status').html("Your lens could not be saved: " + e);
         }
       });
   });

@@ -9,10 +9,14 @@ html, body { /* Needed for th-connector absolute position of elements */
   font-family: open-sans, sans-serif;
 }
 
-#create_lens, #update_lens {
-  position: absolute;
-  top: 10px;
-  right: 5px;
+#buttons {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+}
+
+#buttons > * {
+  margin: 10px;
   padding: 10px;
   background-color: #eee;
   border-radius: 2px;
@@ -20,16 +24,19 @@ html, body { /* Needed for th-connector absolute position of elements */
   width: 200px;
   box-sizing: border-box;
   text-align: center;
+  a {
+    text-decoration: none;
+  }
   &:hover {
     background-color: #ddd;
-  }
+  } 
 }
+
 
 #status {
   position: absolute;
   top: 0;
 }
-
 
 /*** Overriding Handsontable default styles for th-data-table ***/
 /*   These must live in document, not component */
