@@ -108,6 +108,11 @@ $(document).ready(function(){
       });
   });
 
+  // Display/hide embed code for iframe
+  $('#embed').bind('click', function(){
+    $('#embed-tag').slideToggle();
+  })
+
 
 
 });

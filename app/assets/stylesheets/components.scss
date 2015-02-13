@@ -46,6 +46,12 @@ html, body { /* Needed for th-connector absolute position of elements */
   }
 }
 
+#embed-tag {
+  margin: 0px 10px;
+  border: 1px solid #eee;
+  display: none;
+}
+
 
 #status {
   position: absolute;
