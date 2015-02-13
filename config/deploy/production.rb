@@ -39,6 +39,7 @@ namespace :deploy do
         with rails_env: :production do
           execute :rake, 'assets:precompile'
           execute :bower, 'update -f --quiet --config.interactive=false'
+          execute :sudo, 'service unicorn restart'
         end
       end
     end
@@ -50,6 +51,7 @@ task :update_components do
     within current_path do
       with rails_env: :production do
         execute :bower, 'update -f --quiet --config.interactive-false'
+        execute :sudo, 'service unicorn restart'
       end
     end
   end
