@@ -56,6 +56,7 @@ var Lenses = function(){
           for (var attr in componentState){
             component[attr] = componentState[attr]
           }
+          component.showOptions = false;
           component.style.width = "100%";
           component.style.height = "100%";
           document.querySelector('body').appendChild(component);
@@ -101,7 +102,7 @@ $(document).ready(function(){
         },
         error: function(xhr, s, e){
           console.log("error");
-          
+            
           $('#status').html("Your lens could not be saved: " + e);
         }
       });
