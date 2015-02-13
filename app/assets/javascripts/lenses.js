@@ -110,27 +110,5 @@ $(document).ready(function(){
 
 
 
-
-  /* Put request to update an existing lens
-  if (update_lens_button){
-    update_lens_button.addEventListener("click", function(){
-      var lens_id = this.dataset ? this.dataset.lensId : "";
-      var element_data = getElementData();
-
-      $.ajax({
-        type: "PUT",
-        url: "/lenses/"+lens_id,
-        data: { "lens": {"id": lens_id,"components_attributes": element_data}},
-        dataType: 'json',
-        success: function(e){
-          $('#status').html("You've successfully updated the lens with ID:" + e);
-        },
-        error: function(e){
-        }
-      });
-    });
-  }*/
-
-
 });
 

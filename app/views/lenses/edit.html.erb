@@ -6,9 +6,9 @@
   <th-connector></th-connector>
 <% end %>
 
-<div id="buttons">
-  <div id='create_lens' data-lens-id="<%=@lens.id %>">Create Lens</div>
-  <div ><%= link_to "View Result", lens_path(@lens) %></div>
+<div class="buttons">
+  <div id='create_lens' class="button">Create Lens</div>
+  <%= link_to "View Result", lens_path(@lens), class: "button" %>
   <!-- <div id="embed" class="inactive">Embed as iframe <br>(coming soon)</div> -->
 </div>
 
