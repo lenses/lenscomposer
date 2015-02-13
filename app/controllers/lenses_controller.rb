@@ -24,16 +24,16 @@ class LensesController < ApplicationController
     lens = Lens.create(attrb)
     if lens
       flash[:notice] = 'Your lens has been saved!'
-      flash.keep(:notice)
+      # flash.keep(:notice)
     end
     render json: lens.id.to_s.to_json
     
   end
 
   def show
-    lens = Lens.find(params[:id])
-    gon.final_result = lens.final_result
-    if !lens.final_result
+    @lens = Lens.find(params[:id])
+    gon.final_result = @lens.final_result
+    if !@lens.final_result
       render inline: "No final result for this lens"
     end
   end

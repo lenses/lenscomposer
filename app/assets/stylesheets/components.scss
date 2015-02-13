@@ -2,11 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$light-gray: rgba(200,200,200,0.25);
+$lighter-gray: rgba(200,200,200,0.1);
 
 html, body { /* Needed for th-connector absolute position of elements */
   width: 100%;
   height: 100%;
   font-family: open-sans, sans-serif;
+  margin: 0;
 }
 
 #buttons {
@@ -18,7 +21,7 @@ html, body { /* Needed for th-connector absolute position of elements */
 #buttons > * {
   margin: 10px;
   padding: 10px;
-  background-color: #eee;
+  background-color: $lighter-gray;
   border-radius: 2px;
   cursor: pointer;
   width: 200px;
@@ -26,10 +29,30 @@ html, body { /* Needed for th-connector absolute position of elements */
   text-align: center;
   a {
     text-decoration: none;
+    &:hover {
+      background-color: rgba(200,200,200,0);
+      color: inherit;
+    }
   }
   &:hover {
-    background-color: #ddd;
+    background-color: $light-gray;
   } 
+}
+
+.iframe-button {
+  margin: 10px;
+  padding: 10px;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  background-color: $lighter-gray;
+  cursor:pointer; 
+  z-index: 2;
+  text-decoration: inherit;
+  &:hover {
+    background-color: $light-gray;
+    color: inherit; 
+  }
 }
 
 
