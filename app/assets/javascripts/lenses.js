@@ -6,35 +6,36 @@ var Lenses = function(){
       data.author = lens.lensAuthor;
       data.name = lens.lensTitle;
       data.type = "linear";
-      data.linear_data = JSON.stringify(lens.saveLens());
-      data.final_result = JSON.stringify(lens.getFinalResult());
+      data.linear_data = lens.getState();
+      data.final_result = lens.getFinalResult();
       return data;
 
     },
     getConnectorState: function(connector){
       var data = {};
-        data.author = '';
-        data.name = '';
-        data.type = "connector";
-        data.connector_data = connector.dumpStateDataAsString();
-        data.final_result = {};
+      data.author = '';
+      data.name = '';
+      data.type = "connector";
+      data.connector_data = connector.dumpStateDataAsString();
+      data.final_result = {};
       return data;
     },
     buildLinearLens: function(lens){
       // TODO: why doesn't adding this event listener down below achieve the same result? I just want to have it once within $(document).ready
       document.addEventListener('polymer-ready', function(){
         var lenscomposer = document.querySelector('th-lens-composer');
+
         lenscomposer.lensTitle = lens.title;
         lenscomposer.lensAuthor = lens.author;
-        lenscomposer.recreateLens(JSON.parse(lens.linear_data));
+        lenscomposer.recreateLens(lens.linear_data);
 
       })
     },
     buildConnectorLens: function(lens){
       document.addEventListener('polymer-ready', function(){
         var connector = document.querySelector('th-connector'),
-            elements = JSON.parse(lens.connector_data).elements, 
-            connections = JSON.parse(lens.connector_data).connections;
+            elements = lens.connector_data.elements, 
+            connections = lens.connector_data.connections;
 
         connector.scaffoldFromData(elements, connections);
       })
@@ -43,10 +44,8 @@ var Lenses = function(){
     createEl: function(final_result){
       document.addEventListener('polymer-ready', function(){
         
-        final_result = JSON.parse(final_result);
-
         var componentName = final_result.componentName,
-            componentState = JSON.parse(final_result.componentState), // TODO: why does it need to be parsed so much? Has is been stringified too many times?
+            componentState = final_result.componentState,
             pathToEl = "/assets/bower_components/" + componentName + "/" +componentName+ ".html"; 
         
         // Dynamically import element and create it with attrs saved in componentState
