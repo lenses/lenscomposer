@@ -11,15 +11,13 @@ class LensesController < ApplicationController
   end
 
   def create
-
     lens_params = [:author, :name, :type, :connector_data, :linear_data, :final_result]
     attrb = select_params(lens_params)
 
-    # linear_data is an array of Objects of Components Properties
-    # that needs to be deserialized correctly
-    if attrb["linear_data"]
-      attrb["linear_data"] = JSON.parse(attrb["linear_data"])
-    end
+    # Deserialize array of objects before saving
+    attrb["linear_data"] = attrb["linear_data"] ? JSON.parse(attrb["linear_data"]) : nil
+    attrb["connector_data"] = attrb["connector_data"] ? JSON.parse(attrb["connector_data"]) : nil
+    attrb["final_result"] = attrb["final_result"] ? JSON.parse(attrb["final_result"]) : nil
     
     lens = Lens.create(attrb)
     if lens
@@ -42,7 +40,7 @@ class LensesController < ApplicationController
     @lens = Lens.find(params[:id])
     
     if @lens.type == 'linear'
-      gon.lens = { 'linear_data'=> @lens.linear_data.to_json, 'author'=> @lens.author, 'title'=> @lens.name, 'type'=> @lens.type}
+      gon.lens = { 'linear_data'=> @lens.linear_data, 'author'=> @lens.author, 'title'=> @lens.name, 'type'=> @lens.type}
     elsif @lens.type == 'connector'
       gon.lens = { 'connector_data'=> @lens.connector_data, 'type'=> @lens.type}
     end
