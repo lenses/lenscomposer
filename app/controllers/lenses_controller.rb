@@ -8,6 +8,7 @@ class LensesController < ApplicationController
 
   def index
     @lenses = Lens.all.to_a
+    @lenses.sort_by! { |lens| [lens.author.downcase, lens.name.downcase]}
   end
 
   def create
