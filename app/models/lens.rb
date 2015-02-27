@@ -6,5 +6,6 @@ class Lens
   field :linear_data, type: Array
   field :connector_data, type: Object
   field :type
+  field :theme
 
 end

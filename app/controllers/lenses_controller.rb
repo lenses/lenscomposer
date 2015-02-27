@@ -12,7 +12,7 @@ class LensesController < ApplicationController
   end
 
   def create
-    lens_params = [:author, :name, :type, :connector_data, :linear_data, :final_result]
+    lens_params = [:author, :name, :type, :connector_data, :linear_data, :final_result, :theme]
     attrb = select_params(lens_params)
 
     # Deserialize array of objects before saving
@@ -41,7 +41,7 @@ class LensesController < ApplicationController
     @lens = Lens.find(params[:id])
     
     if @lens.type == 'linear'
-      gon.lens = { 'linear_data'=> @lens.linear_data, 'author'=> @lens.author, 'title'=> @lens.name, 'type'=> @lens.type}
+      gon.lens = { 'linear_data'=> @lens.linear_data, 'author'=> @lens.author, 'title'=> @lens.name, 'type'=> @lens.type, 'theme'=>@lens.theme}
     elsif @lens.type == 'connector'
       gon.lens = { 'connector_data'=> @lens.connector_data, 'type'=> @lens.type}
     end

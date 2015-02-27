@@ -5,6 +5,7 @@ var Lenses = function(){
       var data = {};
       data.author = lens.lensAuthor;
       data.name = lens.lensTitle;
+      data.theme = lens.theme;
       data.type = "linear";
       data.linear_data = lens.getState();
       data.final_result = lens.getFinalResult();
@@ -27,6 +28,7 @@ var Lenses = function(){
 
         lenscomposer.lensTitle = lens.title;
         lenscomposer.lensAuthor = lens.author;
+        lenscomposer.theme = lens.theme;
         lenscomposer.recreateLens(lens.linear_data);
 
       })
@@ -51,7 +53,7 @@ var Lenses = function(){
         // Dynamically import element and create it with attrs saved in componentState
         Polymer.import([pathToEl], function(){     
           var component = document.createElement(componentName);
-          
+          console.log(componentState);
           for (var attr in componentState){
             component[attr] = componentState[attr]
           }
