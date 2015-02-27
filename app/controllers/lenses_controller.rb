@@ -31,7 +31,9 @@ class LensesController < ApplicationController
 
   def show
     @lens = Lens.find(params[:id])
+    gon.theme = @lens.theme
     gon.final_result = @lens.final_result
+
     if !@lens.final_result
       render inline: "No final result for this lens"
     end

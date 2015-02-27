@@ -43,17 +43,16 @@ var Lenses = function(){
       })
 
     },
-    createEl: function(final_result){
+    createEl: function(final_result, theme){
       document.addEventListener('polymer-ready', function(){
-        
         var componentName = final_result.componentName,
             componentState = final_result.componentState,
             pathToEl = "/assets/bower_components/" + componentName + "/" +componentName+ ".html"; 
         
+        window.CoreStyle.g.theme = theme ? Themes[theme] : window.CoreStyle.g.theme;
         // Dynamically import element and create it with attrs saved in componentState
         Polymer.import([pathToEl], function(){     
           var component = document.createElement(componentName);
-          console.log(componentState);
           for (var attr in componentState){
             component[attr] = componentState[attr]
           }
@@ -71,7 +70,8 @@ var Lenses = function(){
 $(document).ready(function(){
 
   var lens = gon.lens, // object that holds info to recreate lens
-      final_result = gon.final_result; 
+      final_result = gon.final_result,
+      theme = gon.theme;
   
   // If lens exists (only on edit page), recreate the lens
   if(lens && lens.type == "linear"){ 
@@ -82,7 +82,7 @@ $(document).ready(function(){
 
   // If final_result exists (only on show page), recreate the element
   if(final_result){
-    Lenses.createEl(final_result);
+    Lenses.createEl(final_result, theme);
   }
 
   // Create new lens callback
