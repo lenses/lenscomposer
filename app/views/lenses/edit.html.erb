@@ -11,7 +11,7 @@
   <% if @lens.final_result %>
     <%= link_to "View Result", lens_path(@lens), class: "button" %>
     <div id='embed' class="button">Embed Result</div>
-    <%= text_area_tag 'query', "<iframe src='http://makelenses.com#{lens_path(@lens)}' width='100%' height='500' scrolling='no' frameborder='0'></iframe>", size: "21x7", id: "embed-tag" %>
+    <%= text_area_tag 'query', "<iframe src='http://makelenses.com#{lens_path(@lens)}' width='100%' height='100%' scrolling='no' frameborder='0'></iframe>", size: "21x7", id: "embed-tag" %>
   <% end %>
 </div>
 
