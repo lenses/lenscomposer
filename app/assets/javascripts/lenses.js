@@ -24,7 +24,7 @@ var Lenses = function(){
     buildLinearLens: function(lens){
       // TODO: why doesn't adding this event listener down below achieve the same result? I just want to have it once within $(document).ready
       document.addEventListener('polymer-ready', function(){
-        var lenscomposer = document.querySelector('th-lens-composer');
+        var lenscomposer = document.querySelector('lens-composer');
 
         lenscomposer.lensTitle = lens.title;
         lenscomposer.lensAuthor = lens.author;
@@ -35,7 +35,7 @@ var Lenses = function(){
     },
     buildConnectorLens: function(lens){
       document.addEventListener('polymer-ready', function(){
-        var connector = document.querySelector('th-connector'),
+        var connector = document.querySelector('lenses-freeform'),
             elements = lens.connector_data.elements, 
             connections = lens.connector_data.connections;
 
@@ -88,8 +88,8 @@ $(document).ready(function(){
   // Create new lens callback
   $('#create_lens').bind("click", function(){
       console.log('create lens begin')
-      var lenscomposer = document.querySelector('th-lens-composer'),
-          connector = document.querySelector('th-connector'),
+      var lenscomposer = document.querySelector('lens-composer'),
+          connector = document.querySelector('lenses-freeform'),
           element_data = lenscomposer ? Lenses.getLinearState(lenscomposer) : connector ? Lenses.getConnectorState(connector) : null;
       
       $.ajax({

@@ -1,15 +1,34 @@
 {
-  "name": "thelma-meta-components",
+  "name": "lenses-components",
   "version": "0.0.0",
-  "keywords": "seed, polymer, web-components",
-  "main": "thelma-meta-components.html",
+  "keywords": "lenses, polymer, web-components",
+  "main": "lenses-components.html",
   "dependencies": {
-    "th-connector": "thelmanews/th-connector",
-    "th-lens-composer": "lenses/th-lens-composer"
+    "lens-composer": "lenses/lens-composer",
+    "lenses-freeform": "lenses/lenses-freeform"
   },
   "resolutions": {
     "polymer": "~0.5.1",
-    "core-component-page": "^0.5.0",
-    "webcomponentsjs": "^0.5.0"
+    "core-component-page": "^0.5.5",
+    "core-icon": "~0.5.1",
+    "core-icons": "^0.5",
+    "webcomponentsjs": "^0.5",
+    "core-iconset": "^0.5",
+    "core-iconset-svg": "^0.5",
+    "core-collapse": "0.5.5",
+    "core-menu": "~0.5.1",
+    "core-meta": "^0.5",
+    "core-item": "^0.5",
+    "font-roboto": "^0.5",
+    "core-a11y-keys": "^0.5",
+    "core-selector": "0.5.5",
+    "paper-ripple": "^0.5",
+    "core-selection": "^0.5.0",
+    "core-icon-button": "0.5.5",
+    "lodash": "~3.5.0",
+    "moment": "~2.9.0",
+    "paper-button": "^0.5",
+    "core-focusable": "^0.5",
+    "paper-shadow": "^0.5"
   }
 }
