@@ -1,55 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lenscomposer</title>
+  <title>Lenses</title>
 
   <%= include_gon(:init => true) %>
-  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= stylesheet_link_tag "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   
   <script src="/assets/bower_components/webcomponentsjs/webcomponents.js"></script>
-  <link rel="import" href="/assets/bower_components/th-theme/th-theme.html">
-  <link rel="import" href="/assets/bower_components/th-mapbox/th-mapbox.html">
-  <link rel="import" href="/assets/bower_components/th-connector/th-connector.html">
-  <link rel="import" href="/assets/bower_components/th-geocoder-firebase/th-geocoder-firebase.html">
-  <link rel="import" href="/assets/bower_components/th-csv/th-csv.html">
-  <link rel="import" href="/assets/bower_components/th-google-map/th-google-map.html">
-  <link rel="import" href="/assets/bower_components/th-table-data/th-table-data.html">
-  <link rel="import" href="/assets/bower_components/th-array-function/th-array-function.html">
-  <link rel="import" href="/assets/bower_components/th-n-bar-chart/th-n-bar-chart.html">
-  <link rel="import" href="/assets/bower_components/th-chart-data-filter/th-chart-data-filter.html">
-  <link rel="import" href="/assets/bower_components/th-enigma/th-enigma.html">
-  <link rel="import" href="/assets/bower_components/th-geocoder/th-geocoder.html">
-  <link rel="import" href="/assets/bower_components/th-firebase/th-firebase.html">
-  <link rel="import" href="/assets/bower_components/th-n-bar-chart-horizontal/th-n-bar-chart-horizontal.html">
-  <link rel="import" href="/assets/bower_components/th-n-peak-chart/th-n-peak-chart.html">
-  <link rel="import" href="/assets/bower_components/th-google-scatter-bubble/th-google-scatter-bubble.html">
-  <link rel="import" href="/assets/bower_components/th-google-pie/th-google-pie.html">
-  <link rel="import" href="/assets/bower_components/th-google-regions/th-google-regions.html">
-  <link rel="import" href="/assets/bower_components/th-stacked-chart/th-stacked-chart.html">
-  <link rel="import" href="/assets/bower_components/th-spectrum-chart/th-spectrum-chart.html">
-  <link rel="import" href="/assets/bower_components/th-map-us/th-map-us.html">
-  <link rel="import" href="/assets/bower_components/th-lens-composer/th-lens-composer.html">
-  <link rel="import" href="/assets/bower_components/th-lens-node/th-lens-node.html">
-  <link rel="import" href="/assets/bower_components/th-data-table/th-data-table.html">
-  <link rel="import" href="/assets/bower_components/th-component-list/th-component-list.html">
-  <link rel="import" href="/assets/bower_components/th-data-table/th-data-table.html">
-  <link rel="import" href="/assets/bower_components/th-data-criterion/th-data-criterion.html">
-  <link rel="import" href="/assets/bower_components/th-data-group-by/th-data-group-by.html">
-  <link rel="import" href="/assets/bower_components/th-data-utility/th-data-utility.html">
-  <link rel="import" href="/assets/bower_components/th-data-join/th-data-join.html">
-  <link rel="import" href="/assets/bower_components/th-data-split/th-data-split.html">
 
+  <!-- Load components -->
+  <link rel="import" href="/assets/bower_components/lenses-freeform/lenses-freeform.html">
+  <link rel="import" href="/assets/bower_components/lens-composer/lens-composer.html">
+  <link rel="import" href="/assets/bower_components/lens-node/lens-node.html">
+  
   <!-- Typekit -->
   <script src="//use.typekit.net/zce3hrn.js"></script>
   <script>try{Typekit.load();}catch(e){}</script>
 </head>
 <body unresolved>
- <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-      <% end %>
-<%= yield %>
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
+  <%= yield %>
 
 </body>
 </html>
